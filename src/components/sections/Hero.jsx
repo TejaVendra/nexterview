@@ -1,6 +1,7 @@
 import React from "react";
 import logo from '../../assets/logo.png'
 import {motion} from 'motion/react'
+import video from '../../assets/video.mp4'
 const Hero = () => {
   return (
     <main className="min-h-fit flex  justify-center px-6 py-6">
@@ -92,7 +93,9 @@ const Hero = () => {
         </div>
 
         <div className="flex justify-center pt-10">
-           <div className="bg-gray-500 h-35 w-60 sm:h-45 sm:w-80 lg:h-70 lg:w-120 rounded-2xl"></div>
+           <div className="bg-gray-500 h-35 w-60 sm:h-45 sm:w-80 lg:h-70 lg:w-120 rounded-2xl">
+            <video className="" src={video} autoPlay loop ></video>
+           </div>
         </div>
 
       </div>
