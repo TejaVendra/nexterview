@@ -1,11 +1,13 @@
 import React from "react";
-
+import logo from '../../assets/logo.png'
+import {motion} from 'motion/react'
 const Hero = () => {
   return (
     <main className="min-h-fit flex  justify-center px-6 py-6">
       <div className="max-w-5xl text-center">
 
-        <h1 className="
+        <motion.h1 initial={{opacity:0 , y:30}} animate={{opacity:1 , y:0}} transition={{duration:1}}
+        className="
           text-4xl
           md:text-6xl
           xl:text-7xl
@@ -16,9 +18,9 @@ const Hero = () => {
           <span className="text-blue-700">
             {" "}AI-Powered Practice
           </span>
-        </h1>
+        </motion.h1>
 
-        <p className="
+        <motion.p initial={{opacity:0 , x:-30}} animate={{opacity:1,x:0}} transition={{duration:1}} className="
           mt-6
           text-base
           md:text-lg
@@ -29,7 +31,7 @@ const Hero = () => {
           Practice real interview questions, receive
           instant feedback, and improve your confidence
           before the actual interview.
-        </p>
+        </motion.p>
 
         <div className="
           mt-8
@@ -39,7 +41,7 @@ const Hero = () => {
           justify-center
           gap-4
         ">
-          <a
+          <a 
             href="#"
             className="
                  group
@@ -57,11 +59,13 @@ const Hero = () => {
                 transition-all
                 duration-300
                 hover:bg-blue-800
+                border-2 border-white
             "
             >
             <span className=" transition-transform
                             duration-300
-                                group-hover:-translate-x-3"
+                                group-hover:-translate-x-3
+                                "
                         >
                             Get Started
                     </span>
@@ -85,6 +89,10 @@ const Hero = () => {
           <span className="text-gray-600 text-sm md:text-base">
             Start for free. No credit card required.
           </span>
+        </div>
+
+        <div className="flex justify-center pt-10">
+           <div className="bg-gray-500 h-35 w-60 sm:h-45 sm:w-80 lg:h-70 lg:w-120 rounded-2xl"></div>
         </div>
 
       </div>
