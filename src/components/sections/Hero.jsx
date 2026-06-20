@@ -1,10 +1,9 @@
 import React from "react";
 import logo from '../../assets/logo.png'
 import {motion} from 'motion/react'
-import video from '../../assets/video.mp4'
 const Hero = () => {
   return (
-    <main className="min-h-fit flex  justify-center px-6 py-6">
+    <main className="min-h-fit flex justify-center">
       <div className="max-w-5xl text-center">
 
         <motion.h1 initial={{opacity:0 , y:30}} animate={{opacity:1 , y:0}} transition={{duration:1}}
@@ -92,11 +91,11 @@ const Hero = () => {
           </span>
         </div>
 
-        <div className="flex justify-center pt-10">
-           <div className="bg-gray-500 h-35 w-60 sm:h-45 sm:w-80 lg:h-70 lg:w-120 rounded-2xl">
-            <video className="" src={video} autoPlay loop ></video>
+        <motion.div initial={{opacity:0 , y:50}} animate={{opacity:1,y:0}} transition={{duration:1}} className="flex justify-center pt-10">
+           <div className="bg-gray-500 h-[150px] w-60 sm:h-[200px] sm:w-80 lg:h-70 lg:w-120 rounded-2xl">
+            <video className="" src="" autoPlay loop ></video>
            </div>
-        </div>
+        </motion.div>
 
       </div>
     </main>

@@ -9,7 +9,7 @@ import Footer from '../components/sections/Footer'
 
 function Home() {
   return (
-    <div className=''>
+    <div className='pt-30'>
     <Hero/>
     <CoreFeatures/>
     <InterviewFeatures/>
