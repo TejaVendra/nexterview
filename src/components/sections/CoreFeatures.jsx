@@ -10,8 +10,8 @@ const CoreFeatures = () => {
 });
   
   return (
-    <motion.section initial={{opacity:0 , y:30,scale:0.95}} whileInView={{opacity:1,y:0 ,scale:1 }} transition={{duration:0.7}} viewport={{amount:0.5}}  className='pt-4 justify-center'>
-        <div className="flex flex-col text-center">
+    <motion.section initial={{opacity:0 , y:30,scale:0.95}} whileInView={{opacity:1,y:0 ,scale:1}} transition={{duration:0.7}} viewport={{amount:0.5,once:true}}  className='py-20 justify-center'>
+        <div className="flex pt-10 flex-col text-center">
                 <h2  className='text-7xl font-semibold '>Core Features</h2>
        
           <FeatureCarousel  features={features}/>

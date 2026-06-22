@@ -54,7 +54,7 @@ const FeatureCarousel = ({ features }) => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="flex-[0_0_80%] md:flex-[0_0_33%] px-4"
+              className="flex-[0_0_80%] md:flex-[0_0_33%] px-4 flex"
             >
               <div className="bg-white rounded-2xl p-6 shadow-lg">
                  <h3 className="mt-4 text-xl font-semibold">
