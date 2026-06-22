@@ -4,8 +4,8 @@ import {motion} from 'motion/react'
 const Navbar = () => {
   return (
 
-    <nav className='w-[95%] mx-auto fixed top-3  left-0 right-0'>
-        <div className='flex justify-between items-center bg-gray-100  max-h-20 h-15 sm:h-18 rounded-full shadow-lg border-white border-4'>
+    <nav className='w-[95%] mx-auto fixed top-3  left-0 right-0 z-50'>
+        <div className='flex justify-between items-center bg-white/20 backdrop-blur-md   max-h-20 h-15 sm:h-18 rounded-full shadow-lg border-white border-4'>
             <div className="h-30 w-30 sm:h-35 sm:w-35 md:h-40 md:w-40 lg:h-50 lg:w-50 ml-5 sm:ml-10">
                 <img src={logo} alt="Logo"/>    
             </div>   
