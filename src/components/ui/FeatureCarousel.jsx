@@ -6,6 +6,7 @@ const FeatureCarousel = ({ features }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align:"center",
+
   },
  [
     Autoplay({
@@ -15,7 +16,7 @@ const FeatureCarousel = ({ features }) => {
   ]);
 
   return (
-    <div className="relative mt-10">
+    <div className="relative mt-10 cursor-grab">
       {/* Buttons */}
       <button
         onClick={() => emblaApi?.scrollPrev()}

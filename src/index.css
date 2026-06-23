@@ -5,3 +5,34 @@
   --font-roboto: "Roboto Slab", serif;
 }
 
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 200s linear infinite;
+}
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-right {
+  animation: scroll-right 200s linear infinite;
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
