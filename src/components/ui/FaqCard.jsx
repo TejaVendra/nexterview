@@ -15,12 +15,12 @@ const FaqCard = ({ faq, isOpen, onToggle }) => {
 
   return (
     <div 
-      className="flex flex-col p-6 mb-4 bg-white/50 backdrop-blur-lg rounded-xl shadow-md hover:shadow-lg hover:scale-105 hover:translate-x-1 transition-all duration-300 w-full border border-gray-100/50"
+      className="flex flex-col p-6 mb-4 bg-white/50 backdrop-blur-lg rounded-xl shadow-md hover:shadow-lg xl:hover:scale-105 xl:hover:translate-x-1 transition-all duration-300 w-full border border-gray-100/50"
     >
       {/* Question Header */}
       <button
         onClick={onToggle}
-        className="flex justify-between items-start gap-4 w-full text-left rounded-lg"
+        className="flex justify-between items-start gap-4 w-full text-left rounded-lg cursor-pointer"
         aria-expanded={isOpen}
         aria-controls={`faq-answer-${faq.id}`}
       >
