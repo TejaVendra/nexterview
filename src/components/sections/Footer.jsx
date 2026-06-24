@@ -27,12 +27,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4">
           {/* Logo Section */}
           <div className="flex-shrink-0">
-            <img 
+            <a href="/">
+              <img 
               className="h-20 w-20 md:h-24 md:w-24 object-contain hover:scale-105 transition-transform duration-300" 
               src={Logo} 
               alt="InterviewAI Logo"
               loading="lazy"
             />
+            </a>
           </div>
 
           {/* Navigation Links */}
