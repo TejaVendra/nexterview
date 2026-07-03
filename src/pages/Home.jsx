@@ -5,7 +5,6 @@ import CoreFeatures from '../components/sections/CoreFeatures'
 import InterviewFeatures from '../components/sections/InterviewFeatures'
 import Outcomes from '../components/sections/Outcomes'
 import Faqs from '../components/sections/Faqs'
-import Footer from '../components/sections/Footer'
 import Testimonials from '../components/sections/Testimonials.jsx'
 
 
@@ -18,7 +17,7 @@ function Home() {
     <Outcomes/>
     <Testimonials/>
     <Faqs/>
-    <Footer/>
+   
     
     </div>
    
