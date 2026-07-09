@@ -1,15 +1,57 @@
 import React, { useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
-import { FaEye  } from "react-icons/fa";
+import { FaEye, FaHandHolding  } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
+
 export const Signin = () => {
    const [showPassword,setShowPassword] = useState(false);
+   const [email,setEmail] = useState("");
+   const [emailError,setEmailError] = useState("");
+   const [password,setPassword] = useState("");
+   const [passwordError,setPasswordError] = useState("");
+
+
+   const handleEmail = (e) =>{
+       setEmail(e.target.value);
+       if(e.target.value.trim()){
+         setEmailError("");
+       }
+   }
+   const handlePassword = (e) =>{
+       setPassword(e.target.value);
+       if(e.target.value.trim()){
+         setPasswordError("");
+       }
+   }
+   
+   const handleSubmit = (e) =>{
+      e.preventDefault();
+      let isValid = true;
+
+      if(!email){
+         setEmailError("Email is required");
+         isValid = false;
+      }
+      if(!password){
+         setPasswordError("Password is required");
+         isValid = false;
+      }
+
+      if(isValid){
+         console.log('====================================');
+         console.log("Form submitted");
+         console.log('====================================');
+
+      }
+   }
    const nav = useNavigate();
   return (
     <section className='min-h-screen bg-white/50 p-5 rounded-b-[150px]  shadow-2xl'>
-     <div className="flex justify-center items-center min-h-screen font-rubik">
-        <div className="w-sm sm:w-md p-10 bg-white rounded-lg shadow-2xl flex flex-col">
+     <div   className="flex justify-center items-center min-h-screen font-rubik">
+        <form onSubmit={handleSubmit} className="w-sm sm:w-md p-10 bg-white rounded-lg shadow-2xl flex flex-col">
                <h3 className='text-3xl font-semibold'>Sign In</h3>
                <p className='text-gray-600'>Enter your email and password to sign in.</p>
 
@@ -17,16 +59,22 @@ export const Signin = () => {
               <div className="flex flex-col gap-4 pt-5">
                  <div className="flex flex-col">
                     <label htmlFor="email">Email</label>
-                    <input className='border rounded-lg p-2 outline-none' type="text" name='email' />
+                    <input value={email} onChange={handleEmail} className='border rounded-lg p-2 outline-none' type="text" name='email' />
+                     {emailError && <div className="flex justify-left items-center text-red-600 text-sm">
+                     <IoMdInformationCircleOutline />
+                     <p className=''>{emailError}</p>
+                     </div>}
                   </div>
                
                     <div className="flex flex-col">
                             <div className="flex justify-between ">
-                                <label htmlFor="email">Password</label>
+                                <label htmlFor="password">Password</label>
                                 <p className=''><a className='hover:underline' href="">Forgot Password?</a></p>
                             </div>
                            <div className="relative w-full">
                                     <input
+                                    value={password}
+                                    onChange={handlePassword}
                                     type={showPassword ? "text" : "password"}
                                     name="password"
                                     className="w-full border rounded-lg p-2 pr-10 outline-none"
@@ -46,7 +94,10 @@ export const Signin = () => {
                                     />
                                     )}
                            </div>
-                            
+                             {passwordError && <div className="flex justify-left items-center text-red-600 text-sm">
+                     <IoMdInformationCircleOutline />
+                     <p className=''>{passwordError}</p>
+                     </div>}
                     </div>
 
                      <div className="flex flex-col pt-3">
@@ -76,7 +127,7 @@ export const Signin = () => {
                     
               </div>
 
-        </div>
+        </form>
      </div>
     </section>
   )

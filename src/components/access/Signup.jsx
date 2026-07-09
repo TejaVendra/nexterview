@@ -10,8 +10,12 @@ export const Signup = () => {
      const [username,setUsername] = useState("");
      const [usernameError,setUsernameError] = useState("");
      const [email,setEmail] = useState("");
+     const [emailError,setEmailError] = useState("");
      const [password,setPassword] = useState("");
+     const [passwordError,setPasswordError] = useState("");
      const [confirmPassword,setconfirmPassword] = useState("");
+     const [confirmPasswordError,setconfirmPasswordError] = useState("");
+     const [FullPasswordError,setFullPasswordError] = useState("");
 
      const nav = useNavigate();
 
@@ -23,45 +27,98 @@ export const Signup = () => {
              setUsernameError("")
           }
      }
+      const handleEmail = (e) =>{
+          setEmail(e.target.value)
 
-
-
-     const handleSubmit  = () =>{
-
-      if(!username){
-         setUsernameError("Username is required")
-         return;
-      }
-
-  
-      
+          if(e.target.value.trim()){
+             setEmailError("")
+          }
      }
+      const handlePassword = (e) => {
+          const value = e.target.value;
+
+          setPassword(value);
+
+          if (value.trim()) {
+            setPasswordError("");
+          }
+
+          if (confirmPassword && value === confirmPassword) {
+            setFullPasswordError("");
+          }
+        };
+
+    const handleConPassword = (e) => {
+        const value = e.target.value;
+
+        setconfirmPassword(value);
+
+        if (value.trim()) {
+          setconfirmPasswordError("");
+        }
+
+        if (password && value === password) {
+          setFullPasswordError("");
+        }
+      };
+    
 
 
 
+     const handleSubmit = (e) => {
+        e.preventDefault();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+       
+        let isValid = true;
 
+        if (!username) {
+          setUsernameError("Username is required");
+          isValid = false;
+        }
+         if (!email) {
+          setEmailError("Email is required");
+          isValid = false;
+        } else if (!emailRegex.test(email)) {
+          setEmailError("Invalid email format");
+          isValid = false;
+        }
+        if (!password) {
+          setPasswordError("Password is required");
+          isValid = false;
+        }
 
+        if (!confirmPassword) {
+          setconfirmPasswordError("Confirm password is required");
+          isValid = false;
+        }
 
+        if (password && confirmPassword && password !== confirmPassword) {
+          setFullPasswordError("Passwords do not match");
+          isValid = false;
+        } else {
+          setFullPasswordError("");
+        }
 
-
-
-
-
+        if (isValid) {
+          console.log("Form submitted");
+          nav('/login'); 
+        }
+      };
 
 
   return (
     <section className='min-h-screen bg-white/50 p-5 rounded-b-[150px]  shadow-2xl'>
      <div className="flex justify-center items-center min-h-screen font-rubik">
-        <div className="w-sm sm:w-lg p-10 bg-white rounded-lg shadow-2xl flex flex-col">
+        <form onSubmit={handleSubmit} className="w-sm sm:w-lg p-10 bg-white rounded-lg shadow-2xl flex flex-col">
                <h3 className='text-3xl font-semibold'>Sign Up</h3>
                <p className='text-gray-600'>Create your account to get started.</p>
 
 
               <div className="flex flex-col gap-4 pt-5">
                 <div className="flex flex-col">
-                    <label htmlFor="email">Username</label>
-                    <input value={username} onChange={handleUsername}  className='border rounded-lg p-2 outline-none' type="text" name='email' />
+                    <label htmlFor="username">Username</label>
+                    <input value={username} onChange={handleUsername}  className='border rounded-lg p-2 outline-none' type="text" name='username' />
                     {usernameError && <div className="flex justify-left items-center text-red-600 text-sm">
                       <IoMdInformationCircleOutline />
                       <p className=''>{usernameError}</p>
@@ -69,16 +126,21 @@ export const Signup = () => {
                   </div>
                  <div className="flex flex-col">
                     <label htmlFor="email">Email</label>
-                    <input className='border rounded-lg p-2 outline-none' type="text" name='email' />
-                  <p className='text-red-600 text-sm'>Invalid email</p>
+                    <input value={email} onChange={handleEmail} className='border rounded-lg p-2 outline-none' type="text" name='email' />
+                  {emailError && <div className="flex justify-left items-center text-red-600 text-sm">
+                      <IoMdInformationCircleOutline />
+                      <p className=''>{emailError}</p>
+                    </div>}
                   </div>
                
                     <div className="flex flex-col md:flex-row gap-4">
                       <div className="flex flex-col">
-                              <label htmlFor="email">Password</label>
+                              <label htmlFor="password">Password</label>
                              
                             <div className="relative w-full">
                                     <input
+                                    value={password}
+                                    onChange={handlePassword}
                                     type={showPassword ? "text" : "password"}
                                     name="password"
                                     className="w-full border rounded-lg p-2 pr-10 outline-none"
@@ -98,14 +160,20 @@ export const Signup = () => {
                                     />
                                     )}
                           </div>
+                           {passwordError && <div className="flex justify-left items-center text-red-600 text-sm">
+                      <IoMdInformationCircleOutline />
+                      <p className=''>{passwordError}</p>
+                    </div>}
                       </div>
                       <div className="flex flex-col">
-                               <label htmlFor="email">Confirm Password</label>
+                               <label htmlFor="confirmpassword">Confirm Password</label>
                              
                              <div className="relative w-full">
                                   <input
                                   type={showConfirmPassword ? "text" : "password"}
-                                  name="password"
+                                  value={confirmPassword}
+                                  onChange={handleConPassword}
+                                  name="confirmpassword"
                                   className="w-full border rounded-lg p-2 pr-10 outline-none"
                                   />
 
@@ -123,15 +191,28 @@ export const Signup = () => {
                                   />
                                   )}
                           </div>
+                           {confirmPasswordError && <div className="flex justify-left items-center text-red-600 text-sm">
+                      <IoMdInformationCircleOutline />
+                      <p className=''>{confirmPasswordError}</p>
+                    </div>}
                       </div>
+
                     
                               
                     </div>
+
+                    
+                      <div className="">
+                         {FullPasswordError && <div className="flex justify-left items-center text-red-600 text-sm">
+                      <IoMdInformationCircleOutline />
+                      <p className=''>{FullPasswordError}</p>
+                    </div>}
+                      </div>
               
 
                      <div className="flex flex-col pt-3">
                       
-                          <button type='submit' onClick={handleSubmit} className='bg-blue-800 p-2 text-white font-bold text-lg rounded-lg cursor-pointer'>Sign In</button>
+                          <button type='submit'  className='bg-blue-800 p-2 text-white font-bold text-lg rounded-lg cursor-pointer'>Sign Up</button>
                     </div>
                 
 
@@ -156,7 +237,7 @@ export const Signup = () => {
                     
               </div>
 
-        </div>
+        </form>
      </div>
     </section>
   )
