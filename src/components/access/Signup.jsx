@@ -4,6 +4,8 @@ import { FaEye  } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import { createUserWithEmailAndPassword  } from 'firebase/auth'
+import { auth } from '../../database/firebase'
 export const Signup = () => {
      const [showPassword,setShowPassword] = useState(false);
      const [showConfirmPassword,setShowConfirmPassword] = useState(false);
@@ -16,8 +18,11 @@ export const Signup = () => {
      const [confirmPassword,setconfirmPassword] = useState("");
      const [confirmPasswordError,setconfirmPasswordError] = useState("");
      const [FullPasswordError,setFullPasswordError] = useState("");
+     const [firebaseError,setFirebaseError] = useState("");
 
      const nav = useNavigate();
+
+
 
 
      const handleUsername = (e) =>{
@@ -65,7 +70,7 @@ export const Signup = () => {
 
 
 
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
         e.preventDefault();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -101,8 +106,19 @@ export const Signup = () => {
         }
 
         if (isValid) {
-          console.log("Form submitted");
-          nav('/login'); 
+          try {
+
+            const response = await createUserWithEmailAndPassword(auth,email,password);
+            console.log(response)
+            if(response.user){
+               nav('/')
+            }
+            
+          } catch (error) {
+            console.log(error)
+             setFirebaseError(error.message.split('/')[1].split(')')[0])
+             
+          }
         }
       };
 
@@ -203,9 +219,13 @@ export const Signup = () => {
 
                     
                       <div className="">
-                         {FullPasswordError && <div className="flex justify-left items-center text-red-600 text-sm">
+                         {FullPasswordError && <div className="flex justify-left items-center text-red-600 text-sm gap-0.5">
                       <IoMdInformationCircleOutline />
                       <p className=''>{FullPasswordError}</p>
+                    </div>}
+                     {firebaseError && <div className="flex justify-left items-center text-red-600 text-sm gap-0.5">
+                      <IoMdInformationCircleOutline />
+                      <p className=''>{firebaseError}</p>
                     </div>}
                       </div>
               
