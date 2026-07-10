@@ -5,7 +5,9 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { createUserWithEmailAndPassword  } from 'firebase/auth'
+import { signInWithPopup } from 'firebase/auth';
 import { auth } from '../../database/firebase'
+import { provider } from '../../database/firebase';
 export const Signup = () => {
      const [showPassword,setShowPassword] = useState(false);
      const [showConfirmPassword,setShowConfirmPassword] = useState(false);
@@ -66,6 +68,22 @@ export const Signup = () => {
           setFullPasswordError("");
         }
       };
+
+      const handlegooglesubmit = async () =>{
+          try {
+
+            const response = await signInWithPopup(auth,provider);
+            console.log(response.user)
+            if(response.user){
+              nav('/')
+            }
+            
+          } catch (error) {
+            console.error(error)
+
+            
+          }
+      }
     
 
 
@@ -126,12 +144,14 @@ export const Signup = () => {
   return (
     <section className='min-h-screen bg-white/50 p-5 rounded-b-[150px]  shadow-2xl'>
      <div className="flex justify-center items-center min-h-screen font-rubik">
-        <form onSubmit={handleSubmit} className="w-sm sm:w-lg p-10 bg-white rounded-lg shadow-2xl flex flex-col">
-               <h3 className='text-3xl font-semibold'>Sign Up</h3>
+        <div className="w-sm sm:w-lg p-10 bg-white rounded-lg shadow-2xl flex flex-col">
+
+                 <div className="">
+                     <h3 className='text-3xl font-semibold'>Sign Up</h3>
                <p className='text-gray-600'>Create your account to get started.</p>
 
 
-              <div className="flex flex-col gap-4 pt-5">
+              <form onSubmit={handleSubmit}  className="flex flex-col gap-4 pt-5">
                 <div className="flex flex-col">
                     <label htmlFor="username">Username</label>
                     <input value={username} onChange={handleUsername}  className='border rounded-lg p-2 outline-none' type="text" name='username' />
@@ -235,6 +255,8 @@ export const Signup = () => {
                           <button type='submit'  className='bg-blue-800 p-2 text-white font-bold text-lg rounded-lg cursor-pointer'>Sign Up</button>
                     </div>
                 
+                 </form>
+            
 
 
                    <div className="flex items-center gap-3">
@@ -244,7 +266,7 @@ export const Signup = () => {
                     </div>
 
                     <div className="flex flex-col">
-                       <button className='flex justify-center items-center p-2 border  text-md text-gray-600 rounded-lg cursor-pointer gap-1 hover:bg-pink-100 transition-colors duration-200'>
+                       <button onClick={handlegooglesubmit} className='flex justify-center items-center p-2 border  text-md text-gray-600 rounded-lg cursor-pointer gap-1 hover:bg-pink-100 transition-colors duration-200'>
                           <div className=""><FcGoogle size={23}/></div>
                           <div className="">CONTINUE WITH GOOGLE</div>
                        </button>
@@ -257,7 +279,7 @@ export const Signup = () => {
                     
               </div>
 
-        </form>
+        </div>
      </div>
     </section>
   )
