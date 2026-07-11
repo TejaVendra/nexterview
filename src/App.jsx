@@ -12,29 +12,13 @@ import { auth } from './database/firebase.js'
 import { setUser } from './redux/slices/authSlice.js'
 import { useSelector } from 'react-redux'
 import PrivateRoute from './routes/PrivateRoutes.jsx'
+import { useAuthListener } from './hooks/useAuthListener.js'
+
 function App() {
 
   const dispatch = useDispatch();
-  
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-  if (user) {
-    dispatch(
-      setUser({
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      })
-    );
-  } else {
-    dispatch(setUser(null));
-  }
-});
-
-    return unsubscribe;
-}, []);
+  useAuthListener();
 
  
    const user = useSelector(state => state.auth.user)
