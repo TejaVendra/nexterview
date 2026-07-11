@@ -1,7 +1,12 @@
 import React from "react";
 import logo from '../../assets/logo.png'
 import {motion} from 'motion/react'
+import { useNavigate } from "react-router-dom";
+
 const Hero = () => {
+
+  const nav = useNavigate();
+
   return (
     <main className="min-h-fit flex justify-center">
       <div className="max-w-5xl text-center">
@@ -33,7 +38,7 @@ const Hero = () => {
           before the actual interview.
         </motion.p>
 
-        <div className="
+        <div onClick={() => nav('/signup')} className="
           mt-8
           flex
           flex-col
@@ -42,7 +47,7 @@ const Hero = () => {
           gap-4
         ">
           <a 
-            href="#"
+            href=""
             className="
                  group
                 relative
