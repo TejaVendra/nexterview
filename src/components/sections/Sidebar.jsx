@@ -31,7 +31,7 @@ function Sidebar() {
     },
     {
       name: "Portfolio Analysis",
-      path: "/portifolio",
+      path: "/portfolio",
     },
     {
       name: "Resume Matches",

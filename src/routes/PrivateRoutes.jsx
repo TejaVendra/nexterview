@@ -1,20 +1,21 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import LoaderAuth from "../components/ui/LoaderAuth.jsx";
-const PrivateRoute = ({ children }) => {
+import { Navigate, Outlet } from "react-router-dom";
+import LoaderAuth from '../components/ui/LoaderAuth'
+
+function PrivateRoute() {
   const { user, authLoading } = useSelector(
     (state) => state.auth
   );
 
   if (authLoading) {
-    return <LoaderAuth/>;
+    return <LoaderAuth />;
   }
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
-};
+  return <Outlet />;
+}
 
 export default PrivateRoute;

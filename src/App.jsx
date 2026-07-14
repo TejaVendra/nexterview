@@ -1,46 +1,109 @@
-import './App.css'
-import {Routes , Route} from 'react-router-dom'
-import Home from './pages/Home'
-import Navbar from './components/sections/Navbar'
-import { Signin } from './components/access/Signin.jsx'
-import {Signup} from './components/access/Signup.jsx'
-import Footer from './components/sections/Footer.jsx'
-import { onAuthStateChanged  } from 'firebase/auth'
-import { useDispatch } from "react-redux";
-import { useEffect } from 'react'
-import { auth } from './database/firebase.js'
-import { setUser } from './redux/slices/authSlice.js'
-import { useSelector } from 'react-redux'
-import PrivateRoute from './routes/PrivateRoutes.jsx'
-import PublicRoute from './routes/PublicRoutes.jsx'
-import { useAuthListener } from './hooks/useAuthListener.js'
-import Dashboard from './pages/Dashboard.jsx'
+import "./App.css";
+
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+
+import Navbar from "./components/sections/Navbar";
+import Footer from "./components/sections/Footer";
+
+import { Signin } from "./components/access/Signin";
+import { Signup } from "./components/access/Signup";
+
+import PrivateRoute from "./routes/PrivateRoutes";
+import PublicRoute from "./routes/PublicRoutes";
+
+import DashboardLayout from "./components/layouts/DashboardLayout";
+
+import { useAuthListener } from "./hooks/useAuthListener";
+import MockInterview from "./pages/MockInterview";
+import ResumeAnalyzer from "./pages/ResumeAnalyzer";
+import PortfolioAnalyzer from "./pages/PortfolioAnalyzer";
+import JDMatcher from "./pages/JDMatcher";
+import ResumeMaker from "./pages/ResumeMaker";
 
 function App() {
-
-  const dispatch = useDispatch();
-
   useAuthListener();
 
- 
-   const user = useSelector(state => state.auth.user)
-   console.log(user)
-
-
   return (
-    <div className='min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)] '>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)]">
+      <Navbar />
 
-      <Navbar/>
       <Routes>
-         <Route path='/' element={<PublicRoute><Home/></PublicRoute>}/>
-         <Route path='/login' element={<PublicRoute><Signin/></PublicRoute>}/>
-         <Route path='/signup' element={<PublicRoute><Signup/></PublicRoute>}/>
-         <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+        {/* ================= PUBLIC ROUTES ================= */}
+
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Home />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Signin />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+
+        {/* ================= PRIVATE ROUTES ================= */}
+
+        <Route element={<PrivateRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route
+              path="/dashboard"
+              element={<Dashboard />}
+            />
+
+            {/* Add more private routes here */}
+
+           
+            <Route
+              path="/mock-interview"
+              element={<MockInterview />}
+            />
+
+            <Route
+              path="/resume-analysis"
+              element={<ResumeAnalyzer />}
+            />
+
+            <Route
+              path="/resume-maker"
+              element={<ResumeMaker />}
+            />
+
+            <Route
+              path="/portfolio"
+              element={<PortfolioAnalyzer />}
+            />
+
+            <Route
+              path="/resume-matches"
+              element={<JDMatcher />}
+            />
+          
+          </Route>
+        </Route>
       </Routes>
-       <Footer/>
-      
+
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
