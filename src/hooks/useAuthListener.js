@@ -1,18 +1,23 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { onAuthStateChanged } from 'firebase/auth'
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
 
-import { auth } from '../database/firebase'
-import { setUser } from '../redux/slices/authSlice'
+import { auth } from "../database/firebase";
+import {
+  setUser,
+  setAuthLoading,
+} from "../redux/slices/authSlice";
 
 export const useAuthListener = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        dispatch(setUser(null))
-        return
+        dispatch(setUser(null));
+        dispatch(setAuthLoading(false));
+
+        return;
       }
 
       dispatch(
@@ -22,9 +27,11 @@ export const useAuthListener = () => {
           displayName: user.displayName,
           photoURL: user.photoURL,
         })
-      )
-    })
+      );
 
-    return unsubscribe
-  }, [dispatch])
-}
+      dispatch(setAuthLoading(false));
+    });
+
+    return unsubscribe;
+  }, [dispatch]);
+};

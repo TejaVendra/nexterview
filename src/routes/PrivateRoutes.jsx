@@ -1,16 +1,20 @@
-import axiosInstance from "../axios/axiosInstance";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import LoaderAuth from "../components/ui/LoaderAuth.jsx";
+const PrivateRoute = ({ children }) => {
+  const { user, authLoading } = useSelector(
+    (state) => state.auth
+  );
 
-const PrivateRoute = ({children}) => {
-   
-    const user = useSelector(state => state.auth.user);
-    console.log(user + " in ")
+  if (authLoading) {
+    return <LoaderAuth/>;
+  }
 
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if (!user) return <Navigate to="/login" />;
- 
   return children;
-}
+};
 
 export default PrivateRoute;

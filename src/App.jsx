@@ -12,7 +12,9 @@ import { auth } from './database/firebase.js'
 import { setUser } from './redux/slices/authSlice.js'
 import { useSelector } from 'react-redux'
 import PrivateRoute from './routes/PrivateRoutes.jsx'
+import PublicRoute from './routes/PublicRoutes.jsx'
 import { useAuthListener } from './hooks/useAuthListener.js'
+import Dashboard from './pages/Dashboard.jsx'
 
 function App() {
 
@@ -30,9 +32,10 @@ function App() {
 
       <Navbar/>
       <Routes>
-         <Route path='/' element={<><Home/></>}/>
-         <Route path='/login' element={<PrivateRoute><Signin/></PrivateRoute>}/>
-         <Route path='/signup' element={<Signup/>}/>
+         <Route path='/' element={<PublicRoute><Home/></PublicRoute>}/>
+         <Route path='/login' element={<PublicRoute><Signin/></PublicRoute>}/>
+         <Route path='/signup' element={<PublicRoute><Signup/></PublicRoute>}/>
+         <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
       </Routes>
        <Footer/>
       

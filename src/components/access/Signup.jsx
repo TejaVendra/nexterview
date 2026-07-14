@@ -75,7 +75,7 @@ export const Signup = () => {
             const response = await signInWithPopup(auth,provider);
             console.log(response.user)
             if(response.user){
-              nav('/')
+              nav('/dashboard')
             }
             
           } catch (error) {
