@@ -3,7 +3,9 @@ import logo from '../../assets/logo.png'
 import {motion} from 'motion/react'
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { CgProfile } from "react-icons/cg";
+import GetStarted from '../ui/GetStarted';
+import ProfileCard from '../ui/ProfileCard';
+
 const Navbar = () => {
 
   const { user , authLoader } = useSelector((state) => state.auth)
@@ -23,10 +25,7 @@ const Navbar = () => {
         />
       </Link>
             
-            <Link href='/signup'
-                     className=' font-semibold text-white bg-blue-700 rounded-full py-2 px-3 sm:py-3 sm:px-5 mr-3 sm:mr-5 shadow-inner cursor-pointer hover:bg-blue-800 transition duration-500'>
-                   {user ? <CgProfile/> : 'Get Started'}
-            </Link> 
+            {user ? <ProfileCard/> : <GetStarted/> }
         </div>
     </nav>
 
