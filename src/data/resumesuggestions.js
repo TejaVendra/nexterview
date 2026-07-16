@@ -1,0 +1,22 @@
+export const resumeSuggestions = [
+  "Use a clear and professional resume format.",
+  "Keep your resume to one page (or two pages for experienced professionals).",
+  "Tailor your resume to match the job description.",
+  "Write a strong professional summary at the top.",
+  "Highlight your most relevant skills first.",
+  "Use action verbs like 'Developed', 'Designed', 'Led', and 'Implemented'.",
+  "Quantify your achievements with numbers and measurable results.",
+  "Include only relevant work experience and projects.",
+  "Showcase projects that demonstrate real-world problem solving.",
+  "List technical skills in a dedicated section.",
+  "Add certifications, courses, or relevant training.",
+  "Include links to your GitHub, LinkedIn, or portfolio if applicable.",
+  "Use consistent fonts, spacing, and formatting throughout.",
+  "Avoid spelling and grammar mistakes by proofreading carefully.",
+  "Use bullet points instead of long paragraphs.",
+  "Avoid including unnecessary personal information such as age or marital status.",
+  "Use keywords from the job description to improve ATS compatibility.",
+  "Keep section headings clear and easy to scan.",
+  "Highlight leadership, teamwork, and communication skills with examples.",
+  "Save and submit your resume as a PDF unless another format is requested."
+];
