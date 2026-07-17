@@ -33,7 +33,7 @@ function MockInterview() {
                 active:scale-95
                 ${
                   isSelected
-                    ? "bg-black/20 text-white border-green-300 shadow-lg shadow-green-200 scale-105"
+                    ? "bg-black/20 text-white border-green-300 shadow-lg dscale-105"
                     : "bg-linear-to-r from-[#F3F3F3] to-[#C1E0E4] text-gray-800 border-white shadow-sm hover:scale-105 hover:shadow-lg hover:from-[#E7F7F9] hover:to-[#B7DDE3] hover:border-cyan-200"
                 }
               `}

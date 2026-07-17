@@ -22,6 +22,8 @@ import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import PortfolioAnalyzer from "./pages/PortfolioAnalyzer";
 import JDMatcher from "./pages/JDMatcher";
 import ResumeMaker from "./pages/ResumeMaker";
+import MockInterviewLayout from "./components/layouts/MockInterviewLayout";
+import MockInterviewSelect from "./components/sections/MockInterviewSelect";
 
 function App() {
   useAuthListener();
@@ -97,6 +99,12 @@ function App() {
               element={<JDMatcher />}
             />
           
+          </Route>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+          <Route element={<MockInterviewLayout/>}>
+              <Route path="/mock-interview" element={<MockInterview/>}/>
+              <Route path="/mock-interview-1" element={<MockInterviewSelect/>}/>
           </Route>
         </Route>
       </Routes>
