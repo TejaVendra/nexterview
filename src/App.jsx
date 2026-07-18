@@ -27,6 +27,7 @@ import JDMatcher from "./pages/JDMatcher";
 import ResumeMaker from "./pages/ResumeMaker";
 
 import MockInterviewSelect from "./components/sections/MockInterviewSelect";
+import BottomBar from "./components/ui/BottomBar";
 
 function App() {
   useAuthListener();
