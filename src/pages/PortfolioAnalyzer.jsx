@@ -22,7 +22,7 @@ function PortfolioAnalyzer() {
             type="url"
             placeholder="https://yourportfolio.com"
             autoFocus
-            className="w-full md:w-3/4 xl:w-1/2 p-4 rounded-full border-2 border-transparent  focus:shadow-2xl outline-1 focus:outline-none focus:scale-105 transition-all duration-300 focus:border-cyan-400 focus:ring-cyan-100"
+            className="w-full md:w-3/4 xl:w-1/2 p-4 rounded-full border-2 border-transparent  focus:shadow-2xl outline-1 focus:outline-none focus:scale-[1.01] transition-all duration-300 focus:bg-white/60"
           />
         </div>
 
