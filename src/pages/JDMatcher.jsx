@@ -2,10 +2,12 @@ import React from "react";
 import ResumeUploader from "../components/ui/ResumeUpload";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
+import PageTransition from "../components/layouts/PageTransition";
 
 function JDMatcher() {
   return (
-    <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
+    <PageTransition>
+      <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
       <div className="max-w-7xl mx-auto bg-white/70 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-6 md:p-10">
 
         {/* Heading */}
@@ -57,6 +59,7 @@ function JDMatcher() {
 
       </div>
     </section>
+    </PageTransition>
   );
 }
 

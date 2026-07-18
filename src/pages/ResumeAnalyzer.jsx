@@ -2,10 +2,12 @@ import React from "react";
 import ResumeUpload from "../components/ui/ResumeUpload";
 import { resumeSuggestions } from "../data/resumesuggestions";
 import { FaAngleDoubleRight } from "react-icons/fa";
+import PageTransition from "../components/layouts/PageTransition";
 
 function ResumeAnalyzer() {
   return (
-    <section className="pt-25 md:pt-30 font-rubik min-h-screen px-4 pb-10">
+    <PageTransition>
+      <section className="pt-25 md:pt-30 font-rubik min-h-screen px-4 pb-10">
       <div className="max-w-7xl mx-auto rounded-3xl bg-white/70 backdrop-blur-md shadow-xl border border-white/20 p-6 md:p-10">
 
         {/* Heading */}
@@ -58,6 +60,7 @@ function ResumeAnalyzer() {
 
       </div>
     </section>
+    </PageTransition>
   );
 }
 

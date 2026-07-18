@@ -1,9 +1,11 @@
 import React from "react";
 import { portfolioSuggestions } from "../data/porfolioSuggestions";
+import PageTransition from "../components/layouts/PageTransition";
 
 function PortfolioAnalyzer() {
   return (
-    <section className="pt-25 md:pt-30 font-rubik min-h-screen">
+    <PageTransition>
+      <section className="pt-25 md:pt-30 font-rubik min-h-screen">
       <div className="max-w-7xl py-10 mx-auto px-5 bg-white/60 backdrop-blur-lg rounded-[50px]">
         {/* Heading */}
         <div className="text-center">
@@ -51,6 +53,7 @@ function PortfolioAnalyzer() {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 }
 

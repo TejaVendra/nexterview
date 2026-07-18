@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { roles } from "../data/roles";
+import PageTransition from "../components/layouts/PageTransition";
 
 function MockInterview() {
   const [selectedRole, setSelectedRole] = useState("");
 
   return (
-    <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
+    <PageTransition>
+      <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
       <div className="max-w-7xl mx-auto rounded-3xl bg-white/70 backdrop-blur-md shadow-xl border border-white/20 p-6 md:p-10">
 
         {/* Heading */}
@@ -74,6 +76,7 @@ function MockInterview() {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 }
 

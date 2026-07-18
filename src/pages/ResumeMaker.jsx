@@ -1,8 +1,10 @@
 import React from 'react'
+import PageTransition from '../components/layouts/PageTransition'
 
 function ResumeMaker() {
   return (
-    <section className='pt-30 min-h-screen font-rubik'>
+   <PageTransition>
+     <section className='pt-30 min-h-screen font-rubik'>
         <div className="p-5">
            <div className="flex justify-between items-center">
              <h2 className='text-2xl md:text-3xl xl:text-4xl font-semibold '>Resume Maker</h2>
@@ -14,6 +16,7 @@ function ResumeMaker() {
            </div>
         </div>
     </section>
+   </PageTransition>
   )
 }
 
