@@ -3,11 +3,12 @@ import ResumeUpload from "../components/ui/ResumeUpload";
 import { resumeSuggestions } from "../data/resumesuggestions";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import PageTransition from "../components/layouts/PageTransition";
+import { Sparkles } from "lucide-react";
 
 function ResumeAnalyzer() {
   return (
     <PageTransition>
-      <section className="pt-25 md:pt-30 font-rubik min-h-screen px-4 pb-10">
+      <section className="pt-23 md:pt-30 font-rubik min-h-screen px-4 pb-10">
       <div className="max-w-7xl mx-auto rounded-3xl bg-white/70 backdrop-blur-md shadow-xl border border-white/20 p-6 md:p-10">
 
         {/* Heading */}
@@ -29,16 +30,19 @@ function ResumeAnalyzer() {
 
         {/* Button */}
         <div className="flex justify-center mt-8">
-          <button className="rounded-xl bg-cyan-500 px-10 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:bg-cyan-600 hover:scale-105">
+          <button className="rounded-xl bg-black/90 px-10 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:bg-black active:scale-95 cursor-pointer">
             Analyze Resume
           </button>
         </div>
 
         {/* Suggestions */}
         <div className="mt-14">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-            Resume Improvement Suggestions
-          </h3>
+          <div className="mb-8 flex items-center gap-3">
+              <Sparkles className="text-green-500" />
+              <h2 className="text-2xl font-bold text-gray-800">
+               Resume Improvement Suggestions
+              </h2>
+            </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             {resumeSuggestions.map((suggestion, index) => (

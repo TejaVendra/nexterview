@@ -6,14 +6,11 @@ import { Sparkles, Globe, ArrowRight, CheckCircle2 } from "lucide-react";
 function PortfolioAnalyzer() {
   return (
     <PageTransition>
-      <section className="min-h-screen pt-25 md:pt-30 pb-10 font-rubik px-4 md:px-6">
+      <section className="min-h-screen pt-23 md:pt-30 pb-10 font-rubik px-4 md:px-6">
         <div className="mx-auto max-w-7xl rounded-[40px] border border-white/40 bg-white/60 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-6 md:p-10 lg:p-12">
           {/* Header */}
           <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-cyan-100 px-4 py-2 text-sm font-medium text-cyan-700">
-              <Sparkles size={16} />
-              AI Powered Portfolio Review
-            </div>
+            
 
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Analyze Your Portfolio
@@ -69,10 +66,10 @@ function PortfolioAnalyzer() {
                 px-8
                 font-semibold
                 text-white
-                shadow-xl
+                shadow-lg
+                cursor-pointer
                 transition-all
                 duration-300
-                hover:-translate-y-1
                 hover:shadow-2xl
                 active:scale-95
               "

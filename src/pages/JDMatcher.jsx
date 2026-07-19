@@ -27,7 +27,7 @@ function JDMatcher() {
         <div className="grid lg:grid-cols-2 gap-10">
 
           {/* Resume Upload */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <div className="md:bg-white rounded-2xl md:shadow-lg border md:p-6 border-gray-100">
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-1">
               <IoDocumentTextOutline  size={22}/> Upload Resume
             </h3>
@@ -36,7 +36,7 @@ function JDMatcher() {
           </div>
 
           {/* Job Description */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <div className="md:bg-white rounded-2xl md:shadow-lg border md:p-6 border-gray-100">
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-1">
               <TfiWrite /> Job Description
             </h3>
@@ -52,7 +52,7 @@ function JDMatcher() {
 
         {/* Analyze Button */}
         <div className="flex justify-center mt-10">
-          <button className="px-10 py-4 rounded-xl bg-cyan-500 text-white font-semibold shadow-lg hover:bg-cyan-600 hover:scale-105 transition-all duration-300">
+          <button className="px-10 py-4 rounded-xl bg-black/90 cursor-pointer text-white font-semibold shadow-lg hover:bg-black active:scale-95 transition-all duration-300">
             Analyze Resume
           </button>
         </div>

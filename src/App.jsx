@@ -28,6 +28,7 @@ import ResumeMaker from "./pages/ResumeMaker";
 
 import MockInterviewSelect from "./components/sections/MockInterviewSelect";
 import BottomBar from "./components/ui/BottomBar";
+import Sidebar from "./components/sections/Sidebar";
 
 function App() {
   useAuthListener();
@@ -80,14 +81,7 @@ function App() {
               <Route path="/resume-maker" element={<ResumeMaker />} />
 
               <Route path="/portfolio" element={<PortfolioAnalyzer />} />
-
-              <Route path="/resume-matches" element={<JDMatcher />} />
-            </Route>
-          </Route>
-
-          {/* Mock Interview Layout */}
-
-          <Route element={<PrivateRoute />}>
+              <Route element={<PrivateRoute />}>
             <Route element={<MockInterviewLayout />}>
               <Route path="/mock-interview" element={<MockInterview />} />
 
@@ -97,6 +91,14 @@ function App() {
               />
             </Route>
           </Route>
+
+              <Route path="/resume-matches" element={<JDMatcher />} />
+            </Route>
+          </Route>
+
+          {/* Mock Interview Layout */}
+
+          
         </Routes>
       </AnimatePresence>
 

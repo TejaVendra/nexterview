@@ -6,11 +6,18 @@ import {
   PanelLeftOpen,
 } from "lucide-react";
 
+import { useSelector } from "react-redux";
+import { setSidebarOpen } from "../../redux/slices/sideBar";
+import { useDispatch } from "react-redux";
+
 function Sidebar() {
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen)
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
 
   const links = [
     {
@@ -52,7 +59,7 @@ function Sidebar() {
 
       <button
         type="button"
-        onClick={() => setIsSidebarOpen(true)}
+        onClick={() => dispatch(setSidebarOpen())}
         aria-label="Show sidebar"
         className={`
           fixed
@@ -167,7 +174,7 @@ function Sidebar() {
 
             <button
               type="button"
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={() => dispatch( setSidebarOpen())}
               aria-label="Hide sidebar"
               className="
                 group

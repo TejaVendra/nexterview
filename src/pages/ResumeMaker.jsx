@@ -4,7 +4,7 @@ import PageTransition from '../components/layouts/PageTransition'
 function ResumeMaker() {
   return (
    <PageTransition>
-     <section className='pt-30 min-h-screen font-rubik'>
+     <section className='pt-23 md:pt-30 min-h-screen font-rubik'>
         <div className="p-5">
            <div className="flex justify-between items-center">
              <h2 className='text-2xl md:text-3xl xl:text-4xl font-semibold '>Resume Maker</h2>

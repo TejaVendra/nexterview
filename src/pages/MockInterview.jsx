@@ -7,7 +7,7 @@ function MockInterview() {
 
   return (
     <PageTransition>
-      <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
+      <section className="pt-23 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
       <div className="max-w-7xl mx-auto rounded-3xl bg-white/70 backdrop-blur-md shadow-xl border border-white/20 p-6 md:p-10">
 
         {/* Heading */}
@@ -67,7 +67,7 @@ function MockInterview() {
             disabled={!selectedRole}
             className={`rounded-xl px-10 py-3 font-semibold text-white transition-all duration-300 ${
               selectedRole
-                ? "bg-cyan-500 hover:bg-cyan-600 hover:scale-105 shadow-lg cursor-pointer"
+                ? "bg-black/90 hover:bg-black active:scale-95 shadow-lg cursor-pointer"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >

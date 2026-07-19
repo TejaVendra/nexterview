@@ -6,11 +6,7 @@ import BottomBar from '../ui/BottomBar.jsx'
 function MockInterviewLayout() {
   return (
      <div className="min-h-screen">
-      <Sidebar />
-      <BottomBar/>
-
-
-      <main className="min-h-screen lg:ml-[340px]">
+      <main className="min-h-screen ">
         <Outlet />
       </main>
     </div>
