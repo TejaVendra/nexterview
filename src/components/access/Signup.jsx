@@ -128,9 +128,13 @@ export const Signup = () => {
 
             const response = await createUserWithEmailAndPassword(auth,email,password);
             console.log(response)
-            if(response.user){
+            if(response.user.emailVerified){
                nav('/')
+               return
             }
+
+            
+
             
           } catch (error) {
             console.log(error)

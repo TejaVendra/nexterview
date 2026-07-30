@@ -11,10 +11,10 @@ const PublicRoute = ({ children }) => {
     return <LoaderAuth/>;
   }
 
-  if (user) {
+
+  if (user.emailVerified) {
     return <Navigate to="/dashboard" replace />;
   }
-
   return children;
 };
 

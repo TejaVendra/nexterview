@@ -3,6 +3,8 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../../redux/slices/navBar";
 import { LogOut } from "lucide-react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../database/firebase.js";
 
 function ProfileCard() {
   const dispatch = useDispatch();
@@ -73,7 +75,7 @@ function ProfileCard() {
           w-44
           origin-top-right
           rounded-xl
-          bg-white/60
+          bg-white
           p-4
           shadow-xl
           backdrop-blur-xl
@@ -128,6 +130,7 @@ function ProfileCard() {
 
         <button
           type="button"
+          onClick={() => signOut(auth)}
           className="
             group
             flex

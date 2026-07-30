@@ -12,20 +12,28 @@ export const useAuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+
+     
+      console.log(user)
+           if (!user) {
         dispatch(setUser(null));
         dispatch(setAuthLoading(false));
 
         return;
       }
 
+      const token = await user.getIdToken();
+      window.localStorage.setItem("token",token)
+      console.log(token)
+ 
       dispatch(
         setUser({
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
+          emailVerified:user.emailVerified,
         })
       );
 

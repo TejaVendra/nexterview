@@ -7,8 +7,8 @@ const Outcomes = () => {
          <div className="flex flex-col text-center justify-center rounded-2xl shadow-2xl lg:w-[70%] w-[90%] mx-auto p-20 bg-white/30 ">
              <h3 className='text-5xl font-semibold'><span className='text-gray-500'>Outcomes</span> You'll Achieve</h3>
              <div className="flex flex-col lg:flex-row text-center justify-evenly gap-10 lg:gap-0 items-center pt-15">
-                 {outcomes.map((outcome) =>(
-                   <div className="flex flex-col">
+                 {outcomes.map((outcome,index) =>(
+                   <div key={index} className="flex flex-col">
                      <p className='text-7xl font-bold text-[#9900FF]'>{outcome.effect}</p>
                      <p className='text-base'>{outcome.description}</p>
                  </div>
