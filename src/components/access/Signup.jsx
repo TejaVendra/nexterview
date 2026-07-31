@@ -21,6 +21,7 @@ export const Signup = () => {
      const [confirmPasswordError,setconfirmPasswordError] = useState("");
      const [FullPasswordError,setFullPasswordError] = useState("");
      const [firebaseError,setFirebaseError] = useState("");
+     const [verificationError,setVerificationError] = useState("");
 
      const nav = useNavigate();
 
@@ -73,9 +74,10 @@ export const Signup = () => {
           try {
 
             const response = await signInWithPopup(auth,provider);
-            console.log(response.user)
-            if(response.user){
+            if(response.user.emailVerified){
               nav('/dashboard')
+            }else{
+               setVerificationError("we send the verification mail to your email , please verify it.")
             }
             
           } catch (error) {
@@ -133,7 +135,7 @@ export const Signup = () => {
                return
             }
 
-            
+
 
             
           } catch (error) {
@@ -258,6 +260,7 @@ export const Signup = () => {
                       
                           <button type='submit'  className='bg-blue-800 p-2 text-white font-bold text-lg rounded-lg cursor-pointer'>Sign Up</button>
                     </div>
+
                 
                  </form>
             
