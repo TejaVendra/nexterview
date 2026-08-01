@@ -9,7 +9,6 @@ import ProfileCard from '../ui/ProfileCard';
 const Navbar = () => {
 
   const { user , authLoader } = useSelector((state) => state.auth)
-  console.log(user)
   return (
 
     <nav className='w-[95%] mx-auto fixed top-3  left-0 right-0 z-50'>
