@@ -8,6 +8,9 @@ import { createUserWithEmailAndPassword  } from 'firebase/auth'
 import { signInWithPopup } from 'firebase/auth';
 import { auth } from '../../database/firebase'
 import { provider } from '../../database/firebase';
+import { useDispatch } from 'react-redux';
+import { googleSignUp } from '../../redux/thunks/authThunk';
+import { emailAndPasswordSignUp } from '../../redux/thunks/authThunk';
 export const Signup = () => {
      const [showPassword,setShowPassword] = useState(false);
      const [showConfirmPassword,setShowConfirmPassword] = useState(false);
@@ -22,8 +25,11 @@ export const Signup = () => {
      const [FullPasswordError,setFullPasswordError] = useState("");
      const [firebaseError,setFirebaseError] = useState("");
      const [verificationError,setVerificationError] = useState("");
+      
 
      const nav = useNavigate();
+
+     const dispatch = useDispatch();
 
 
 
@@ -73,8 +79,9 @@ export const Signup = () => {
       const handlegooglesubmit = async () =>{
           try {
 
-            const response = await signInWithPopup(auth,provider);
-            if(response.user.emailVerified){
+           await dispatch(googleSignUp());
+
+            if(user.emailVerified){
               nav('/dashboard')
             }else{
                setVerificationError("we send the verification mail to your email , please verify it.")
@@ -128,19 +135,16 @@ export const Signup = () => {
         if (isValid) {
           try {
 
-            const response = await createUserWithEmailAndPassword(auth,email,password);
-            console.log(response)
-            if(response.user.emailVerified){
+            dispatch(emailAndPasswordSignUp(email,password))
+          
+            if(user.emailVerified){
                nav('/')
                return
             }
-
-
-
             
           } catch (error) {
             console.log(error)
-             setFirebaseError(error.message.split('/')[1].split(')')[0])
+             setFirebaseError(error.message)
              
           }
         }

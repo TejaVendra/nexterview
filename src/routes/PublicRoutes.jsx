@@ -12,9 +12,9 @@ const PublicRoute = ({ children }) => {
   }
 
 
-  if (user.emailVerification) {
+ if (user?.emailVerified) {
     return <Navigate to="/dashboard" replace />;
-  }
+}
   return children;
 };
 

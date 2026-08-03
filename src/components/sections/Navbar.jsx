@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import GetStarted from '../ui/GetStarted';
 import ProfileCard from '../ui/ProfileCard';
 
+
 const Navbar = () => {
 
   const { user , authLoader } = useSelector((state) => state.auth)
