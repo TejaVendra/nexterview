@@ -1,17 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signInWithPopup } from "firebase/auth";
-import { auth } from "../../database/firebase.js";
-import { provider } from "../../database/firebase.js";
-import axiosInstance from '../../axios/axiosInstance.js'
 import { googleSignUp } from "../thunks/authThunk.js";
 import { emailAndPasswordSignUp } from "../thunks/authThunk.js";
+
+
 const authSlice = createSlice({
   name: "auth",
 
   initialState: {
     user: null,
-    authLoading: true,
-    
+    authLoading: false,
+    error: null,
   },
 
   reducers: {
@@ -22,22 +20,51 @@ const authSlice = createSlice({
     setAuthLoading(state, action) {
       state.authLoading = action.payload;
     },
-  
+
+    clearError(state) {
+      state.error = null;
+    },
   },
-  extraReducers:(builder) =>{
-    builder.addCase(
-      googleSignUp.fulfilled,
-      (state,action) =>{
+
+  extraReducers: (builder) => {
+    builder
+
+      // ================= GOOGLE =================
+
+      .addCase(googleSignUp.pending, (state) => {
+        state.authLoading = true;
+        state.error = null;
+      })
+
+      .addCase(googleSignUp.fulfilled, (state, action) => {
+        state.authLoading = false;
         state.user = action.payload.user;
-      }
-    )
-    builder.addCase(
-      emailAndPasswordSignUp.fulfilled,
-      (state,action) =>{
+        state.error = null;
+      })
+
+      .addCase(googleSignUp.rejected, (state, action) => {
+        state.authLoading = false;
+        state.error = action.payload;
+      })
+
+      // ================= EMAIL =================
+
+      .addCase(emailAndPasswordSignUp.pending, (state) => {
+        state.authLoading = true;
+        state.error = null;
+      })
+
+      .addCase(emailAndPasswordSignUp.fulfilled, (state, action) => {
+        state.authLoading = false;
         state.user = action.payload.user;
-      }
-    )
-  }
+        state.error = null;
+      })
+
+      .addCase(emailAndPasswordSignUp.rejected, (state, action) => {
+        state.authLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const {

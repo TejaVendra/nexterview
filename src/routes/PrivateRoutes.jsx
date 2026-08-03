@@ -11,7 +11,7 @@ function PrivateRoute() {
     return <LoaderAuth />;
   }
 
-  if (!user || !user.emailVerified) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 

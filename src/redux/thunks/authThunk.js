@@ -25,18 +25,30 @@ export const googleSignUp = createAsyncThunk(
 );
 
 export const emailAndPasswordSignUp = createAsyncThunk(
-      "auth/emailAndPasswordSignUp",
-      async ({email,password},thunkAPI) =>{
-        const result = await  createUserWithEmailAndPassword(auth,email,password);
+  "auth/emailAndPasswordSignUp",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-        const idToken = await result.user.getIdToken();
+      const idToken = await result.user.getIdToken();
 
-        const response = await axiosInstance.post(
-            "auth/authenticate",
-            {
-                idToken
-            }
-        );
-        return response.data;
-      }
-)
+      const response = await axiosInstance.post(
+        "/auth/authenticate",
+        {
+          idToken,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
