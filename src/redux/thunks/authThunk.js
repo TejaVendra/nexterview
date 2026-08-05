@@ -33,8 +33,9 @@ export const emailAndPasswordSignUp = createAsyncThunk(
         email,
         password
       );
-
-     
+      
+      
+      await sendEmailVerification(auth.currentUser);
 
       const idToken = await result.user.getIdToken();
 
@@ -44,7 +45,6 @@ export const emailAndPasswordSignUp = createAsyncThunk(
           idToken,
         }
       );
-       await sendEmailVerification(auth);
 
       return response.data;
     } catch (error) {
