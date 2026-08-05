@@ -13,8 +13,8 @@ function VerifiedRoutes() {
     return <Navigate to="/login" replace />;
   }
 
-  if (!user.emailVerified) {
-    return <Navigate to="/verification" replace />;
+  if (user.emailVerified) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <Outlet />;

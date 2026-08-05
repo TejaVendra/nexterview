@@ -14,6 +14,7 @@ import { Signup } from "./components/access/Signup";
 
 import PrivateRoute from "./routes/PrivateRoutes";
 import PublicRoute from "./routes/PublicRoutes";
+import VerifiedRoutes from "./routes/VerifiedRoutes";
 
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import MockInterviewLayout from "./components/layouts/MockInterviewLayout";
@@ -30,10 +31,14 @@ import MockInterviewSelect from "./components/sections/MockInterviewSelect";
 import BottomBar from "./components/ui/BottomBar";
 import Sidebar from "./components/sections/Sidebar";
 
+import VerificationPage from "./components/sections/VerificationPage";
+import { useSelector } from "react-redux";
 function App() {
   useAuthListener();
 
   const location = useLocation();
+   const { user, authLoading } = useSelector((state) => state.auth);
+   console.log(user)
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)]">
@@ -69,6 +74,13 @@ function App() {
               </PublicRoute>
             }
           />
+          <Route element={<VerifiedRoutes />}>
+              <Route
+                  path="/verification"
+                  element={<VerificationPage />}
+              />
+          </Route>
+                
 
           {/* ================= PRIVATE ROUTES ================= */}
 

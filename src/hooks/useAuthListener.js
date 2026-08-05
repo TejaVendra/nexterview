@@ -12,6 +12,7 @@ export const useAuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+       dispatch(setAuthLoading(true));
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
      
@@ -24,7 +25,7 @@ export const useAuthListener = () => {
       }
 
       const token = await user.getIdToken();
-      window.localStorage.setItem("token",token)
+      localStorage.setItem("token",token)
       console.log(token)
  
       dispatch(

@@ -15,6 +15,10 @@ function PrivateRoute() {
     return <Navigate to="/login" replace />;
   }
 
+   if (!user.emailVerified) {
+        return <Navigate to="/verification" replace />;
+    }
+
   return <Outlet />;
 }
 
