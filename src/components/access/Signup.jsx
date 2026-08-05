@@ -177,7 +177,7 @@ export const Signup = () => {
 
         if (value.trim()) {
             if (password && value !== password) {
-                setConfirmPasswordError("Passwords do not match");
+            
                 setFullPasswordError("Passwords do not match");
             } else {
                 setConfirmPasswordError("");
@@ -315,14 +315,14 @@ export const Signup = () => {
     };
 
     return (
-        <section className='min-h-screen bg-white/50 p-5 rounded-b-[150px] shadow-2xl'>
+        <section className='min-h-screen bg-white/50 pt-20 p-4 md:pt-5  md:rounded-b-[150px] shadow-2xl'>
             <div className="flex justify-center items-center min-h-screen font-rubik">
                 <div className="w-sm sm:w-lg p-10 bg-white rounded-lg shadow-2xl flex flex-col">
                     <div className="">
                         <h3 className='text-3xl font-semibold'>Sign Up</h3>
                         <p className='text-gray-600'>Create your account to get started.</p>
 
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-5">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-1 pt-5">
                             <div className="flex flex-col">
                                 <label htmlFor="username">Username</label>
                                 <input 
@@ -341,7 +341,7 @@ export const Signup = () => {
                                 )}
                             </div>
 
-                            <div className="flex flex-col">
+                            <div className="flex flex-col pt-4">
                                 <label htmlFor="email">Email</label>
                                 <input 
                                     value={email} 
@@ -359,7 +359,7 @@ export const Signup = () => {
                                 )}
                             </div>
 
-                            <div className="flex flex-col md:flex-row gap-4">
+                            <div className="flex flex-col md:flex-row gap-4 pt-4">
                                 <div className="flex flex-col flex-1">
                                     <label htmlFor="password">Password</label>
                                     <div className="relative w-full">
@@ -385,20 +385,10 @@ export const Signup = () => {
                                             />
                                         )}
                                     </div>
-                                    {passwordError && touchedFields.password && (
-                                        <div className="flex justify-left items-center text-red-600 text-sm mt-1">
-                                            <IoMdInformationCircleOutline />
-                                            <p className='ml-1'>{passwordError}</p>
-                                        </div>
-                                    )}
-                                    {!passwordError && password && touchedFields.password && (
-                                        <div className="flex justify-left items-center text-green-600 text-sm mt-1">
-                                            <p>✓ Password meets requirements</p>
-                                        </div>
-                                    )}
+                                  
                                 </div>
 
-                                <div className="flex flex-col flex-1">
+                                <div className="flex flex-col flex-1 ">
                                     <label htmlFor="confirmpassword">Confirm Password</label>
                                     <div className="relative w-full">
                                         <input
@@ -423,14 +413,31 @@ export const Signup = () => {
                                             />
                                         )}
                                     </div>
-                                    {confirmPasswordError && touchedFields.confirmPassword && (
+
+                                  
+                                </div>
+                            </div>
+
+                            <div className="">
+                                  {passwordError && touchedFields.password && (
+                                        <div className="flex justify-left items-center text-red-600 text-sm mt-1">
+                                            <IoMdInformationCircleOutline />
+                                            <p className='ml-1'>{passwordError}</p>
+                                        </div>
+                                    )}
+                                    {!passwordError && password && touchedFields.password && (
+                                        <div className="flex justify-left items-center text-green-600 text-sm mt-1">
+                                            <p>✓ Password meets requirements</p>
+                                        </div>
+                                    )}
+                                      {confirmPasswordError && touchedFields.confirmPassword && (
                                         <div className="flex justify-left items-center text-red-600 text-sm mt-1">
                                             <IoMdInformationCircleOutline />
                                             <p className='ml-1'>{confirmPasswordError}</p>
                                         </div>
                                     )}
-                                </div>
                             </div>
+
 
                             <div className="space-y-1">
                                 {FullPasswordError && (
@@ -451,6 +458,17 @@ export const Signup = () => {
                                         <p className=''>{verificationError}</p>
                                     </div>
                                 )}
+                            </div>
+                          <div className="text-sm text-gray-600">
+                            <p className="font-medium mb-1">Password must contain:</p>
+
+                            <ul className="list-disc list-inside space-y-1">
+                                <li>At least one lowercase letter (a-z)</li>
+                                <li>At least one uppercase letter (A-Z)</li>
+                                <li>At least one number (0-9)</li>
+                                <li>At least one special character (!@#$%^&* etc.)</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
                             </div>
 
                             <div className="flex flex-col pt-3">

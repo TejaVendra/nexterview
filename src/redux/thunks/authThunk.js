@@ -1,4 +1,4 @@
-import { signInWithPopup } from "firebase/auth";
+import { sendEmailVerification, signInWithPopup } from "firebase/auth";
 import { auth } from "../../database/firebase";
 import { provider } from "../../database/firebase";
 import axiosInstance from "../../axios/axiosInstance";
@@ -34,6 +34,8 @@ export const emailAndPasswordSignUp = createAsyncThunk(
         password
       );
 
+     
+
       const idToken = await result.user.getIdToken();
 
       const response = await axiosInstance.post(
@@ -42,6 +44,7 @@ export const emailAndPasswordSignUp = createAsyncThunk(
           idToken,
         }
       );
+       await sendEmailVerification(auth);
 
       return response.data;
     } catch (error) {

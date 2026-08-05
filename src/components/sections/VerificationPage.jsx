@@ -2,9 +2,15 @@ import React from "react";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
+import { deleteUser } from "firebase/auth";
+import { auth } from "../../database/firebase";
+import { sendEmailVerification } from "firebase/auth";
 function VerificationPage() {
   const navigate = useNavigate();
+
+  const handleDelete = async()=>{
+    await deleteUser(auth.currentUser);
+  }
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -45,10 +51,17 @@ function VerificationPage() {
 
         <div className="mt-8 flex flex-col gap-3">
           <button
-            onClick={() => navigate("/login")}
+            onClick={handleDelete}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
           >
-            Go to Login
+            Use other account
+          </button>
+
+          <button
+            onClick={() => sendEmailVerification(auth)}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
+          >
+            Send Again
           </button>
 
           <button
