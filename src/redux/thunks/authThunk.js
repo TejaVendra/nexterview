@@ -3,7 +3,7 @@ import { auth } from "../../database/firebase";
 import { provider } from "../../database/firebase";
 import axiosInstance from "../../axios/axiosInstance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword  , signInWithEmailAndPassword} from "firebase/auth";
 
 export const googleSignUp = createAsyncThunk(
     "auth/googleSignUp",
@@ -55,3 +55,39 @@ export const emailAndPasswordSignUp = createAsyncThunk(
     }
   }
 );
+
+
+export const emailAndPasswordSignIn = createAsyncThunk(
+  "auth/emailAndPasswordSignIn",
+  async({email,password},thunkAPI) => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if(!result){
+        return thunkAPI.rejectWithValue("Login failed...");
+      }
+
+      const idToken = await result.user.getIdToken();
+
+      const response = await axiosInstance.post(
+        "/auth/authenticate",
+        {
+          idToken,
+        }
+      );
+      return response.data;
+      
+    } catch (error) {
+      if(error.code == "auth/invalid-credential"){
+        return thunkAPI.rejectWithValue("Invalid email or password");
+      }
+
+      return thunkAPI.rejectWithValue(error.message);
+      
+    }
+  }
+)

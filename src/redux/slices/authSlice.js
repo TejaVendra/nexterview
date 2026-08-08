@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { googleSignUp } from "../thunks/authThunk.js";
-import { emailAndPasswordSignUp } from "../thunks/authThunk.js";
-
+import {
+  emailAndPasswordSignIn,
+  emailAndPasswordSignUp,
+  googleSignUp,
+} from "../thunks/authThunk.js";
 
 const authSlice = createSlice({
   name: "auth",
@@ -47,7 +49,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ================= EMAIL =================
+      // ================= EMAIL SIGN UP =================
 
       .addCase(emailAndPasswordSignUp.pending, (state) => {
         state.authLoading = true;
@@ -63,6 +65,24 @@ const authSlice = createSlice({
       .addCase(emailAndPasswordSignUp.rejected, (state, action) => {
         state.authLoading = false;
         state.error = action.payload;
+      })
+
+      // ================= EMAIL SIGN IN =================
+
+      .addCase(emailAndPasswordSignIn.pending, (state) => {
+        state.authLoading = true;
+        state.error = null;
+      })
+
+      .addCase(emailAndPasswordSignIn.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+
+      .addCase(emailAndPasswordSignIn.rejected, (state, action) => {
+        state.authLoading = false;
+        state.error = action.payload;
       });
   },
 });
@@ -70,6 +90,7 @@ const authSlice = createSlice({
 export const {
   setUser,
   setAuthLoading,
+  clearError,
 } = authSlice.actions;
 
 export default authSlice.reducer;
