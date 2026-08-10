@@ -33,6 +33,7 @@ import Sidebar from "./components/sections/Sidebar";
 
 import VerificationPage from "./components/sections/VerificationPage";
 import { useSelector } from "react-redux";
+import Profile from "./pages/Profile";
 function App() {
   useAuthListener();
 
@@ -93,22 +94,21 @@ function App() {
               <Route path="/resume-maker" element={<ResumeMaker />} />
 
               <Route path="/portfolio" element={<PortfolioAnalyzer />} />
-              <Route element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile/>}/>
+      
             <Route element={<MockInterviewLayout />}>
-              <Route path="/mock-interview" element={<MockInterview />} />
+                <Route path="/mock-interview" element={<MockInterview />} />
 
-              <Route
-                path="/mock-interview-1"
-                element={<MockInterviewSelect />}
-              />
+                <Route
+                  path="/mock-interview-1"
+                  element={<MockInterviewSelect />}
+                />
+            
             </Route>
-          </Route>
 
               <Route path="/resume-matches" element={<JDMatcher />} />
             </Route>
           </Route>
-
-          {/* Mock Interview Layout */}
 
           
         </Routes>
