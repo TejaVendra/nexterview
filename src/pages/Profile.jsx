@@ -4,10 +4,10 @@ function Profile() {
   console.log("profile page is rendered");
   
   return (
-    <section>
+    <section className=''>
 
         <div className="">
-            
+                
         </div>
 
 
