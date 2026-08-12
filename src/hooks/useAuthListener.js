@@ -9,38 +9,43 @@ import {
 } from "../redux/slices/authSlice";
 
 export const useAuthListener = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-       dispatch(setAuthLoading(true));
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            async (user) => {
+                try {
+                    if (!user) {
+                        localStorage.removeItem("token");
+                        dispatch(setUser(null));
+                        return;
+                    }
 
-     
-      console.log(user)
-           if (!user) {
-        dispatch(setUser(null));
-        dispatch(setAuthLoading(false));
+                    const token = await user.getIdToken();
 
-        return;
-      }
+                    localStorage.setItem("token", token);
 
-      const token = await user.getIdToken();
-      localStorage.setItem("token",token)
-      console.log(token)
- 
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          emailVerified:user.emailVerified,
-        })
-      );
+                    dispatch(
+                        setUser({
+                            uid: user.uid,
+                            email: user.email,
+                            displayName: user.displayName,
+                            photoURL: user.photoURL,
+                            emailVerified: user.emailVerified,
+                        })
+                    );
+                } catch (error) {
+                    console.error("Auth error:", error);
 
-      dispatch(setAuthLoading(false));
-    });
+                    localStorage.removeItem("token");
+                    dispatch(setUser(null));
+                } finally {
+                    dispatch(setAuthLoading(false));
+                }
+            }
+        );
 
-    return unsubscribe;
-  }, [dispatch]);
+        return unsubscribe;
+    }, [dispatch]);
 };

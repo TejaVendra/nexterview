@@ -3,23 +3,23 @@ import { Navigate, Outlet } from "react-router-dom";
 import LoaderAuth from '../components/ui/LoaderAuth'
 
 function PrivateRoute() {
-  const { user, authLoading } = useSelector(
-    (state) => state.auth
-  );
+    const { user, authLoading } = useSelector(
+        (state) => state.auth
+    );
 
-  if (authLoading) {
-    return <LoaderAuth />;
-  }
+    if (authLoading) {
+        return <LoaderAuth />;
+    }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
 
-   if (!user.emailVerified) {
+    if (!user.emailVerified) {
         return <Navigate to="/verification" replace />;
     }
 
-  return <Outlet />;
+    return <Outlet />;
 }
 
 export default PrivateRoute;

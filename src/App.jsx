@@ -14,7 +14,7 @@ import { Signup } from "./components/access/Signup";
 
 import PrivateRoute from "./routes/PrivateRoutes";
 import PublicRoute from "./routes/PublicRoutes";
-import VerifiedRoutes from "./routes/VerifiedRoutes";
+
 
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import MockInterviewLayout from "./components/layouts/MockInterviewLayout";
@@ -75,12 +75,12 @@ function App() {
               </PublicRoute>
             }
           />
-          <Route element={<VerifiedRoutes />}>
-              <Route
-                  path="/verification"
-                  element={<VerificationPage />}
-              />
-          </Route>
+        
+            <Route
+                path="/verification"
+                element={<VerificationPage />}
+            />
+          
                 
 
           {/* ================= PRIVATE ROUTES ================= */}
