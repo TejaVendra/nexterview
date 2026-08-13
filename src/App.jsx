@@ -34,6 +34,7 @@ import Sidebar from "./components/sections/Sidebar";
 import VerificationPage from "./components/sections/VerificationPage";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
+import GlobalLoader from "./components/sections/GlobalLoader";
 function App() {
   useAuthListener();
 
@@ -57,6 +58,9 @@ function App() {
               </PublicRoute>
             }
           />
+          <Route
+          path='/loader'
+          element={<GlobalLoader/>}/>
 
           <Route
             path="/login"
