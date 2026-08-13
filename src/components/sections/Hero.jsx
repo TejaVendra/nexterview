@@ -38,7 +38,7 @@ const Hero = () => {
           before the actual interview.
         </motion.p>
 
-        <div onClick={() => nav('/signup')} className="
+        <div  className="
           mt-8
           flex
           flex-col
@@ -46,8 +46,9 @@ const Hero = () => {
           justify-center
           gap-4
         ">
-          <a 
-            href=""
+          <button 
+          onClick={() => nav('/signup')}
+           
             className="
                  group
                 relative
@@ -62,6 +63,7 @@ const Hero = () => {
                 font-semibold
                 overflow-hidden
                 transition-all
+                cursor-pointer
                 duration-300
                 hover:bg-blue-800
                 border-2 border-white
@@ -89,7 +91,7 @@ const Hero = () => {
             >
                 →
             </span>
-            </a>
+            </button>
 
           <span className="text-gray-600 text-sm md:text-base">
             Start for free. No credit card required.

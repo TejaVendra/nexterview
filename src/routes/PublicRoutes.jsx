@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import LoaderAuth from "../components/ui/LoaderAuth";
+import GlobalLoader from "../components/loaders/GlobalLoader";
 
 const PublicRoute = ({ children }) => {
   const { user, authLoading } = useSelector(
@@ -8,7 +8,7 @@ const PublicRoute = ({ children }) => {
   );
 
   if (authLoading) {
-    return <LoaderAuth/>;
+    return <GlobalLoader/>;
   }
 
   if(!user){

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged} from "firebase/auth";
 
 import { auth } from "../database/firebase";
 import {
@@ -15,6 +15,8 @@ export const useAuthListener = () => {
         const unsubscribe = onAuthStateChanged(
             auth,
             async (user) => {
+              
+                console.log(user);
                 try {
                     if (!user) {
                         localStorage.removeItem("token");

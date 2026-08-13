@@ -34,13 +34,25 @@ import Sidebar from "./components/sections/Sidebar";
 import VerificationPage from "./components/sections/VerificationPage";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
-import GlobalLoader from "./components/sections/GlobalLoader";
-function App() {
-  useAuthListener();
+import GlobalLoader from "./components/loaders/GlobalLoader";
+import VerificationRoute from "./routes/VerificationRoute";
 
-  const location = useLocation();
-   const { user, authLoading } = useSelector((state) => state.auth);
-   console.log(user)
+
+function App() {
+    const location = useLocation();
+
+    useAuthListener(); // calls the firebase authencation. its trigger when refresh the page
+
+    const { user, authLoading } = useSelector((state) => state.auth); // takes the values from the redux store 
+
+  if(authLoading){
+    return <GlobalLoader/>
+  } // checking wheather the user is authenticated or not
+
+
+  // de-bug purpose
+  console.log("Printed from APP.jsx file: ")
+  console.log(user)
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)]">
@@ -80,10 +92,9 @@ function App() {
             }
           />
         
-            <Route
-                path="/verification"
-                element={<VerificationPage />}
-            />
+            <Route element={<VerificationRoute />}>
+          <Route path="/verification" element={<VerificationPage />} />
+        </Route>
           
                 
 

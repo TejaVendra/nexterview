@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import GlobalLoader from "../components/loaders/GlobalLoader";
 
-function PrivateRoute() {
+function VerificationRoute() {
     const { user, authLoading } = useSelector(
         (state) => state.auth
     );
@@ -15,11 +15,11 @@ function PrivateRoute() {
         return <Navigate to="/login" replace />;
     }
 
-    if (!user.emailVerified) {
-        return <Navigate to="/verification" replace />;
+    if (user.emailVerified) {
+        return <Navigate to="/dashboard" replace />;
     }
 
     return <Outlet />;
 }
 
-export default PrivateRoute;
+export default VerificationRoute;

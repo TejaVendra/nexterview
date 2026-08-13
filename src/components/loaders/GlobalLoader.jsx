@@ -7,15 +7,13 @@ function GlobalLoader() {
       className="
         fixed inset-0 z-50
         flex flex-col items-center justify-center gap-4
-        bg-black/95 backdrop-blur-sm
+        bg-white backdrop-blur-sm
         text-blue-500
       "
     >
       {/* Logo Container */}
       <div className="relative w-24 h-24">
-
-    
-
+        
         {/* Logo */}
         <div
           className="
@@ -32,7 +30,7 @@ function GlobalLoader() {
                 relative z-10
                 w-full h-full
                 object-contain
-                brightness-0 invert
+               
             "
           />
         </div>
@@ -42,8 +40,8 @@ function GlobalLoader() {
           className="
             absolute -inset-1
             rounded-full
-            border-2 border-yellow-300
-            opacity-0
+            border-4 border-black
+            opacity-1
             animate-[fade-rotate_2s_ease-in-out_infinite]
           "
           style={{
