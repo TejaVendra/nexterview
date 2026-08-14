@@ -6,7 +6,7 @@ import { auth } from "../database/firebase";
 import {
   setUser,
   setAuthLoading,
-} from "../redux/slices/authSlice";
+} from "../redux/slices/authSlice.js";
 
 export const useAuthListener = () => {
     const dispatch = useDispatch();
@@ -24,18 +24,30 @@ export const useAuthListener = () => {
                         return;
                     }
 
-                    const token = await user.getIdToken();
+                     await user.reload();
+                    const currentUser = auth.currentUser;
 
+                    // 🔥 Check how the user signed in
+                    const isGoogleUser = currentUser.providerData.some(
+                    (provider) => provider.providerId === "google.com"
+                    );
+
+                    // 🔥 For Google users, email is always verified
+                    // But Firebase should already set it to true
+                    const isEmailVerified = isGoogleUser ? true : currentUser.emailVerified;
+
+                    const token = await currentUser.getIdToken(true);
                     localStorage.setItem("token", token);
 
                     dispatch(
-                        setUser({
-                            uid: user.uid,
-                            email: user.email,
-                            displayName: user.displayName,
-                            photoURL: user.photoURL,
-                            emailVerified: user.emailVerified,
-                        })
+                    setUser({
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        displayName: currentUser.displayName,
+                        photoURL: currentUser.photoURL,
+                        emailVerified: isEmailVerified, // Force true for Google
+                        provider: isGoogleUser ? "google" : "email", // Track provider
+                    })
                     );
                 } catch (error) {
                     console.error("Auth error:", error);

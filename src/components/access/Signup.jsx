@@ -198,14 +198,11 @@ export const Signup = () => {
             setVerificationError("");
             
             await dispatch(googleSignUp());
+
             
             if (auth.currentUser) {
                 if (auth.currentUser.emailVerified) {
                     nav('/dashboard');
-                } else {
-                    await auth.currentUser.sendEmailVerification();
-                    setVerificationError("We've sent a verification email to your Google account. Please verify your email to continue.");
-                    setIsSubmitting(false);
                 }
             }
         } catch (error) {

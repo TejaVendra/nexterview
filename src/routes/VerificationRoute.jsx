@@ -15,7 +15,7 @@ function VerificationRoute() {
         return <Navigate to="/login" replace />;
     }
 
-    if (user.emailVerified) {
+    if (user.emailVerified || user.provider === "google") {
         return <Navigate to="/dashboard" replace />;
     }
 

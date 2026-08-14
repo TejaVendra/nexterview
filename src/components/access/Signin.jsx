@@ -195,7 +195,6 @@ export const Signin = () => {
             
             dispatch(googleSignUp(auth,provider));
             
-            
             setIsSubmitting(false);
          
         } catch (error) {

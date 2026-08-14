@@ -15,9 +15,9 @@ function PrivateRoute() {
         return <Navigate to="/login" replace />;
     }
 
-    if (!user.emailVerified) {
-        return <Navigate to="/verification" replace />;
-    }
+     if (!user.emailVerified && user.provider !== "google") {
+            return <Navigate to="/verification" replace />;
+        }
 
     return <Outlet />;
 }
