@@ -5,9 +5,12 @@ import { setOpen } from "../../redux/slices/navBar";
 import { LogOut } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../database/firebase.js";
+import { useNavigate } from "react-router-dom";
 
 function ProfileCard() {
   const dispatch = useDispatch();
+
+  const nav = useNavigate();
 
   const profileRef = useRef(null);
 
@@ -104,6 +107,7 @@ function ProfileCard() {
       >
         <button
           type="button"
+          onClick={() => nav('/profile')}
           className="
             group
             flex
