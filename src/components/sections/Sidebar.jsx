@@ -9,6 +9,8 @@ import {
 import { useSelector } from "react-redux";
 import { setSidebarOpen } from "../../redux/slices/sideBar";
 import { useDispatch } from "react-redux";
+import { signOut } from "firebase/auth";
+import { auth } from "../../database/firebase";
 
 function Sidebar() {
   const location = useLocation();
@@ -338,7 +340,7 @@ function Sidebar() {
               "
             />
 
-            <span className="text-sm font-medium">
+            <span onClick={() => signOut(auth)} className="text-sm font-medium">
               Logout
             </span>
           </button>

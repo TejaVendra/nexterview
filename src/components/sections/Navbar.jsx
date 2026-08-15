@@ -17,7 +17,7 @@ const Navbar = () => {
            
        <Link
         to="/"
-        className="flex items-center shrink-0 transition-transform duration-300 hover:scale-105 pl-7"
+        className="flex items-center shrink-0 transition-transform duration-300 pl-7"
       >
         <img
           className="h-7 w-auto object-contain sm:h-11 md:h-12"
