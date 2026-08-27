@@ -29,6 +29,7 @@ function Sidebar() {
     {
       name: "Mock Interview",
       path: "/mock-interview",
+      activePaths: ["/mock-interview", "/mock-interview-1"],
     },
     {
       name: "Resume Analysis",
@@ -48,9 +49,11 @@ function Sidebar() {
     },
   ];
 
-  const activeIndex = links.findIndex(
-    (link) => location.pathname === link.path
-  );
+const activeIndex = links.findIndex((link) =>
+  link.activePaths
+    ? link.activePaths.includes(location.pathname)
+    : location.pathname === link.path
+);
 
   const indicatorIndex =
     hoveredIndex !== null ? hoveredIndex : activeIndex;

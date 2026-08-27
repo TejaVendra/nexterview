@@ -27,7 +27,7 @@ import PortfolioAnalyzer from "./pages/PortfolioAnalyzer";
 import JDMatcher from "./pages/JDMatcher";
 import ResumeMaker from "./pages/ResumeMaker";
 
-import MockInterviewSelect from "./components/sections/MockInterviewSelect";
+import MockInterviewSelect from "./components/sections/MockInterview2";
 import BottomBar from "./components/ui/BottomBar";
 import Sidebar from "./components/sections/Sidebar";
 
@@ -114,10 +114,7 @@ function App() {
             <Route element={<MockInterviewLayout />}>
                 <Route path="/mock-interview" element={<MockInterview />} />
 
-                <Route
-                  path="/mock-interview-1"
-                  element={<MockInterviewSelect />}
-                />
+             
             
             </Route>
 

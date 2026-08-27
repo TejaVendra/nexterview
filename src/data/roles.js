@@ -60,3 +60,44 @@ export const roles = [
     role: "Site Reliability Engineer (SRE)",
   },
 ];
+
+
+export const options = [
+  {
+    "Interview Type":{
+      interviewTypes
+    }
+  },
+  {
+    "Experience":{
+      experinceTypes
+    }
+  },
+  {
+    "Duration":{
+      durations
+    }
+  }
+]
+
+  const interviewTypes = [
+    "Technical",
+    "Behivour",
+    "HR",
+    "Programming",
+  ];
+
+  const experinceTypes = [
+    "Fresher",
+    "1-2 Years",
+    "2-5 Years",
+    "5+ Years",
+  ];
+
+  const durations=[
+    "5 Minutes",
+    "10 Minutes",
+    "20 Minutes",
+    "45 Minutes",
+
+  ];
