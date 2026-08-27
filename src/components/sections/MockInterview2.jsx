@@ -1,41 +1,31 @@
-
 import React, { useState } from "react";
+import { options } from "../../data/roles.js";
+
+
 function MockInterview2() {
-
-
-  const interviewTypes = [
-    "Technical",
-    "Behivour",
-    "HR",
-    "Programming",
-  ];
-
-  const experinceTypes = [
-    "Fresher",
-    "1-2 Years",
-    "2-5 Years",
-    "5+ Years",
-  ];
-
-  const durations=[
-    "5 Minutes",
-    "10 Minutes",
-    "20 Minutes",
-    "45 Minutes",
-
-  ];
-
+   console.log(options)
   return (
    <div>
             {/* Roles */}
                <div className="mt-12">
-                 <div className="flex items-center justify-between mb-6">
-                    <h3>Inteview Type</h3>
-                 </div>
-       
-                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                  
-                 </div>
+                   {
+                    options.map((option,index) => (
+                     <div key={index} className="p-2">
+                         <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-semibold">{option.title}</h3>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                            {
+                              option.types.map((type,index) =>(
+                                 <button key={index}
+                                 className="bg-white p-5 rounded-2xl border border-gray-200 hover:border-green-600 cursor-pointer  transition-all duration-300 hover:-translate-y-1 active:scale-95"
+                                 >{type}</button>
+                              ))
+                            }
+                        </div>
+                     </div>
+                    ))
+                   }
                </div>
        
                {/* Continue */}

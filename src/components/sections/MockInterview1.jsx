@@ -24,17 +24,13 @@ function MockInterview1() {
                     <button
                       key={role.id}
                       onClick={() => setSelectedRole(role.id)}
-                      className={`group relative rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 ${
+                      className={`group relative rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:scale-95 ${
                         isSelected
                           ? "border-cyan-500 bg-cyan-500 text-white shadow-xl"
                           : "border-gray-200 bg-white hover:border-cyan-300 hover:shadow-lg"
                       }`}
                     >
-                      {isSelected && (
-                        <div className="absolute hidden lg:block right-4 top-4 h-6 w-6 items-center justify-center rounded-full bg-white text-cyan-600 font-bold">
-                          ✓
-                        </div>
-                      )}
+                    
     
                       <p className="font-semibold">{role.role}</p>
                     </button>

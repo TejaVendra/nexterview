@@ -61,25 +61,6 @@ export const roles = [
   },
 ];
 
-
-export const options = [
-  {
-    "Interview Type":{
-      interviewTypes
-    }
-  },
-  {
-    "Experience":{
-      experinceTypes
-    }
-  },
-  {
-    "Duration":{
-      durations
-    }
-  }
-]
-
   const interviewTypes = [
     "Technical",
     "Behivour",
@@ -101,3 +82,21 @@ export const options = [
     "45 Minutes",
 
   ];
+
+export const options = [
+  {
+    "title":"Interview Type",
+    "types": interviewTypes
+    
+  },
+  {
+    "title":"Experience",
+     "types": experinceTypes
+    
+  },
+  {
+    "title":"Duration",
+      "types":durations
+  }
+]
+

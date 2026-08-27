@@ -23,7 +23,7 @@ function MockInterview() {
           </p>
         </div>
 
-        {/*<MockInterview1/>*/}
+        <MockInterview1/>
         <MockInterview2/>
 
        
