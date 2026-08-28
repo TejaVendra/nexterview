@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { roles } from "../../data/roles.js";
+import { useDispatch }  from 'react-redux'
+import { useSelector } from "react-redux";
+import { setSelectedRole , setIsContinue1 } from "../../redux/slices/mockInterview.js";
+
 function MockInterview1() {
-      const [selectedRole, setSelectedRole] = useState("");
+    const dispatch = useDispatch();
+    const { selectedRole } = useSelector((state) => state.mockInterview)
+    console.log(selectedRole);
+      
   return (
      <div>
          {/* Roles */}
@@ -18,12 +25,12 @@ function MockInterview1() {
     
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {roles.map((role) => {
-                  const isSelected = selectedRole === role.id;
+                  const isSelected = selectedRole === role.role;
     
                   return (
                     <button
                       key={role.id}
-                      onClick={() => setSelectedRole(role.id)}
+                      onClick={() => dispatch(setSelectedRole(role.role))}
                       className={`group relative rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:scale-95 ${
                         isSelected
                           ? "border-cyan-500 bg-cyan-500 text-white shadow-xl"
@@ -48,6 +55,7 @@ function MockInterview1() {
                     ? "bg-black/90 hover:bg-black active:scale-95 shadow-lg cursor-pointer"
                     : "bg-gray-300 cursor-not-allowed"
                 }`}
+                onClick={() => dispatch(setIsContinue1(true))}
               >
                 Continue
               </button>

@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import PageTransition from "../components/layouts/PageTransition";
 import MockInterview1 from "../components/sections/mockInterview1";
 import MockInterview2 from "../components/sections/MockInterview2";
+import { useSelector } from "react-redux";
 
 function MockInterview() {
 
+  const { selectedRole , isContinue1 } = useSelector((state) => state.mockInterview);
+ console.log(isContinue1)
 
   return (
     <PageTransition>
@@ -23,8 +26,7 @@ function MockInterview() {
           </p>
         </div>
 
-        <MockInterview1/>
-        <MockInterview2/>
+        {selectedRole && isContinue1 ? <MockInterview2/> : <MockInterview1/>}
 
        
       </div>

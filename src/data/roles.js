@@ -85,7 +85,7 @@ export const roles = [
 
 export const options = [
   {
-    "title":"Interview Type",
+    "title":"Select Round",
     "types": interviewTypes
     
   },
