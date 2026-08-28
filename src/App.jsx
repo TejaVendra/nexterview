@@ -27,9 +27,7 @@ import PortfolioAnalyzer from "./pages/PortfolioAnalyzer";
 import JDMatcher from "./pages/JDMatcher";
 import ResumeMaker from "./pages/ResumeMaker";
 
-import MockInterviewSelect from "./components/sections/MockInterview2";
-import BottomBar from "./components/ui/BottomBar";
-import Sidebar from "./components/sections/Sidebar";
+
 
 import VerificationPage from "./components/sections/VerificationPage";
 import { useSelector } from "react-redux";
