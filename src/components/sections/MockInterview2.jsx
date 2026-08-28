@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import {  useState } from "react";
 import { options } from "../../data/roles.js";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import { setIsContinue1 , setIsLoading1} from "../../redux/slices/mockInterview.js";
-import { useDispatch } from "react-redux";
+import { setIsContinue1 , setSelectedOptions } from "../../redux/slices/mockInterview.js";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function MockInterview2() {
-  const [selectedOptions, setSelectedOptions] = useState({});
+
   const dispatch = useDispatch();
-
-  dispatch(setIsLoading1());
-
-
-
+  
+  const { selectedOptions} = useSelector((state) => state.mockInterview);
+  console.log(selectedOptions)
 
   const isComplete = options.every(
   option => selectedOptions[option.title]
@@ -21,7 +19,7 @@ function MockInterview2() {
   return (
     <div>
       {/* Roles */}
-      <div className="mt-12">
+      <div className="mt-12 ">
              <button
                   className="
                     h-12 w-12 rounded-full
@@ -62,12 +60,11 @@ function MockInterview2() {
                   <button
                     key={index}
                     onClick={() => {
-                      setSelectedOptions((prev) => ({
-                        ...prev,
-                        [option.title]: type,
-                      }));
-                    }}
-                    className={`
+                      dispatch(setSelectedOptions({
+                          category: option.title,
+                          value: type,
+                        }))}}
+                      className={`
                       p-5 rounded-2xl border
                       cursor-pointer
                       transition-all duration-300

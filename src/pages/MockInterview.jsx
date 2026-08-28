@@ -3,6 +3,7 @@ import PageTransition from "../components/layouts/PageTransition";
 import MockInterview1 from "../components/sections/mockInterview1";
 import MockInterview2 from "../components/sections/MockInterview2";
 import { useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
 
 function MockInterview() {
 
@@ -26,7 +27,29 @@ function MockInterview() {
           </p>
         </div>
 
-        {selectedRole && isContinue1 ? <MockInterview2/> : <MockInterview1/>}
+        <AnimatePresence mode="wait">
+            {selectedRole && isContinue1 ? (
+              <motion.div
+                key="interview2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+              >
+                <MockInterview2 />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="interview1"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+              >
+                <MockInterview1 />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
        
       </div>
