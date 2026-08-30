@@ -37,6 +37,7 @@ import VerificationRoute from "./routes/VerificationRoute";
 
 
 function App() {
+  
     const location = useLocation();
 
     useAuthListener(); // calls the firebase authencation. its trigger when refresh the page

@@ -26,7 +26,7 @@ export const useAuthListener = () => {
 
                      await user.reload();
                     const currentUser = auth.currentUser;
-
+                 
                     // 🔥 Check how the user signed in
                     const isGoogleUser = currentUser.providerData.some(
                     (provider) => provider.providerId === "google.com"
