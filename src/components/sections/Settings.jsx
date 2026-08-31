@@ -1,11 +1,11 @@
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 function Settings() {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
+    <div className="w-full max-w-4xl mx-auto pt-6">
       {/* Header */}
       <div className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-900">

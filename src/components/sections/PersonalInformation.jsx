@@ -1,5 +1,5 @@
-
 import { IoCameraOutline } from "react-icons/io5";
+
 
 function PersonalInformation() {
   return (
@@ -13,7 +13,7 @@ function PersonalInformation() {
           Manage your personal information and profile details.
         </p>
       </div>
-
+ 
    
       <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
         <div className="flex flex-col md:flex-row">
