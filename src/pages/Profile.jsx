@@ -22,7 +22,7 @@ function Profile() {
 
                <div className="relative flex w-[430px] bg-gray-100 p-1 rounded-xl shadow">
 
-                        {/* Sliding background */}
+                        {/* Sliding background */} 
                         <div
                           className={`absolute top-0 bottom-0 left-0 right-0
                             w-[calc(50%-2px)]
