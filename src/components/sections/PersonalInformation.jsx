@@ -1,7 +1,9 @@
 import { IoCameraOutline } from "react-icons/io5";
-
+import { useSelector } from "react-redux";
 
 function PersonalInformation() {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user)
   return (
     <div className="w-full max-w-5xl mx-auto pt-6">
    
@@ -39,7 +41,7 @@ function PersonalInformation() {
             </div>
 
             <h3 className="mt-5 text-lg font-semibold text-gray-900">
-              Teja
+              {user?.displayName || "User"}
             </h3>
 
             <p className="mt-1 text-sm text-gray-500">
@@ -66,7 +68,7 @@ function PersonalInformation() {
 
                 <input
                   type="text"
-                  placeholder="Enter your username"
+                  value={user?.displayName || "User"}
                   className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
                 />
               </div>
@@ -80,8 +82,8 @@ function PersonalInformation() {
                 <input
                  disabled
                   type="email"
-                  placeholder="Enter your email"
-                  className="w-full rounded-lg cursor-not-allowed border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                  value={user?.email || "example@gmail.com"}
+                  className="w-full rounded-lg cursor-not-allowed border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-gray-500 outline-none "
                 />
               </div>
 
@@ -93,7 +95,7 @@ function PersonalInformation() {
 
                 <input
                   type="text"
-                  placeholder="Google"
+                  value={user?.provider || "Not found"}
                   disabled
                   className="w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-gray-500 outline-none"
                 />
@@ -105,12 +107,30 @@ function PersonalInformation() {
                   Account Status
                 </label>
 
+                
                 <div className="flex h-[46px] items-center">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700">
-                    <span className="h-2 w-2 rounded-full bg-green-500" />
-                    Verified
-                  </span>
+                  {user?.emailVerified ? (
+                    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-sm font-medium text-emerald-700 shadow-sm">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                      </span>
+
+                      <span>Verified</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-sm font-medium text-red-700 shadow-sm">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-60" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+                      </span>
+
+                      <span>Not Verified</span>
+                    </div>
+                  )}
                 </div>
+
+
               </div>
             </div>
 
@@ -127,6 +147,7 @@ function PersonalInformation() {
               </button>
 
               <button
+              disabled
                 type="button"
                 className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >

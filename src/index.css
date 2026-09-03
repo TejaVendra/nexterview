@@ -5,6 +5,7 @@
 @theme {
   --font-roboto: "Roboto Slab", serif;
   --font-rubik: "Rubik", sans-serif;
+  
 }
 
 @keyframes scroll-left {

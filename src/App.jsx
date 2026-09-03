@@ -35,6 +35,7 @@ import Profile from "./pages/Profile";
 import GlobalLoader from "./components/loaders/GlobalLoader";
 import VerificationRoute from "./routes/VerificationRoute";
 
+import { ToastContainer } from "react-toastify";
 
 function App() {
   
@@ -126,6 +127,7 @@ function App() {
       </AnimatePresence>
 
       <Footer />
+      <ToastContainer/>
     </div>
   );
 }
