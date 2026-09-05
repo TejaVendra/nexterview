@@ -41,7 +41,7 @@ function App() {
   
     const location = useLocation();
 
-    useAuthListener(); // calls the firebase authencation. its trigger when refresh the page
+    
 
     const { user, authLoading } = useSelector((state) => state.auth); // takes the values from the redux store 
 

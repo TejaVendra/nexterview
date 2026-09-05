@@ -40,6 +40,7 @@ const authSlice = createSlice({
 
       .addCase(googleSignUp.fulfilled, (state, action) => {
         state.authLoading = false;
+        
         state.user = action.payload.user;
         state.error = null;
       })

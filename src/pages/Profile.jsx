@@ -20,49 +20,81 @@ function Profile() {
                </div>
     
 
-               <div className="relative flex w-[430px] bg-gray-100 p-1 rounded-xl shadow">
+            
+          <div className="relative flex w-full max-w-[430px] min-w-0 rounded-4xl bg-gray-100 p-1 shadow-sm">
+            
+            {/* Sliding background */}
+            <div
+              className={`
+                absolute inset-y-1 left-1
+                w-[calc(50%-4px)]
+                rounded-4xl
+                bg-white/70 backdrop-blur-sm
+                shadow-sm
+                transition-transform duration-300 ease-in-out
+                ${toggle ? "translate-x-full" : "translate-x-0"}
+              `}
+            />
 
-                        {/* Sliding background */} 
-                        <div
-                          className={`absolute top-0 bottom-0 left-0 right-0
-                            w-[calc(50%-2px)]
-                            rounded-lg bg-white/40 backdrop-blur-md shadow-sm
-                            transition-transform duration-300 ease-in-out
-                            ${toggle ? "translate-x-[calc(100%+4px)]" : "translate-x-0"}
-                          `}
-                        />
+            {/* Personal Information */}
+            <button
+              onClick={() => setToggle(false)}
+              className={`
+                relative z-10
+                flex min-w-0 flex-1
+                items-center justify-center
+                gap-1.5 sm:gap-2
+                rounded-4xl
+                px-2 sm:px-4
+                py-2.5
+                text-sm sm:text-base
+                font-semibold
+                transition-colors duration-300
+                ${
+                  !toggle
+                    ? "text-purple-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
+            >
+              <FaUser className="shrink-0" size={16} />
 
-                        {/* Personal Information */}
-                        <button
-                          onClick={() => setToggle(false)}
-                          className={`relative z-10 w-1/2
-                            flex items-center justify-center gap-2
-                            px-5 
-                            text-base font-semibold rounded-lg
-                            transition-colors duration-300
-                            ${!toggle ? "text-purple-600" : "text-gray-500"}
-                          `}
-                        >
-                          <FaUser size={17} />
-                          <span>Personal Information</span>
-                        </button>
+              <span className="truncate">
+                <span className="hidden xs:inline">Personal Information</span>
+                <span className="xs:hidden">Personal</span>
+              </span>
+            </button>
 
-                        {/* Settings */}
-                        <button
-                          onClick={() => setToggle(true)}
-                          className={`relative z-10 w-1/2
-                            flex items-center justify-center gap-2
-                            px-5 
-                            text-base font-semibold rounded-lg
-                            transition-colors duration-300
-                            ${toggle ? "text-purple-600" : "text-gray-500"}
-                          `}
-                        >
-                          <CiSettings size={19} />
-                          <span>Settings</span>
-                        </button>
+            {/* Settings */}
+            <button
+              onClick={() => setToggle(true)}
+              className={`
+                relative z-10
+                flex min-w-0 flex-1
+                items-center justify-center
+                gap-1.5 sm:gap-2
+                rounded-4xl
+                px-2 sm:px-4
+                py-2.5
+                text-sm sm:text-base
+                font-semibold
+                transition-colors duration-300
+                ${
+                  toggle
+                    ? "text-purple-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
+            >
+              <CiSettings className="shrink-0" size={19} />
 
-                      </div>
+              <span className="truncate">
+                Settings
+              </span>
+            </button>
+          </div>
+
+
                {/* renders the compoenent based on selection */}
 
                <AnimatePresence mode="wait">

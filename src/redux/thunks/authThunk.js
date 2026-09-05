@@ -5,24 +5,37 @@ import axiosInstance from "../../axios/axiosInstance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createUserWithEmailAndPassword  , signInWithEmailAndPassword} from "firebase/auth";
 
+
 export const googleSignUp = createAsyncThunk(
-    "auth/googleSignUp",
-    async (_, thunkAPI) => {
+  "auth/googleSignUp",
+  async (_, thunkAPI) => {
+    try {
+      const result = await signInWithPopup(auth, provider);
 
-        const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
 
-        const idToken = await result.user.getIdToken();
+      const response = await axiosInstance.post(
+        "/auth/authenticate",
+        {
+          idToken,
+        }
+      );
 
-        const response = await axiosInstance.post(
-            "/auth/authenticate",
-            {
-                idToken
-            }
-        );
+      localStorage.setItem(
+        "refresh_token",
+        response.data.refreshToken
+      );
 
-        return response.data;
+      return response.data;
+
+    } catch (error) {
+      localStorage.removeItem("refresh_token");
+
+      return thunkAPI.rejectWithValue(error.message);
     }
+  }
 );
+
 
 export const emailAndPasswordSignUp = createAsyncThunk(
   "auth/emailAndPasswordSignUp",
@@ -46,10 +59,15 @@ export const emailAndPasswordSignUp = createAsyncThunk(
         }
       );
 
+       localStorage.setItem("refresh_token",response.data.refreshToken);
+
+
+
       return response.data;
     } catch (error) {
       console.log(error.code);
       console.log(error.message);
+      localStorage.removeItem("refresh_token");
 
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -79,9 +97,11 @@ export const emailAndPasswordSignIn = createAsyncThunk(
           idToken,
         }
       );
+       localStorage.setItem("refresh_token",response.data.refreshToken);
       return response.data;
       
     } catch (error) {
+       localStorage.removeItem("refresh_token");
       if(error.code == "auth/invalid-credential"){
         return thunkAPI.rejectWithValue("Invalid email or password");
       }

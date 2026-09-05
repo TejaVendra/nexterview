@@ -1,8 +1,16 @@
+import { useEffect } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-
+import { useProfile } from "../../querystack/queries/profileQuery";
 function PersonalInformation() {
   const user = useSelector((state) => state.auth.user);
+
+ if(user) {
+  const{ data } = useProfile(user?.email);
+  console.log(data)
+ }
+
+      
   console.log(user)
   return (
     <div className="w-full max-w-5xl mx-auto pt-6">
