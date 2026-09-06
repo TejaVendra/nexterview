@@ -1,8 +1,16 @@
 
 import { useState } from "react";
+import { useDeleteUser } from "../../querystack/queries/profileQuery";
+import LocalLoader from "../loaders/LocalLoader";
 
 function Settings() {
   const [accepted, setAccepted] = useState(false);
+
+  const{ mutate,isPending } = useDeleteUser();
+
+  const handleDeleteUser = () =>{
+     mutate();
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto pt-6">
@@ -89,10 +97,11 @@ function Settings() {
           <div className="mt-6 flex justify-end">
             <button
               type="button"
-              disabled={!accepted}
+              onClick={handleDeleteUser}
+              disabled={!accepted || isPending}
               className="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Delete Account
+              {isPending ? <div className="flex gap-1.5"><LocalLoader/> <span className="hidden md:block">Deleting...</span></div>: "Delete Account"}
             </button>
           </div>
         </div>

@@ -12,9 +12,11 @@ export const uploadProfile = async (image) =>{
 
         const { data } = await axiosInstance.get('/auth/user/get-signature');
 
-        const formdata  = new FormData();
+        console.log(data);
 
-        formdata.append("file",image);
+        const formData  = new FormData();
+
+        formData.append("file",image);
         formData.append("api_key", data.apiKey);
         formData.append("timestamp", data.timestamp);
         formData.append("signature", data.signature);
@@ -25,15 +27,17 @@ export const uploadProfile = async (image) =>{
             formData
         );
 
+        console.log(response);
+
         const imageUrl = response.data.secure_url;
         const public_id = response.data.public_id;
 
-        await axiosInstance.post('/auth/user/update/profile',{
-            photoUrl : imageUrl,
+        const backendResponse = await axiosInstance.post('/auth/user/update/profile',{
+            photoURL : imageUrl,
             public_id : public_id
         });
 
-        toast.success("Profile picture uploaded successfully");
+        return backendResponse.data;
         
       } catch (error) {
 

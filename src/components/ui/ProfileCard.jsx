@@ -6,6 +6,7 @@ import { LogOut } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../database/firebase.js";
 import { useNavigate } from "react-router-dom";
+import { useProfile } from "../../querystack/queries/profileQuery.js";
 
 function ProfileCard() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function ProfileCard() {
 
   const isOpen = useSelector((state) => state.navbar.isOpen);
 
-  const { user } = useSelector((state) => state.auth);
+ const {data:user,isLoading} = useProfile();
   
   const handleOpen = () => {
     dispatch(setOpen());

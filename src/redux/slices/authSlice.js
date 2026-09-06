@@ -110,6 +110,7 @@ export const {
   setUser,
   setAuthLoading,
   clearError,
+  
 } = authSlice.actions;
 
 export default authSlice.reducer;

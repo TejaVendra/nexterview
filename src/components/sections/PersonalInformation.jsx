@@ -1,17 +1,37 @@
-import { useEffect } from "react";
 import { IoCameraOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
 import { useProfile } from "../../querystack/queries/profileQuery";
+import LocalLoader from "../loaders/LocalLoader";
+import { useUpdateName } from "../../querystack/queries/profileQuery.js";
+import { useState } from "react";
+import ProfilePic from "../ui/ProfilePic.jsx";
+
+import { useUpdateProfile } from "../../querystack/queries/profileQuery";
+
 function PersonalInformation() {
-  const user = useSelector((state) => state.auth.user);
 
- if(user) {
-  const{ data } = useProfile(user?.email);
-  console.log(data)
- }
+  const{ data:user , isLoading } = useProfile();
+ 
+  const[userName,setUsername] = useState(user?.name || "User");
+  const[showProfilePic,setShowProfilePic] = useState(false);
 
-      
-  console.log(user)
+  const {mutate,isPending} = useUpdateName();
+  const {mutate:uploadPic , isPending:isUploading} = useUpdateProfile();
+
+  const handleUpdateName = () =>{
+      mutate(userName);
+  }
+
+  const handleUpdatePhoto = (e) =>{
+
+    const file = e.target.files[0];
+    if(!file) return;
+    uploadPic(file);
+  }
+
+  if(isLoading){
+    return <LocalLoader size={40} />
+  }
+    
   return (
     <div className="w-full max-w-5xl mx-auto pt-6">
    
@@ -35,13 +55,14 @@ function PersonalInformation() {
             <div className="relative">
               <img
                 className="h-40 w-40 rounded-full object-cover border-4 border-white shadow-md"
-                src="https://imgs.search.brave.com/pekBFfEBfmZ5mpETqCk6h5lVaECe_fHVPT_Je3dixgI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L3ByZW1pdW0tdmVj/dG9yL2J1c2luZXNz/LW1hbi1hdmF0YXIt/cHJvZmlsZV8xMTMz/MjU3LTI0MzEuanBn/P3NlbXQ9YWlzX2h5/YnJpZCZ3PTc0MCZx/PTgw"
+                src={ user?.photoURL || "https://imgs.search.brave.com/pekBFfEBfmZ5mpETqCk6h5lVaECe_fHVPT_Je3dixgI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L3ByZW1pdW0tdmVj/dG9yL2J1c2luZXNz/LW1hbi1hdmF0YXIt/cHJvZmlsZV8xMTMz/MjU3LTI0MzEuanBn/P3NlbXQ9YWlzX2h5/YnJpZCZ3PTc0MCZx/PTgw"}
                 alt="Profile"
               />
 
              
               <button
                 type="button"
+                onClick={() => setShowProfilePic(true)}
                 className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:bg-gray-800"
               >
                 <IoCameraOutline size={20} />
@@ -49,19 +70,29 @@ function PersonalInformation() {
             </div>
 
             <h3 className="mt-5 text-lg font-semibold text-gray-900">
-              {user?.displayName || "User"}
+              {user?.name || "User"}
             </h3>
 
             <p className="mt-1 text-sm text-gray-500">
               Profile Photo
             </p>
 
-            <button
-              type="button"
-              className="mt-4 text-sm font-medium text-blue-600 hover:text-blue-700"
-            >
-              Change photo
-            </button>
+           <div>
+              <input
+                id="upload-photo"
+                type="file"
+                accept="image/*"
+                onChange={handleUpdatePhoto}
+                className="hidden"
+              />
+
+              <label
+                htmlFor="upload-photo"
+                className="mt-4 inline-block cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                Upload Photo
+              </label>
+            </div>
           </div>
 
        
@@ -76,7 +107,8 @@ function PersonalInformation() {
 
                 <input
                   type="text"
-                  value={user?.displayName || "User"}
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={userName}
                   className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
                 />
               </div>
@@ -117,7 +149,7 @@ function PersonalInformation() {
 
                 
                 <div className="flex h-[46px] items-center">
-                  {user?.emailVerified ? (
+                  {user?.isVerified ? (
                     <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-sm font-medium text-emerald-700 shadow-sm">
                       <span className="relative flex h-2.5 w-2.5">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
@@ -138,6 +170,8 @@ function PersonalInformation() {
                   )}
                 </div>
 
+               
+
 
               </div>
             </div>
@@ -147,24 +181,22 @@ function PersonalInformation() {
 
           
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-              >
-                Cancel
-              </button>
+          
 
               <button
-              disabled
+               disabled={isPending || userName === user.name}
+                onClick={handleUpdateName}
                 type="button"
-                className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="rounded-lg disabled:bg-blue-300 disabled:cursor-not-allowed bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
-                Save Changes
+                {isPending ?  <div className="flex gap-1.5"><LocalLoader/> <span className=""> Updating...</span></div> : "Save Changes"}
               </button>
             </div>
           </div>
         </div>
       </div>
+
+       {showProfilePic && <ProfilePic profilePic={user.photoURL} onClick={() => setShowProfilePic(false)}/>}
     </div>
   );
 }
