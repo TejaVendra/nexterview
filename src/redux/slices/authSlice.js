@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  checkAuth,
   emailAndPasswordSignIn,
   emailAndPasswordSignUp,
   googleSignUp,
@@ -84,7 +85,24 @@ const authSlice = createSlice({
       .addCase(emailAndPasswordSignIn.rejected, (state, action) => {
         state.authLoading = false;
         state.error = action.payload;
-      });
+      })
+
+      // --------------- checking auth for every reload or refresh ----------
+      .addCase(checkAuth.pending,(state) => {
+        state.authLoading = true;
+        state.error = null;
+        
+      })
+
+      .addCase(checkAuth.fulfilled,(state,action) =>{
+        state.authLoading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(checkAuth.rejected,(state,action) => {
+        state.authLoading = false;
+        state.error = action.payload;
+      })
   },
 });
 

@@ -10,7 +10,7 @@ export const uploadProfile = async (image) =>{
              return;
         }
 
-        const {data} = await axiosInstance.get('/auth/user/get-signature');
+        const { data } = await axiosInstance.get('/auth/user/get-signature');
 
         const formdata  = new FormData();
 

@@ -26,7 +26,7 @@ const Navbar = () => {
         />
       </Link>
             
-            {user?.emailVerified ? <ProfileCard/> : <GetStarted/> }
+            {user?.isVerified ? <ProfileCard/> : <GetStarted/> }
         </div>
     </nav>
 

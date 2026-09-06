@@ -17,7 +17,7 @@ function ProfileCard() {
   const isOpen = useSelector((state) => state.navbar.isOpen);
 
   const { user } = useSelector((state) => state.auth);
-
+  
   const handleOpen = () => {
     dispatch(setOpen());
   };

@@ -19,7 +19,6 @@ import PublicRoute from "./routes/PublicRoutes";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import MockInterviewLayout from "./components/layouts/MockInterviewLayout";
 
-import { useAuthListener } from "./hooks/useAuthListener";
 
 import MockInterview from "./pages/MockInterview";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
@@ -35,15 +34,27 @@ import Profile from "./pages/Profile";
 import GlobalLoader from "./components/loaders/GlobalLoader";
 import VerificationRoute from "./routes/VerificationRoute";
 
+import { useDispatch } from "react-redux";
+
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { checkAuth } from "./redux/thunks/authThunk";
+
 
 function App() {
   
     const location = useLocation();
 
-    
+    const dispatch = useDispatch();
+
 
     const { user, authLoading } = useSelector((state) => state.auth); // takes the values from the redux store 
+
+    useEffect(() => {
+
+      dispatch(checkAuth());
+
+    },[dispatch]);
 
   if(authLoading){
     return <GlobalLoader/>
