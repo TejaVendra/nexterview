@@ -41,6 +41,9 @@ export const useDeleteUser = () => {
             queryClient.invalidateQueries({
                 queryKey:["profile"]
             })
+            window.localStorage.removeItem("access_token")
+
+            window.location.reload();
         }
     })
 }

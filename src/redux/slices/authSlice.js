@@ -4,6 +4,7 @@ import {
   emailAndPasswordSignIn,
   emailAndPasswordSignUp,
   googleSignUp,
+  syncEmailVerification,
 } from "../thunks/authThunk.js";
 
 const authSlice = createSlice({
@@ -100,6 +101,22 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuth.rejected,(state,action) => {
+        state.authLoading = false;
+        state.error = action.payload;
+      })
+
+       .addCase(syncEmailVerification.pending,(state) => {
+        state.authLoading = true;
+        state.error = null;
+        
+      })
+
+      .addCase(syncEmailVerification.fulfilled,(state,action) =>{
+        state.authLoading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(syncEmailVerification.rejected,(state,action) => {
         state.authLoading = false;
         state.error = action.payload;
       })

@@ -1,6 +1,7 @@
 import { toast } from "react-toastify"
 import axiosInstance from "../axios/axiosInstance.js";
 import axios from "axios";
+import { auth } from "../database/firebase.js";
 
 export const uploadProfile = async (image) =>{
       try {
@@ -52,4 +53,9 @@ export const logout = async() =>{
 
     return response.data;
 
+}
+
+export const verifyAccount = async() =>{
+
+  const response = await axios.post("/auth/user/authenticate");
 }

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { deleteUser } from "firebase/auth";
 import { auth } from "../../database/firebase";
 import { sendEmailVerification } from "firebase/auth";
+import { syncEmailVerification } from "../../redux/thunks/authThunk.js";
+import { useDispatch } from "react-redux";
 import {
   Mail,
   CheckCircle2,
@@ -12,9 +14,17 @@ import {
 } from "lucide-react";
 function VerificationPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleDelete = async()=>{
     await deleteUser(auth.currentUser);
+  }
+
+  const handleVerify = async() =>{
+      console.log('====================================');
+      console.log("clicked");
+      console.log('====================================');
+      dispatch(syncEmailVerification());
   }
 
   return (
@@ -66,7 +76,7 @@ function VerificationPage() {
 
             {/* Refresh Verification */}
             <button
-              onClick={() => window.location.reload()}
+              onClick={handleVerify}
               className="w-full flex items-center cursor-pointer justify-center gap-2 border border-gray-300 bg-white hover:bg-gray-50 hover:border-blue-500 text-gray-700 py-3 rounded-xl font-semibold transition-all duration-300"
             >
               <CheckCircle2 size={18} />

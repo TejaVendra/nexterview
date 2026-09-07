@@ -7,11 +7,16 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../database/firebase.js";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../querystack/queries/profileQuery.js";
+import { useLogout } from "../../querystack/queries/profileQuery.js";
 
 function ProfileCard() {
   const dispatch = useDispatch();
 
   const nav = useNavigate();
+
+
+  const { mutate,isPending} = useLogout();
+
 
   const profileRef = useRef(null);
 
@@ -135,7 +140,7 @@ function ProfileCard() {
 
         <button
           type="button"
-          onClick={() => window.localStorage.removeItem("access_token")}
+          onClick={mutate}
           className="
             group
             flex
