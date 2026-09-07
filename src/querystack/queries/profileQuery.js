@@ -1,7 +1,7 @@
 import { useQuery , useMutation , useQueryClient } from '@tanstack/react-query'
 import { deleteUser, getProfile, updateName } from '../helpers/profileHelpers.js'
 import { toast } from 'react-toastify';
-import { uploadProfile } from '../../api/userAPI.js';
+import { logout, uploadProfile } from '../../api/userAPI.js';
 
 
 
@@ -68,6 +68,24 @@ export const useUpdateProfile = () => {
                 error.response?.data?.message ||
                  error.message || "Image upload failed"
             )
+        }
+    })
+}
+
+export const useLogout = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn:logout,
+
+        onSuccess:(data) =>{
+            window.localStorage.removeItem("access_token");
+            toast.success(data.message || "Logged out successfully");
+
+            queryClient.invalidateQueries({
+                queryKey:["profile"],
+            })
+            window.location.reload();
         }
     })
 }

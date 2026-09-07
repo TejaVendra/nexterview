@@ -9,8 +9,8 @@ import {
 import { useSelector } from "react-redux";
 import { setSidebarOpen } from "../../redux/slices/sideBar";
 import { useDispatch } from "react-redux";
-import { signOut } from "firebase/auth";
-import { auth } from "../../database/firebase";
+import { useLogout } from "../../querystack/queries/profileQuery.js";
+import  GlobalLoader from '../loaders/GlobalLoader.jsx'
 
 function Sidebar() {
   const location = useLocation();
@@ -19,6 +19,14 @@ function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen)
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const { mutate , isPending:isLoggingOut} = useLogout();
+
+  if(isLoggingOut){
+    return <GlobalLoader/>
+  }
+
+
   
 
   const links = [
@@ -343,7 +351,7 @@ const activeIndex = links.findIndex((link) =>
               "
             />
 
-            <span onClick={() => signOut(auth)} className="text-sm font-medium">
+            <span onClick={mutate} className="text-sm font-medium">
               Logout
             </span>
           </button>

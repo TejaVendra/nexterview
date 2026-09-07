@@ -135,7 +135,7 @@ function ProfileCard() {
 
         <button
           type="button"
-          onClick={() => signOut(auth)}
+          onClick={() => window.localStorage.removeItem("access_token")}
           className="
             group
             flex
