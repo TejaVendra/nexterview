@@ -5,9 +5,16 @@ import { useState } from 'react'
 import {AnimatePresence , motion} from 'framer-motion';
 import { CiSettings } from "react-icons/ci";
 import { FaUser } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
+import ProfilePic from '../components/ui/ProfilePic';
+import { useProfile } from '../querystack/queries/profileQuery';
+
 function Profile() {
 
   const[toggle,setToggle] = useState(false);
+  const { showProfilePic} = useSelector((state) => state.profile);
+
+  const {data:user} = useProfile();
 
   
   return (
@@ -124,6 +131,8 @@ function Profile() {
                
             
          </div>
+
+         {showProfilePic && <ProfilePic profilePic={user?.photoURL}  />}
 
     </section>
   )

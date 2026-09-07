@@ -3,19 +3,26 @@ import { useProfile } from "../../querystack/queries/profileQuery";
 import LocalLoader from "../loaders/LocalLoader.jsx";
 import { useUpdateName } from "../../querystack/queries/profileQuery.js";
 import { useState } from "react";
-import ProfilePic from "../ui/ProfilePic.jsx";
+
 import ProfileSkeleton from "../loaders/ProfileSkeleton.jsx";
 import { useUpdateProfile } from "../../querystack/queries/profileQuery";
+import UploadingFile from "../loaders/UploadingFile.jsx";
+import { useSelector} from 'react-redux'
+import { useDispatch } from "react-redux";
+import { setShowProfilePic } from "../../redux/slices/Profile.js";
 
 function PersonalInformation() {
 
   const{ data:user , isLoading } = useProfile();
  
   const[userName,setUsername] = useState(user?.name || "User");
-  const[showProfilePic,setShowProfilePic] = useState(false);
+  const { showProfilePic } = useSelector((state) => state.profile)
 
   const {mutate,isPending} = useUpdateName();
   const {mutate:uploadPic , isPending:isUploading} = useUpdateProfile();
+
+  const dispatch = useDispatch();
+
 
   const handleUpdateName = () =>{
       mutate(userName);
@@ -30,6 +37,9 @@ function PersonalInformation() {
 
   if(isLoading){
     return <ProfileSkeleton/>
+  }
+  if(isUploading){
+    return <UploadingFile/>
   }
     
   return (
@@ -62,7 +72,7 @@ function PersonalInformation() {
              
               <button
                 type="button"
-                onClick={() => setShowProfilePic(true)}
+                onClick={() => dispatch(setShowProfilePic())}
                 className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:bg-gray-800"
               >
                 <IoCameraOutline size={20} />
@@ -196,7 +206,7 @@ function PersonalInformation() {
         </div>
       </div>
 
-       {showProfilePic && <ProfilePic profilePic={user.photoURL} onClick={() => setShowProfilePic(false)}/>}
+    
     </div>
   );
 }
