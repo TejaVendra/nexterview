@@ -1,10 +1,10 @@
 import { IoCameraOutline } from "react-icons/io5";
 import { useProfile } from "../../querystack/queries/profileQuery";
-import LocalLoader from "../loaders/LocalLoader";
+import LocalLoader from "../loaders/LocalLoader.jsx";
 import { useUpdateName } from "../../querystack/queries/profileQuery.js";
 import { useState } from "react";
 import ProfilePic from "../ui/ProfilePic.jsx";
-
+import ProfileSkeleton from "../loaders/ProfileSkeleton.jsx";
 import { useUpdateProfile } from "../../querystack/queries/profileQuery";
 
 function PersonalInformation() {
@@ -29,7 +29,7 @@ function PersonalInformation() {
   }
 
   if(isLoading){
-    return <LocalLoader size={40} />
+    return <ProfileSkeleton/>
   }
     
   return (

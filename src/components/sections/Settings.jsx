@@ -1,7 +1,9 @@
 
 import { useState } from "react";
-import { useDeleteUser } from "../../querystack/queries/profileQuery";
-import LocalLoader from "../loaders/LocalLoader";
+import { useDeleteUser } from "../../querystack/queries/profileQuery.js";
+import LocalLoader from "../loaders/LocalLoader.jsx";
+
+
 
 function Settings() {
   const [accepted, setAccepted] = useState(false);
