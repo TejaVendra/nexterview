@@ -41,6 +41,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./redux/thunks/authThunk";
 
 
+
 function App() {
   
     const location = useLocation();
@@ -93,6 +94,7 @@ function App() {
               </PublicRoute>
             }
           />
+  
 
           <Route
             path="/signup"
