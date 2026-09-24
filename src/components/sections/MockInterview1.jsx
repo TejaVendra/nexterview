@@ -9,7 +9,7 @@ function MockInterview1() {
     const { selectedRole } = useSelector((state) => state.mockInterview)
     console.log(selectedRole);
       
-  return (
+  return ( 
      <div>
          {/* Roles */}
             <div className="mt-12">

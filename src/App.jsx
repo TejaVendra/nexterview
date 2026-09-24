@@ -40,6 +40,8 @@ import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 import { checkAuth } from "./redux/thunks/authThunk";
 
+import InterviewTest from './InterviewTest.jsx'
+import MockInterview3 from "./components/sections/MockInterview3.jsx";
 
 
 function App() {
@@ -50,6 +52,13 @@ function App() {
 
 
     const { user, authLoading } = useSelector((state) => state.auth); // takes the values from the redux store 
+
+    const isInterviewCheckPage =
+        location.pathname.startsWith(
+            "/mock-interview/prepare"
+        );
+
+
 
     useEffect(() => {
 
@@ -104,6 +113,13 @@ function App() {
               </PublicRoute>
             }
           />
+          <Route
+          path="/test"
+          element={
+            <PublicRoute>
+              <InterviewTest/>
+            </PublicRoute>
+          }/>
         
             <Route element={<VerificationRoute />}>
           <Route path="/verification" element={<VerificationPage />} />
@@ -126,6 +142,7 @@ function App() {
       
             <Route element={<MockInterviewLayout />}>
                 <Route path="/mock-interview" element={<MockInterview />} />
+                <Route path="/mock-interview/prepare/:id" element={<MockInterview3/>}/>
 
              
             
@@ -139,7 +156,7 @@ function App() {
         </Routes>
       </AnimatePresence>
 
-      <Footer />
+    { !isInterviewCheckPage &&  <Footer />}
       <ToastContainer/>
     </div>
   );
