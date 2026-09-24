@@ -40,7 +40,6 @@ import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 import { checkAuth } from "./redux/thunks/authThunk";
 
-import InterviewTest from './InterviewTest.jsx'
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 
 
@@ -113,13 +112,7 @@ function App() {
               </PublicRoute>
             }
           />
-          <Route
-          path="/test"
-          element={
-            <PublicRoute>
-              <InterviewTest/>
-            </PublicRoute>
-          }/>
+    
         
             <Route element={<VerificationRoute />}>
           <Route path="/verification" element={<VerificationPage />} />

@@ -18,80 +18,62 @@ const socket = io("http://localhost:3100", {
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 
-
-// COMPONENT
-
-
 function MockInterview3() {
 
     const navigate = useNavigate();
 
-    const { interviewId } = useParams();
+    const { id } = useParams();
+    console.log(id)
 
 
-    // ========================================================
+
     // STATES
-    // ========================================================
 
     // Internet
-    const [internetStatus, setInternetStatus] =
-        useState(navigator.onLine);
+    const [internetStatus, setInternetStatus] = useState(navigator.onLine);
 
 
     // Backend / Socket
-    const [serverStatus, setServerStatus] =
-        useState("checking");
+    const [serverStatus, setServerStatus] = useState("checking");
 
 
     // Microphone
-    const [microphoneStatus, setMicrophoneStatus] =
-        useState("not-checked");
+    const [microphoneStatus, setMicrophoneStatus] = useState("not-checked");
 
-    const [microphoneMessage, setMicrophoneMessage] =
-        useState("");
+    const [microphoneMessage, setMicrophoneMessage] = useState("");
 
 
     // Voice test
-    const [voiceTestStatus, setVoiceTestStatus] =
-        useState("not-started");
+    const [voiceTestStatus, setVoiceTestStatus] = useState("not-started");
 
-    const [transcript, setTranscript] =
-        useState("");
+    const [transcript, setTranscript] =  useState("");
 
-    const [voiceMessage, setVoiceMessage] =
-        useState("");
+    const [voiceMessage, setVoiceMessage] =   useState("");
 
 
     // Starting interview
-    const [starting, setStarting] =
-        useState(false);
+    const [starting, setStarting] = useState(false);
 
 
-    // ========================================================
+
     // REFS
-    // ========================================================
+
 
     // Microphone MediaStream
-    const microphoneStream =
-        useRef(null);
+    const microphoneStream = useRef(null);
 
 
     // SpeechRecognition instance
-    const recognitionRef =
-        useRef(null);
+    const recognitionRef = useRef(null);
 
 
-    // ========================================================
     // INTERNET CONNECTION CHECK
-    // ========================================================
 
     useEffect(() => {
 
         const handleOnline = () => {
 
-            console.log(
-                "Internet connected"
-            );
+            console.log("Internet connected" );
 
             setInternetStatus(true);
         };
@@ -99,44 +81,27 @@ function MockInterview3() {
 
         const handleOffline = () => {
 
-            console.log(
-                "Internet disconnected"
-            );
+            console.log("Internet disconnected" );
 
             setInternetStatus(false);
         };
 
 
-        window.addEventListener(
-            "online",
-            handleOnline
-        );
+        window.addEventListener("online", handleOnline);
 
-        window.addEventListener(
-            "offline",
-            handleOffline
-        );
+        window.addEventListener("offline",handleOffline);
 
 
         return () => {
 
-            window.removeEventListener(
-                "online",
-                handleOnline
-            );
+            window.removeEventListener("online",handleOnline);
 
-            window.removeEventListener(
-                "offline",
-                handleOffline
-            );
+            window.removeEventListener( "offline",handleOffline);
         };
 
     }, []);
 
-
-    // ========================================================
     // SOCKET.IO / BACKEND CONNECTION
-    // ========================================================
 
     useEffect(() => {
 
@@ -147,10 +112,7 @@ function MockInterview3() {
 
         const handleConnect = () => {
 
-            console.log(
-                "Socket connected:",
-                socket.id
-            );
+            console.log("Socket connected:",socket.id );
 
             setServerStatus("connected");
         };
@@ -158,9 +120,7 @@ function MockInterview3() {
 
         const handleDisconnect = () => {
 
-            console.log(
-                "Socket disconnected"
-            );
+            console.log("Socket disconnected");
 
             setServerStatus("disconnected");
         };
@@ -168,10 +128,7 @@ function MockInterview3() {
 
         const handleConnectError = (error) => {
 
-            console.error(
-                "Socket connection error:",
-                error
-            );
+            console.error("Socket connection error:",error);
 
             setServerStatus("error");
         };
@@ -225,9 +182,7 @@ function MockInterview3() {
     }, []);
 
 
-    // ========================================================
     // STOP MICROPHONE
-    // ========================================================
 
     const stopMicrophone = () => {
 
@@ -246,9 +201,8 @@ function MockInterview3() {
     };
 
 
-    // ========================================================
     // STOP SPEECH RECOGNITION
-    // ========================================================
+
 
     const stopSpeechRecognition = () => {
 
@@ -270,9 +224,8 @@ function MockInterview3() {
     };
 
 
-    // ========================================================
     // MICROPHONE CHECK
-    // ========================================================
+  
 
     const checkMicrophone = async () => {
 
@@ -298,49 +251,35 @@ function MockInterview3() {
             );
 
 
-            // ------------------------------------------------
             // Check browser support
-            // ------------------------------------------------
 
-            if (
-                !navigator.mediaDevices ||
-                !navigator.mediaDevices.getUserMedia
-            ) {
+
+            if (!navigator.mediaDevices ||!navigator.mediaDevices.getUserMedia) {
 
                 throw new Error(
                     "Microphone access is not supported by this browser."
                 );
             }
 
-
-            // ------------------------------------------------
             // Stop previous microphone
-            // ------------------------------------------------
+          
 
             stopMicrophone();
 
-
-            // ------------------------------------------------
             // Request microphone
-            // ------------------------------------------------
+           
 
-            const stream =
-                await navigator.mediaDevices.getUserMedia({
-                    audio: true,
-                });
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
 
             // Save stream
-            microphoneStream.current =
-                stream;
+            microphoneStream.current = stream;
 
 
-            // ------------------------------------------------
+          
             // Check audio tracks
-            // ------------------------------------------------
 
-            const audioTracks =
-                stream.getAudioTracks();
+            const audioTracks = stream.getAudioTracks();
 
 
             if (audioTracks.length === 0) {
@@ -351,61 +290,40 @@ function MockInterview3() {
             }
 
 
-            const microphone =
-                audioTracks[0];
+            const microphone = audioTracks[0];
 
 
-            console.log(
-                "Microphone:",
-                microphone.label
-            );
+            console.log("Microphone:",microphone.label);
 
 
-            // ------------------------------------------------
             // Success
-            // ------------------------------------------------
 
-            setMicrophoneStatus(
-                "connected"
-            );
+            setMicrophoneStatus("connected");
 
-            setMicrophoneMessage(
-                `Microphone is ready: ${microphone.label}`
-            );
+            setMicrophoneMessage(`Microphone is ready: ${microphone.label}` );
 
 
         } catch (error) {
 
-            console.error(
-                "Microphone check failed:",
-                error
-            );
+            console.error("Microphone check failed:",error );
 
 
-            setMicrophoneStatus(
-                "error"
-            );
+            setMicrophoneStatus("error");
 
 
-            if (
-                error.name === "NotAllowedError"
-            ) {
+            if (error.name === "NotAllowedError" ) {
 
                 setMicrophoneMessage(
                     "Microphone permission was denied. Please allow microphone access in your browser."
                 );
 
-            } else if (
-                error.name === "NotFoundError"
-            ) {
+            } else if (error.name === "NotFoundError" ) {
 
                 setMicrophoneMessage(
                     "No microphone was found on this device."
                 );
 
-            } else if (
-                error.name === "NotReadableError"
-            ) {
+            } else if (error.name === "NotReadableError") {
 
                 setMicrophoneMessage(
                     "The microphone is already being used by another application."
@@ -413,10 +331,7 @@ function MockInterview3() {
 
             } else {
 
-                setMicrophoneMessage(
-                    error.message ||
-                    "Unable to access microphone."
-                );
+                setMicrophoneMessage(error.message ||"Unable to access microphone." );
             }
 
 
@@ -425,72 +340,52 @@ function MockInterview3() {
     };
 
 
-    // ========================================================
     // TEST VOICE
-    // ========================================================
+
 
     const testVoice = () => {
 
-        // ----------------------------------------------------
         // Check browser support
-        // ----------------------------------------------------
-
+   
         if (!SpeechRecognition) {
 
-            setVoiceTestStatus(
-                "error"
-            );
+            setVoiceTestStatus( "error" );
 
-            setVoiceMessage(
-                "Speech recognition is not supported in this browser. Please use Google Chrome."
-            );
+            setVoiceMessage( "Speech recognition is not supported in this browser. Please use Google Chrome." );
 
             return;
         }
 
-
-        // ----------------------------------------------------
         // Check microphone
-        // ----------------------------------------------------
 
-        if (
-            microphoneStatus !== "connected"
-        ) {
+        if ( microphoneStatus !== "connected") {
 
-            setVoiceTestStatus(
-                "error"
-            );
+            setVoiceTestStatus( "error");
 
-            setVoiceMessage(
-                "Please test your microphone first."
-            );
+            setVoiceMessage("Please test your microphone first.");
 
             return;
         }
 
 
-        // ----------------------------------------------------
         // Stop previous recognition
-        // ----------------------------------------------------
-
+        
         stopSpeechRecognition();
 
 
-        // ----------------------------------------------------
+     
         // Create recognition
-        // ----------------------------------------------------
+       
 
-        const recognition =
-            new SpeechRecognition();
-
-
-        recognitionRef.current =
-            recognition;
+        const recognition = new SpeechRecognition();
 
 
-        // ----------------------------------------------------
+        recognitionRef.current = recognition;
+
+
+     
         // Configuration
-        // ----------------------------------------------------
+     
 
         recognition.continuous = false;
 
@@ -499,40 +394,29 @@ function MockInterview3() {
         recognition.lang = "en-US";
 
 
-        // ----------------------------------------------------
+      
         // Reset UI
-        // ----------------------------------------------------
-
+        
         setTranscript("");
 
-        setVoiceTestStatus(
-            "listening"
-        );
+        setVoiceTestStatus( "listening");
 
-        setVoiceMessage(
-            'Listening... Say: "Hello, this is a microphone test."'
-        );
+        setVoiceMessage('Listening... Say: "Hello, this is a microphone test."');
 
 
-        // ----------------------------------------------------
         // Recognition started
-        // ----------------------------------------------------
+    
 
         recognition.onstart = () => {
 
-            console.log(
-                "Speech recognition started"
-            );
+            console.log("Speech recognition started" );
 
-            setVoiceTestStatus(
-                "listening"
-            );
+            setVoiceTestStatus("listening" );
         };
 
 
-        // ----------------------------------------------------
+     
         // Speech result
-        // ----------------------------------------------------
 
         recognition.onresult = (event) => {
 
@@ -541,138 +425,81 @@ function MockInterview3() {
             let interimTranscript = "";
 
 
-            for (
-                let i = event.resultIndex;
-                i < event.results.length;
-                i++
-            ) {
+            for ( let i = event.resultIndex;i < event.results.length; i++ ) {
 
-                const text =
-                    event.results[i][0]
-                        .transcript;
+                const text = event.results[i][0].transcript;
 
 
-                if (
-                    event.results[i].isFinal
-                ) {
+                if ( event.results[i].isFinal ) {
 
-                    finalTranscript +=
-                        text;
+                    finalTranscript +=text;
 
                 } else {
-
-                    interimTranscript +=
-                        text;
+                     interimTranscript += text;
                 }
             }
 
 
-            const currentTranscript =
-                finalTranscript ||
-                interimTranscript;
+            const currentTranscript = finalTranscript || interimTranscript;
 
 
-            setTranscript(
-                currentTranscript
-            );
+            setTranscript( currentTranscript);
 
 
-            // ------------------------------------------------
             // Final speech received
-            // ------------------------------------------------
+          
+            if (finalTranscript.trim()) {
 
-            if (
-                finalTranscript.trim()
-            ) {
-
-                console.log(
-                    "Detected speech:",
-                    finalTranscript
-                );
+                console.log( "Detected speech:",finalTranscript);
 
 
-                setVoiceTestStatus(
-                    "success"
-                );
+                setVoiceTestStatus("success");
 
-                setVoiceMessage(
-                    "✓ Voice input is working correctly."
-                );
+                setVoiceMessage( "✓ Voice input is working correctly.");
             }
         };
 
 
-        // ----------------------------------------------------
         // Recognition error
-        // ----------------------------------------------------
 
         recognition.onerror = (event) => {
 
-            console.error(
-                "Speech recognition error:",
-                event.error
-            );
+            console.error("Speech recognition error:", event.error);
 
 
-            setVoiceTestStatus(
-                "error"
-            );
+            setVoiceTestStatus("error" );
 
 
-            if (
-                event.error ===
-                "not-allowed"
-            ) {
+            if ( event.error === "not-allowed" ) {
 
-                setVoiceMessage(
-                    "Speech recognition permission was denied."
-                );
+                setVoiceMessage("Speech recognition permission was denied.");
 
-            } else if (
-                event.error ===
-                "no-speech"
-            ) {
+            } else if (event.error ===  "no-speech") {
 
-                setVoiceMessage(
-                    "No speech detected. Please try again."
-                );
+                setVoiceMessage(  "No speech detected. Please try again.");
 
-            } else if (
-                event.error ===
-                "audio-capture"
-            ) {
+            } else if (  event.error ==="audio-capture" ) {
 
-                setVoiceMessage(
-                    "Unable to capture audio from the microphone."
-                );
+                setVoiceMessage( "Unable to capture audio from the microphone.");
 
             } else {
 
-                setVoiceMessage(
-                    `Speech recognition error: ${event.error}`
-                );
+                setVoiceMessage(`Speech recognition error: ${event.error}` );
             }
         };
 
-
-        // ----------------------------------------------------
         // Recognition ended
-        // ----------------------------------------------------
 
         recognition.onend = () => {
 
-            console.log(
-                "Speech recognition ended"
-            );
+            console.log("Speech recognition ended");
 
-            recognitionRef.current =
-                null;
+            recognitionRef.current = null;
         };
 
 
-        // ----------------------------------------------------
+       
         // Start recognition
-        // ----------------------------------------------------
 
         try {
 
@@ -694,16 +521,12 @@ function MockInterview3() {
                 "Unable to start voice test. Please try again."
             );
 
-            recognitionRef.current =
-                null;
+            recognitionRef.current = null;
         }
     };
 
-
-    // ========================================================
     // CLEANUP
-    // ========================================================
-
+ 
     useEffect(() => {
 
         return () => {
@@ -716,9 +539,8 @@ function MockInterview3() {
     }, []);
 
 
-    // ========================================================
     // ALL CHECKS
-    // ========================================================
+
 
     const allChecksPassed =
         internetStatus === true &&
@@ -727,15 +549,12 @@ function MockInterview3() {
         voiceTestStatus === "success";
 
 
-    // ========================================================
     // START INTERVIEW
-    // ========================================================
+
 
     const startInterview = async () => {
 
-        // ----------------------------------------------------
         // Check requirements
-        // ----------------------------------------------------
 
         if (!allChecksPassed) {
 
@@ -743,116 +562,82 @@ function MockInterview3() {
         }
 
 
-        // ----------------------------------------------------
         // Check interview ID
-        // ----------------------------------------------------
+        
 
-        if (!interviewId) {
+        if (!id) {
 
-            console.error(
-                "Interview ID is missing."
-            );
+            console.error( "Interview ID is missing." );
 
             return;
         }
 
-
-        // ----------------------------------------------------
         // Enter fullscreen
-        // ----------------------------------------------------
 
         try {
 
-            if (
-                !document.fullscreenElement
-            ) {
+            if (!document.fullscreenElement) {
 
-                await document
-                    .documentElement
-                    .requestFullscreen();
+                await document.documentElement.requestFullscreen();
             }
 
         } catch (error) {
 
-            console.error(
-                "Fullscreen failed:",
-                error
-            );
+            console.error("Fullscreen failed:", error);
 
             // We don't block the interview
             // if fullscreen is rejected.
         }
 
 
-        // ----------------------------------------------------
         // Stop preparation microphone
-        // ----------------------------------------------------
 
         stopMicrophone();
 
         stopSpeechRecognition();
-
-
-        // ----------------------------------------------------
-        // Start navigation
-        // ----------------------------------------------------
+      
 
         setStarting(true);
 
 
-        console.log(
-            "Starting interview:",
-            interviewId
-        );
+        console.log( "Starting interview:",id);
 
 
         navigate(
-            `/mock-interview/${interviewId}`
+            `/mock-interview/${id}`
         );
     };
 
 
-    // ========================================================
     // STATUS TEXT
-    // ========================================================
 
     const getStatusText = (status) => {
 
-        if (
-            status === "connected"
-        ) {
+        if (status === "connected" ) {
 
             return "✓ Ready";
         }
 
 
-        if (
-            status === "checking"
-        ) {
+        if (status === "checking") {
 
             return "Checking...";
         }
 
 
-        if (
-            status === "error"
-        ) {
+        if ( status === "error" ) {
 
             return "✕ Failed";
         }
 
 
-        if (
-            status === "disconnected"
-        ) {
+        if ( status === "disconnected" ) {
 
             return "✕ Disconnected";
         }
 
 
-        if (
-            status === "not-checked"
-        ) {
+        if ( status === "not-checked" ) {
 
             return "Not checked";
         }
@@ -862,34 +647,23 @@ function MockInterview3() {
     };
 
 
-    // ========================================================
     // VOICE STATUS TEXT
-    // ========================================================
-
+   
     const getVoiceStatusText = () => {
 
-        if (
-            voiceTestStatus ===
-            "success"
-        ) {
+        if (voiceTestStatus === "success" ) {
 
             return "✓ Voice Ready";
         }
 
 
-        if (
-            voiceTestStatus ===
-            "listening"
-        ) {
+        if ( voiceTestStatus === "listening" ) {
 
             return "Listening...";
         }
 
 
-        if (
-            voiceTestStatus ===
-            "error"
-        ) {
+        if ( voiceTestStatus === "error"  ) {
 
             return "✕ Failed";
         }
@@ -899,20 +673,11 @@ function MockInterview3() {
     };
 
 
-    // ========================================================
-    // UI
-    // ========================================================
-
     return (
 
-        <section className="min-h-screen bg-blue-100 px-6">
+        <section className="min-h-screen bg-white/80 px-6">
 
             <div className="mx-auto max-w-7xl pt-23 pb-10">
-
-
-                {/* ================================================= */}
-                {/* HEADER */}
-                {/* ================================================= */}
 
                 <div className="mb-8">
 
@@ -929,23 +694,9 @@ function MockInterview3() {
                 </div>
 
 
-                {/* ================================================= */}
-                {/* MAIN GRID */}
-                {/* ================================================= */}
-
                 <div className="grid gap-8 lg:grid-cols-2">
 
-
-                    {/* ================================================= */}
-                    {/* LEFT SIDE */}
-                    {/* ================================================= */}
-
-                    <div className="rounded-2xl bg-white p-6 shadow-sm">
-
-
-                        {/* ================================================= */}
-                        {/* VIDEO */}
-                        {/* ================================================= */}
+                    <div className="rounded-2xl  inset-shadow-sm inset-shadow-gray-500 p-6">
 
                         <h2 className="text-xl font-semibold text-gray-900">
                             Interview Preview
@@ -956,7 +707,6 @@ function MockInterview3() {
 
                             <video
                                 className="aspect-video w-full"
-                                controls
                                 preload="metadata"
                             >
                                 Your browser does not support
@@ -964,11 +714,6 @@ function MockInterview3() {
                             </video>
 
                         </div>
-
-
-                        {/* ================================================= */}
-                        {/* GUIDELINES */}
-                        {/* ================================================= */}
 
                         <div className="mt-7">
 
@@ -979,10 +724,7 @@ function MockInterview3() {
 
                             <div className="mt-4 space-y-3">
 
-
-                                {/* Guideline 1 */}
-
-                                <div className="rounded-lg bg-gray-50 p-4">
+                                <div className="rounded-lg inset-shadow-sm inset-shadow-gray-500 p-4">
 
                                     <p className="font-medium">
                                         Stay calm
@@ -996,10 +738,7 @@ function MockInterview3() {
 
                                 </div>
 
-
-                                {/* Guideline 2 */}
-
-                                <div className="rounded-lg bg-gray-50 p-4">
+                                <div className="rounded-lg inset-shadow-sm inset-shadow-gray-500 p-4">
 
                                     <p className="font-medium">
                                         Wait for the interviewer
@@ -1013,9 +752,8 @@ function MockInterview3() {
                                 </div>
 
 
-                                {/* Guideline 3 */}
-
-                                <div className="rounded-lg bg-gray-50 p-4">
+            
+                                <div className="rounded-lg inset-shadow-sm inset-shadow-gray-500 p-4">
 
                                     <p className="font-medium">
                                         Speak clearly
@@ -1029,10 +767,7 @@ function MockInterview3() {
 
                                 </div>
 
-
-                                {/* Guideline 4 */}
-
-                                <div className="rounded-lg bg-gray-50 p-4">
+                                <div className="rounded-lg inset-shadow-sm inset-shadow-gray-500 p-4">
 
                                     <p className="font-medium">
                                         Avoid interruptions
@@ -1053,11 +788,9 @@ function MockInterview3() {
                     </div>
 
 
-                    {/* ================================================= */}
-                    {/* RIGHT SIDE */}
-                    {/* ================================================= */}
 
-                    <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+                    <div className="rounded-2xl inset-shadow-sm inset-shadow-gray-500 p-6">
 
 
                         <h2 className="text-xl font-semibold text-gray-900">
@@ -1073,12 +806,7 @@ function MockInterview3() {
 
                         <div className="mt-6 space-y-4">
 
-
-                            {/* ================================================= */}
-                            {/* INTERNET */}
-                            {/* ================================================= */}
-
-                            <div className="rounded-xl border p-5">
+                            <div className="rounded-xl p-5 inset-shadow-sm inset-shadow-gray-500">
 
                                 <div className="flex items-center justify-between">
 
@@ -1114,11 +842,9 @@ function MockInterview3() {
                             </div>
 
 
-                            {/* ================================================= */}
-                            {/* SERVER */}
-                            {/* ================================================= */}
+                
 
-                            <div className="rounded-xl border p-5">
+                            <div className="rounded-xl inset-shadow-sm inset-shadow-gray-500 p-5">
 
                                 <div className="flex items-center justify-between">
 
@@ -1153,12 +879,7 @@ function MockInterview3() {
 
                             </div>
 
-
-                            {/* ================================================= */}
-                            {/* MICROPHONE */}
-                            {/* ================================================= */}
-
-                            <div className="rounded-xl border p-5">
+                            <div className="rounded-xl inset-shadow-sm inset-shadow-gray-500 p-5">
 
 
                                 <div className="flex items-center justify-between">
@@ -1194,19 +915,13 @@ function MockInterview3() {
 
                                 </div>
 
-
-                                {/* Microphone button */}
-
                                 <button
                                     type="button"
                                     onClick={
                                         checkMicrophone
                                     }
-                                    disabled={
-                                        microphoneStatus ===
-                                        "checking"
-                                    }
-                                    className="mt-4 rounded-lg bg-black px-5 py-2.5 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                                    disabled={  microphoneStatus ==="checking" }
+                                    className="mt-4 rounded-lg bg-black  px-5 py-2.5 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
 
                                     {microphoneStatus ===
@@ -1220,8 +935,6 @@ function MockInterview3() {
                                 </button>
 
 
-                                {/* Microphone message */}
-
                                 {microphoneMessage && (
 
                                     <p className="mt-3 text-sm text-gray-600">
@@ -1232,10 +945,6 @@ function MockInterview3() {
 
                                 )}
 
-
-                                {/* ================================================= */}
-                                {/* VOICE TEST */}
-                                {/* ================================================= */}
 
                                 {microphoneStatus ===
                                     "connected" && (
@@ -1285,8 +994,6 @@ function MockInterview3() {
                                         </div>
 
 
-                                        {/* Test voice button */}
-
                                         <button
                                             type="button"
                                             onClick={
@@ -1309,9 +1016,6 @@ function MockInterview3() {
 
                                         </button>
 
-
-                                        {/* Voice message */}
-
                                         {voiceMessage && (
 
                                             <p
@@ -1332,8 +1036,6 @@ function MockInterview3() {
 
                                         )}
 
-
-                                        {/* Transcript */}
 
                                         {transcript && (
 
@@ -1364,17 +1066,12 @@ function MockInterview3() {
 
                         </div>
 
-
-                        {/* ================================================= */}
-                        {/* READINESS */}
-                        {/* ================================================= */}
-
                         <div
                             className={
                                 `mt-6 rounded-xl p-4 ${
                                     allChecksPassed
-                                        ? "bg-green-50"
-                                        : "bg-gray-50"
+                                        ? "bg-green-100"
+                                        : "bg-gray-100"
                                 }`
                             }
                         >
@@ -1397,9 +1094,6 @@ function MockInterview3() {
                         </div>
 
 
-                        {/* ================================================= */}
-                        {/* START INTERVIEW */}
-                        {/* ================================================= */}
 
                         <button
                             type="button"
