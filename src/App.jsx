@@ -41,6 +41,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./redux/thunks/authThunk";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
+import Interview from "./pages/Interview.jsx";
 
 
 function App() {
@@ -56,6 +57,13 @@ function App() {
         location.pathname.startsWith(
             "/mock-interview/prepare"
         );
+      
+        const isInterviewPage =
+        location.pathname.startsWith(
+            "/interview/"
+        );
+
+        const hidePage = isInterviewPage || isInterviewCheckPage;
 
 
 
@@ -136,6 +144,7 @@ function App() {
             <Route element={<MockInterviewLayout />}>
                 <Route path="/mock-interview" element={<MockInterview />} />
                 <Route path="/mock-interview/prepare/:id" element={<MockInterview3/>}/>
+                <Route path="/interview/:id" element={<Interview/>}/>
 
              
             
@@ -149,7 +158,7 @@ function App() {
         </Routes>
       </AnimatePresence>
 
-    { !isInterviewCheckPage &&  <Footer />}
+    { !hidePage &&  <Footer />}
       <ToastContainer/>
     </div>
   );
