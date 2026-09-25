@@ -675,7 +675,7 @@ function MockInterview3() {
 
     return (
 
-        <section className="min-h-screen bg-white/80 px-6">
+        <section className="h-screen bg-white/80 px-6">
 
             <div className="mx-auto max-w-7xl pt-23 pb-10">
 
