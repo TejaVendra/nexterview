@@ -1,35 +1,52 @@
+
 import { useRef, useState } from "react";
 import { Upload, FileText, X } from "lucide-react";
 
-export default function ResumeUpload() {
+export default function ResumeUpload({ onFileSelect }) {
   const inputRef = useRef(null);
   const [file, setFile] = useState(null);
 
   const handleFile = (selectedFile) => {
     if (!selectedFile) return;
 
-    const allowedTypes = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-
-    if (!allowedTypes.includes(selectedFile.type)) {
-      alert("Please upload a PDF or Word document.");
+    // Only allow PDF
+    if (selectedFile.type !== "application/pdf") {
+      alert("Please upload a PDF file.");
       return;
     }
 
+    // Maximum 5 MB
     if (selectedFile.size > 5 * 1024 * 1024) {
       alert("Maximum file size is 5 MB.");
       return;
     }
 
     setFile(selectedFile);
+
+    // Send file to parent
+    onFileSelect(selectedFile);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    handleFile(e.dataTransfer.files[0]);
+
+    const selectedFile = e.dataTransfer.files[0];
+
+    handleFile(selectedFile);
+  };
+
+  const handleRemove = (e) => {
+    e.stopPropagation();
+
+    setFile(null);
+
+    // Tell parent that file was removed
+    onFileSelect(null);
+
+    // Reset input
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   return (
@@ -37,13 +54,13 @@ export default function ResumeUpload() {
       <input
         ref={inputRef}
         type="file"
-        accept=".pdf,.doc,.docx"
+        accept=".pdf,application/pdf"
         className="hidden"
         onChange={(e) => handleFile(e.target.files[0])}
       />
 
       <div
-        onClick={() => inputRef.current.click()}
+        onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
         className="group mx-auto flex min-h-[220px] w-full max-w-2xl cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-300 bg-white p-8 transition-all duration-300 hover:border-cyan-500 hover:bg-cyan-50"
@@ -66,7 +83,7 @@ export default function ResumeUpload() {
             </p>
 
             <p className="mt-4 text-sm text-gray-400">
-              PDF, DOC, DOCX • Max 5 MB
+              PDF • Max 5 MB
             </p>
           </>
         ) : (
@@ -77,7 +94,10 @@ export default function ResumeUpload() {
               </div>
 
               <div>
-                <p className="font-semibold text-gray-800">{file.name}</p>
+                <p className="font-semibold text-gray-800">
+                  {file.name}
+                </p>
+
                 <p className="text-sm text-gray-500">
                   {(file.size / 1024 / 1024).toFixed(2)} MB
                 </p>
@@ -85,10 +105,8 @@ export default function ResumeUpload() {
             </div>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFile(null);
-              }}
+              type="button"
+              onClick={handleRemove}
               className="rounded-full p-2 text-gray-500 transition hover:bg-red-100 hover:text-red-500"
             >
               <X size={20} />
@@ -99,3 +117,4 @@ export default function ResumeUpload() {
     </>
   );
 }
+

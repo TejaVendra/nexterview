@@ -42,6 +42,7 @@ import { checkAuth } from "./redux/thunks/authThunk";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
+import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
 
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
 
               <Route path="/resume-analysis" element={<ResumeAnalyzer />} />
+              <Route path="/resume-analysis/result" element={<ResumeAnalysisResult/>}/>
 
               <Route path="/resume-maker" element={<ResumeMaker />} />
 
