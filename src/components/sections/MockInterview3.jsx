@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useNavigate, useParams } from "react-router-dom";
+import { startMockInterview } from "../../api/interviewAPI.js";
 
 
 // SOCKET.IO
@@ -552,61 +553,60 @@ function MockInterview3() {
     // START INTERVIEW
 
 
-    const startInterview = async () => {
+  const startInterview = async () => {
+    // Check requirements
+    if (!allChecksPassed) {
+        return;
+    }
 
-        // Check requirements
+    // Check interview ID
+    if (!id) {
+        console.error("Interview ID is missing.");
+        return;
+    }
 
-        if (!allChecksPassed) {
-
-            return;
-        }
-
-
-        // Check interview ID
-        
-
-        if (!id) {
-
-            console.error( "Interview ID is missing." );
-
-            return;
-        }
-
-        // Enter fullscreen
-
-        try {
-
-            if (!document.fullscreenElement) {
-
-                await document.documentElement.requestFullscreen();
-            }
-
-        } catch (error) {
-
-            console.error("Fullscreen failed:", error);
-
-            // We don't block the interview
-            // if fullscreen is rejected.
-        }
-
-
-        // Stop preparation microphone
-
-        stopMicrophone();
-
-        stopSpeechRecognition();
-      
-
+    try {
         setStarting(true);
 
+        // Enter fullscreen
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+            }
+        } catch (error) {
+            console.error("Fullscreen failed:", error);
+            // Don't block interview if fullscreen is rejected
+        }
 
-        console.log( "Starting interview:",id);
+        // Stop preparation microphone
+        stopMicrophone();
+        stopSpeechRecognition();
 
+        console.log("Starting interview:", id);
 
-        navigate(
-            `/mock-interview/${id}`
+        // Change CREATED -> IN_PROGRESS
+        const response = await startMockInterview(id);
+
+        console.log(
+            "Interview started:",
+            response.data.interview
         );
-    };
+
+        // Only navigate after backend successfully starts interview
+        navigate(`/interview/${id}`);
+
+    } catch (error) {
+        console.error(
+            "Failed to start interview:",
+            error
+        );
+
+        setStarting(false);
+
+        // Optional: show error in your UI
+        // setError("Failed to start interview. Please try again.");
+    }
+};
 
 
     // STATUS TEXT
