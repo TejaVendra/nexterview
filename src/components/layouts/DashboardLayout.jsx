@@ -18,10 +18,11 @@ function DashboardLayout() {
         location.pathname.startsWith(
             "/mock-interview/prepare/"
         );
+     const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
 
        const isInterviewPage = location.pathname.startsWith("/interview/")
 
-        const hideSidebar =  isInterviewCheckPage || isInterviewPage;
+        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage; 
 
     return (
         <div className="min-h-screen">
@@ -38,7 +39,7 @@ function DashboardLayout() {
                     duration-700
                     ease-[cubic-bezier(0.22,1,0.36,1)]
                     ${
-                        isSidebarOpen && !isInterviewCheckPage && !isInterviewPage
+                        isSidebarOpen && !hideSidebar
                             ? "lg:ml-[340px]"
                             : "lg:ml-0"
                     }

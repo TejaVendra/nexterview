@@ -21,11 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 import PageTransition from "../layouts/PageTransition.jsx";
 import axiosInstance from "../../axios/axiosInstance";
-
-
-// ============================================================
-// SCORE COLOR
-// ============================================================
+import AnalysisLoader from "../loaders/AnalysisLoader.jsx";
 
 const getScoreInfo = (score) => {
   if (score >= 80) {
@@ -68,93 +64,8 @@ const getScoreInfo = (score) => {
 };
 
 
-// ============================================================
-// LOADING COMPONENT
-// ============================================================
-
-function AnalysisLoader() {
-  return (
-    <div className="min-h-screen bg-[#f7f8fa] px-4 pb-12 pt-24 md:pt-32">
-      <div className="mx-auto max-w-7xl animate-pulse">
-
-        {/* Header */}
-
-        <div className="mb-10">
-          <div className="h-5 w-24 rounded bg-gray-200" />
-
-          <div className="mt-6 h-10 w-72 rounded-xl bg-gray-200" />
-
-          <div className="mt-3 h-4 w-96 max-w-full rounded bg-gray-200" />
-        </div>
 
 
-        {/* Main dashboard */}
-
-        <div className="grid gap-6 lg:grid-cols-[330px_1fr]">
-
-          {/* Left */}
-
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm">
-
-            <div className="mx-auto h-48 w-48 rounded-full bg-gray-200" />
-
-            <div className="mx-auto mt-8 h-5 w-32 rounded bg-gray-200" />
-
-            <div className="mx-auto mt-3 h-4 w-44 rounded bg-gray-200" />
-
-            <div className="mt-8 h-px bg-gray-200" />
-
-            <div className="mt-8 h-5 w-full rounded bg-gray-200" />
-
-            <div className="mt-3 h-5 w-4/5 rounded bg-gray-200" />
-          </div>
-
-
-          {/* Right */}
-
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm">
-
-            <div className="h-6 w-40 rounded bg-gray-200" />
-
-            <div className="mt-6 space-y-3">
-
-              <div className="h-4 w-full rounded bg-gray-200" />
-              <div className="h-4 w-full rounded bg-gray-200" />
-              <div className="h-4 w-3/4 rounded bg-gray-200" />
-
-            </div>
-
-
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
-
-              <div className="h-28 rounded-2xl bg-gray-200" />
-              <div className="h-28 rounded-2xl bg-gray-200" />
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* Bottom */}
-
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-
-          <div className="h-72 rounded-[2rem] bg-white" />
-          <div className="h-72 rounded-[2rem] bg-white" />
-
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-
-// ============================================================
-// SCORE GAUGE
-// ============================================================
 
 function ScoreGauge({ score }) {
   const safeScore = Math.max(0, Math.min(100, Number(score) || 0));
@@ -221,10 +132,6 @@ function ScoreGauge({ score }) {
 }
 
 
-// ============================================================
-// SCORE CARD
-// ============================================================
-
 function MiniScore({ title, score, icon: Icon }) {
   const safeScore =
     score === null || score === undefined
@@ -273,9 +180,6 @@ function MiniScore({ title, score, icon: Icon }) {
 }
 
 
-// ============================================================
-// LIST ITEM
-// ============================================================
 
 function AnalysisListItem({ children, type = "positive" }) {
   const positive = type === "positive";
@@ -312,9 +216,6 @@ function AnalysisListItem({ children, type = "positive" }) {
 }
 
 
-// ============================================================
-// SECTION TITLE
-// ============================================================
 
 function SectionTitle({ icon: Icon, title, description }) {
   return (
@@ -342,11 +243,6 @@ function SectionTitle({ icon: Icon, title, description }) {
   );
 }
 
-
-// ============================================================
-// MAIN COMPONENT
-// ============================================================
-
 function ResumeAnalysisResult() {
 
   const navigate = useNavigate();
@@ -354,10 +250,6 @@ function ResumeAnalysisResult() {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
-  // ==========================================================
-  // FETCH ANALYSIS
-  // ==========================================================
 
   const fetchAnalysis = async () => {
 
@@ -405,18 +297,12 @@ function ResumeAnalysisResult() {
   }, []);
 
 
-  // ==========================================================
-  // LOADING
-  // ==========================================================
 
   if (loading) {
     return <AnalysisLoader />;
   }
 
 
-  // ==========================================================
-  // NO ANALYSIS
-  // ==========================================================
 
   if (!analysis) {
 
@@ -476,35 +362,27 @@ function ResumeAnalysisResult() {
   const scoreInfo = getScoreInfo(atsScore);
 
 
-  // ==========================================================
-  // PAGE
-  // ==========================================================
 
   return (
 
     <PageTransition>
 
-      <section className="min-h-screen bg-[#f7f8fa] px-4 pb-16 pt-24 font-rubik md:px-6 md:pt-32">
+      <section className="min-h-screen  px-4 pb-16 pt-24 font-rubik md:px-6 md:pt-32">
 
         <div className="mx-auto max-w-7xl">
-
-
-          {/* ==================================================
-              HEADER
-          ================================================== */}
 
           <div className="mb-8">
 
             <button
-              onClick={() => navigate("/resume-analyzer")}
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition hover:text-black"
+              onClick={() => navigate("/resume-analysis")}
+              className="group inline-flex items-center gap-2 text-md font-semibold text-gray-500 transition duration-200 cursor-pointer hover:text-black"
             >
               <ArrowLeft
-                size={17}
+                size={20}
                 className="transition-transform group-hover:-translate-x-1"
               />
 
-              Analyze another resume
+              Analyze another resume 
             </button>
 
 
@@ -512,16 +390,7 @@ function ResumeAnalysisResult() {
 
               <div>
 
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-gray-600 shadow-sm">
 
-                  <Sparkles
-                    size={14}
-                    className="text-green-500"
-                  />
-
-                  AI Resume Analysis
-
-                </div>
 
                 <h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-5xl">
                   Your Resume Report
@@ -535,7 +404,7 @@ function ResumeAnalysisResult() {
               </div>
 
 
-              {/* Status */}
+        
 
               <div
                 className={`inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${scoreInfo.bg} ${scoreInfo.border} ${scoreInfo.text}`}
@@ -552,16 +421,10 @@ function ResumeAnalysisResult() {
           </div>
 
 
-          {/* ==================================================
-              MAIN HERO
-          ================================================== */}
-
           <div className="grid gap-6 lg:grid-cols-[330px_1fr]">
 
 
-            {/* =================================================
-                LEFT SCORE PANEL
-            ================================================= */}
+      
 
             <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
 
@@ -611,9 +474,7 @@ function ResumeAnalysisResult() {
             </div>
 
 
-            {/* =================================================
-                RIGHT SUMMARY PANEL
-            ================================================= */}
+  
 
             <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm md:p-9">
 
@@ -662,7 +523,7 @@ function ResumeAnalysisResult() {
               </div>
 
 
-              {/* Score cards */}
+    
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
@@ -685,14 +546,11 @@ function ResumeAnalysisResult() {
           </div>
 
 
-          {/* ==================================================
-              STRENGTHS + WEAKNESSES
-          ================================================== */}
 
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
 
 
-            {/* Strengths */}
+
 
             <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
 
@@ -731,7 +589,6 @@ function ResumeAnalysisResult() {
             </div>
 
 
-            {/* Weaknesses */}
 
             <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
 
@@ -772,9 +629,7 @@ function ResumeAnalysisResult() {
           </div>
 
 
-          {/* ==================================================
-              SUGGESTIONS
-          ================================================== */}
+  
 
           <div className="mt-6 rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
 
@@ -832,9 +687,7 @@ function ResumeAnalysisResult() {
           </div>
 
 
-          {/* ==================================================
-              MISSING SKILLS
-          ================================================== */}
+
 
           <div className="mt-6 rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
 
@@ -880,10 +733,6 @@ function ResumeAnalysisResult() {
           </div>
 
 
-          {/* ==================================================
-              SECTION SCORES
-          ================================================== */}
-
           {analysis.sectionScores &&
             typeof analysis.sectionScores === "object" &&
             !Array.isArray(analysis.sectionScores) && (
@@ -922,39 +771,7 @@ function ResumeAnalysisResult() {
             )}
 
 
-          {/* ==================================================
-              FOOTER
-          ================================================== */}
-
-          <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-5 sm:flex-row">
-
-            <div className="flex items-center gap-3">
-
-              <div className="rounded-full bg-green-50 p-2 text-green-600">
-
-                <Sparkles size={18} />
-
-              </div>
-
-              <p className="text-sm text-gray-500">
-                Want to improve your score?
-              </p>
-
-            </div>
-
-
-            <button
-              onClick={() => navigate("/resume-analyzer")}
-              className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800 active:scale-95"
-            >
-
-              Analyze another resume
-
-              <ChevronRight size={17} />
-
-            </button>
-
-          </div>
+  
 
         </div>
 

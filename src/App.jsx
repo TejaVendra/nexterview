@@ -64,7 +64,9 @@ function App() {
             "/interview/"
         );
 
-        const hidePage = isInterviewPage || isInterviewCheckPage;
+        const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
+
+        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage;
 
 
 

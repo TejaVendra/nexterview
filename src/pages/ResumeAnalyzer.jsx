@@ -70,7 +70,7 @@ function ResumeAnalyzer() {
 
           <div className="mx-auto max-w-7xl rounded-3xl border border-white/20 bg-white/70 p-6 shadow-xl backdrop-blur-md md:p-10">
 
-            {/* Heading */}
+
             <div className="text-center">
 
               <h2 className="text-3xl font-bold text-gray-800 md:text-5xl">
@@ -85,7 +85,7 @@ function ResumeAnalyzer() {
 
             </div>
 
-            {/* Upload */}
+
             <div className="mt-12">
               <ResumeUpload
                 onFileSelect={(selectedFile) => {
@@ -94,7 +94,7 @@ function ResumeAnalyzer() {
               />
             </div>
 
-            {/* Analyze Button */}
+
             <div className="mt-8 flex justify-center">
 
               <button
@@ -113,12 +113,12 @@ function ResumeAnalyzer() {
 
             </div>
 
-            {/* Suggestions */}
+
             <div className="mt-14">
 
               <div className="mb-8 flex items-center gap-3">
 
-                <Sparkles className="text-green-500" />
+      
 
                 <h2 className="text-2xl font-bold text-gray-800">
                   Resume Improvement Suggestions
