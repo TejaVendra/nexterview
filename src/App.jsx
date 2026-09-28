@@ -43,6 +43,7 @@ import { checkAuth } from "./redux/thunks/authThunk";
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
 import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
+import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResult.jsx";
 
 
 function App() {
@@ -65,8 +66,9 @@ function App() {
         );
 
         const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
+        const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
 
-        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage;
+        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage;
 
 
 
@@ -143,6 +145,7 @@ function App() {
               <Route path="/resume-maker" element={<ResumeMaker />} />
 
               <Route path="/portfolio" element={<PortfolioAnalyzer />} />
+              <Route path="/portfolio/result" element={<PortfolioAnalysisResult/>}/>
               <Route path="/profile" element={<Profile/>}/>
       
             <Route element={<MockInterviewLayout />}>

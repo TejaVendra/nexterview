@@ -14,8 +14,9 @@ import { Sparkles } from "lucide-react";
 
 import { toast } from "react-toastify";
 
-import axiosInstance from "../axios/axiosInstance";
+
 import { postResumeAnalysis } from "../api/resumeAPI";
+
 
 function ResumeAnalyzer() {
   const [file, setFile] = useState(null);
@@ -60,6 +61,8 @@ function ResumeAnalyzer() {
       setLoading(false);
     }
   };
+
+
 
   return (
     <>

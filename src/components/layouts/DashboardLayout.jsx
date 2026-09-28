@@ -19,10 +19,11 @@ function DashboardLayout() {
             "/mock-interview/prepare/"
         );
      const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
+     const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
 
        const isInterviewPage = location.pathname.startsWith("/interview/")
 
-        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage; 
+        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage || isPortfolioResultPage; 
 
     return (
         <div className="min-h-screen">

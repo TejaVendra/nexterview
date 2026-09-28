@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 
 import {
   ArrowLeft,
@@ -7,7 +8,6 @@ import {
   ChevronRight,
   FileText,
   Lightbulb,
-  Loader2,
   Sparkles,
   Target,
   TrendingUp,
@@ -22,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import PageTransition from "../layouts/PageTransition.jsx";
 import axiosInstance from "../../axios/axiosInstance";
 import AnalysisLoader from "../loaders/AnalysisLoader.jsx";
+
+
 
 const getScoreInfo = (score) => {
   if (score >= 80) {
@@ -65,28 +67,104 @@ const getScoreInfo = (score) => {
 
 
 
+function useCountUp(target, duration = 1200, delay = 0) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (target === null || target === undefined) return;
+
+    let animationFrame;
+    let startTime;
+
+    const timeout = setTimeout(() => {
+      const animate = (currentTime) => {
+        if (!startTime) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Smooth ease-out
+        const eased =
+          1 - Math.pow(1 - progress, 4);
+
+        setValue(Math.round(target * eased));
+
+        if (progress < 1) {
+          animationFrame =
+            requestAnimationFrame(animate);
+        }
+      };
+
+      animationFrame =
+        requestAnimationFrame(animate);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [target, duration, delay]);
+
+  return value;
+}
+
 
 
 function ScoreGauge({ score }) {
-  const safeScore = Math.max(0, Math.min(100, Number(score) || 0));
+  const safeScore = Math.max(
+    0,
+    Math.min(100, Number(score) || 0)
+  );
 
-  const scoreInfo = getScoreInfo(safeScore);
+  const animatedScore = useCountUp(
+    safeScore,
+    1500,
+    250
+  );
+
+  const scoreInfo =
+    getScoreInfo(animatedScore);
+
+  /*
+   * Gauge animation
+   *
+   * 280deg is the visible portion of the circle.
+   */
+  const progress = animatedScore * 0.01 * 280;
 
   return (
     <div className="flex flex-col items-center">
 
-      <div className="relative h-52 w-52">
+      <div
+        className="
+          relative
+          h-52
+          w-52
+          animate-[scaleIn_0.8s_cubic-bezier(0.22,1,0.36,1)]
+        "
+      >
 
         {/* Outer ring */}
 
         <div
-          className="absolute inset-0 rounded-full"
+          className="
+            absolute
+            inset-0
+            rounded-full
+            transition-all
+            duration-300
+          "
           style={{
             background: `conic-gradient(
               from 220deg,
               #22c55e 0%,
-              #22c55e ${safeScore * 0.01 * 280}%,
-              #e5e7eb ${safeScore * 0.01 * 280}%,
+              #22c55e ${progress}%,
+              #e5e7eb ${progress}%,
               #e5e7eb 78%,
               transparent 78%,
               transparent 100%
@@ -96,24 +174,72 @@ function ScoreGauge({ score }) {
 
         {/* Inner circle */}
 
-        <div className="absolute inset-[10px] flex flex-col items-center justify-center rounded-full bg-white">
+        <div
+          className="
+            absolute
+            inset-[10px]
+            flex
+            flex-col
+            items-center
+            justify-center
+            rounded-full
+            bg-white
+          "
+        >
 
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+          <span
+            className="
+              text-xs
+              font-semibold
+              uppercase
+              tracking-[0.2em]
+              text-gray-400
+              animate-[fadeUp_0.5s_ease-out_0.4s_both]
+            "
+          >
             ATS Score
           </span>
 
           <div className="mt-1 flex items-end">
-            <span className="text-6xl font-black tracking-tight text-gray-900">
-              {safeScore}
+
+            <span
+              className="
+                text-6xl
+                font-black
+                tracking-tight
+                text-gray-900
+                tabular-nums
+              "
+            >
+              {animatedScore}
             </span>
 
-            <span className="mb-2 ml-1 text-sm font-semibold text-gray-400">
+            <span
+              className="
+                mb-2
+                ml-1
+                text-sm
+                font-semibold
+                text-gray-400
+              "
+            >
               /100
             </span>
+
           </div>
 
           <span
-            className={`mt-1 rounded-full px-3 py-1 text-xs font-bold ${scoreInfo.bg} ${scoreInfo.text}`}
+            className={`
+              mt-1
+              rounded-full
+              px-3
+              py-1
+              text-xs
+              font-bold
+              ${scoreInfo.bg}
+              ${scoreInfo.text}
+              animate-[fadeUp_0.5s_ease-out_0.8s_both]
+            `}
           >
             {scoreInfo.label}
           </span>
@@ -122,9 +248,19 @@ function ScoreGauge({ score }) {
 
       </div>
 
-
-      <p className="mt-5 max-w-[220px] text-center text-sm leading-6 text-gray-500">
-        Your resume's compatibility with Applicant Tracking Systems.
+      <p
+        className="
+          mt-5
+          max-w-[220px]
+          text-center
+          text-sm
+          leading-6
+          text-gray-500
+          animate-[fadeUp_0.6s_ease-out_0.6s_both]
+        "
+      >
+        Your resume's compatibility with Applicant
+        Tracking Systems.
       </p>
 
     </div>
@@ -132,21 +268,63 @@ function ScoreGauge({ score }) {
 }
 
 
+
 function MiniScore({ title, score, icon: Icon }) {
   const safeScore =
     score === null || score === undefined
       ? null
-      : Math.max(0, Math.min(100, Number(score)));
+      : Math.max(
+          0,
+          Math.min(100, Number(score))
+        );
+
+  const animatedScore = useCountUp(
+    safeScore ?? 0,
+    1000,
+    200
+  );
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+    <div
+      className="
+        group
+        rounded-2xl
+        border
+        border-gray-100
+        bg-gray-50
+        p-5
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:bg-white
+        hover:shadow-md
+      "
+    >
 
       <div className="flex items-center justify-between">
 
         <div className="flex items-center gap-2">
 
-          <div className="rounded-lg bg-white p-2 shadow-sm">
-            <Icon size={17} className="text-gray-700" />
+          <div
+            className="
+              rounded-lg
+              bg-white
+              p-2
+              shadow-sm
+              transition-transform
+              duration-300
+              group-hover:scale-105
+            "
+          >
+            <Icon
+              size={17}
+              className="
+                text-gray-700
+                transition-transform
+                duration-300
+                group-hover:rotate-3
+              "
+            />
           </div>
 
           <span className="text-sm font-medium text-gray-500">
@@ -155,20 +333,28 @@ function MiniScore({ title, score, icon: Icon }) {
 
         </div>
 
-        <span className="text-xl font-black text-gray-900">
-          {safeScore !== null ? safeScore : "--"}
+        <span className="text-xl font-black text-gray-900 tabular-nums">
+          {safeScore !== null
+            ? animatedScore
+            : "--"}
         </span>
 
       </div>
-
 
       {safeScore !== null && (
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-200">
 
           <div
-            className="h-full rounded-full bg-black transition-all duration-700"
+            className="
+              h-full
+              rounded-full
+              bg-black
+              transition-all
+              duration-[1200ms]
+              ease-out
+            "
             style={{
-              width: `${safeScore}%`,
+              width: `${animatedScore}%`,
             }}
           />
 
@@ -181,29 +367,72 @@ function MiniScore({ title, score, icon: Icon }) {
 
 
 
-function AnalysisListItem({ children, type = "positive" }) {
+function AnalysisListItem({
+  children,
+  type = "positive",
+  index = 0,
+}) {
   const positive = type === "positive";
 
   return (
     <div
-      className={`flex items-start gap-3 rounded-2xl border p-4 ${
-        positive
-          ? "border-green-100 bg-green-50/70"
-          : "border-red-100 bg-red-50/70"
-      }`}
+      className={`
+        group
+        flex
+        items-start
+        gap-3
+        rounded-2xl
+        border
+        p-4
+        transition-all
+        duration-300
+        hover:-translate-y-0.5
+        hover:shadow-sm
+
+        ${
+          positive
+            ? "border-green-100 bg-green-50/70 hover:bg-green-50"
+            : "border-red-100 bg-red-50/70 hover:bg-red-50"
+        }
+
+        animate-[fadeUp_0.5s_ease-out_both]
+      `}
+      style={{
+        animationDelay: `${index * 90}ms`,
+      }}
     >
 
       <div
-        className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-          positive
-            ? "bg-green-100 text-green-600"
-            : "bg-red-100 text-red-600"
-        }`}
+        className={`
+          mt-0.5
+          flex
+          h-7
+          w-7
+          shrink-0
+          items-center
+          justify-center
+          rounded-full
+          transition-transform
+          duration-300
+          group-hover:scale-110
+
+          ${
+            positive
+              ? "bg-green-100 text-green-600"
+              : "bg-red-100 text-red-600"
+          }
+        `}
       >
         {positive ? (
-          <Check size={15} strokeWidth={3} />
+          <Check
+            size={15}
+            strokeWidth={3}
+          />
         ) : (
-          <X size={15} strokeWidth={3} />
+          <X
+            size={15}
+            strokeWidth={3}
+          />
         )}
       </div>
 
@@ -216,12 +445,34 @@ function AnalysisListItem({ children, type = "positive" }) {
 }
 
 
-
-function SectionTitle({ icon: Icon, title, description }) {
+function SectionTitle({
+  icon: Icon,
+  title,
+  description,
+}) {
   return (
-    <div className="mb-6 flex items-start gap-3">
+    <div
+      className="
+        mb-6
+        flex
+        items-start
+        gap-3
+        animate-[fadeUp_0.5s_ease-out_both]
+      "
+    >
 
-      <div className="rounded-xl bg-gray-100 p-2.5 text-gray-700">
+      <div
+        className="
+          rounded-xl
+          bg-gray-100
+          p-2.5
+          text-gray-700
+          transition-all
+          duration-300
+          hover:bg-gray-900
+          hover:text-white
+        "
+      >
         <Icon size={20} />
       </div>
 
@@ -243,12 +494,18 @@ function SectionTitle({ icon: Icon, title, description }) {
   );
 }
 
+
+
 function ResumeAnalysisResult() {
 
   const navigate = useNavigate();
 
-  const [analysis, setAnalysis] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [analysis, setAnalysis] =
+    useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
 
 
   const fetchAnalysis = async () => {
@@ -257,11 +514,14 @@ function ResumeAnalysisResult() {
 
       setLoading(true);
 
-      const response = await axiosInstance.get(
-        "/resume/analysis"
-      );
+      const response =
+        await axiosInstance.get(
+          "/resume/analysis"
+        );
 
-      setAnalysis(response.data.analysis);
+      setAnalysis(
+        response.data.analysis
+      );
 
     } catch (error) {
 
@@ -291,7 +551,6 @@ function ResumeAnalysisResult() {
 
   };
 
-
   useEffect(() => {
     fetchAnalysis();
   }, []);
@@ -310,11 +569,43 @@ function ResumeAnalysisResult() {
 
       <PageTransition>
 
-        <div className="flex min-h-screen items-center justify-center bg-[#f7f8fa] px-4">
+        <div
+          className="
+            flex
+            min-h-screen
+            items-center
+            justify-center
+            bg-[#f7f8fa]
+            px-4
+          "
+        >
 
-          <div className="w-full max-w-md rounded-[2rem] bg-white p-10 text-center shadow-sm">
+          <div
+            className="
+              w-full
+              max-w-md
+              rounded-[2rem]
+              bg-white
+              p-10
+              text-center
+              shadow-sm
+              animate-[scaleIn_0.5s_cubic-bezier(0.22,1,0.36,1)]
+            "
+          >
 
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50">
+            <div
+              className="
+                mx-auto
+                flex
+                h-16
+                w-16
+                items-center
+                justify-center
+                rounded-full
+                bg-yellow-50
+                animate-[pulseSoft_2s_ease-in-out_infinite]
+              "
+            >
 
               <AlertTriangle
                 size={30}
@@ -328,13 +619,33 @@ function ResumeAnalysisResult() {
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-gray-500">
-              You haven't analyzed a resume yet. Upload your
-              resume to get your AI-powered analysis.
+              You haven't analyzed a resume yet.
+              Upload your resume to get your
+              AI-powered analysis.
             </p>
 
             <button
-              onClick={() => navigate("/resume-analyzer")}
-              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-black px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+              onClick={() =>
+                navigate("/resume-analyzer")
+              }
+              className="
+                mt-7
+                inline-flex
+                items-center
+                gap-2
+                rounded-xl
+                bg-black
+                px-6
+                py-3
+                font-semibold
+                text-white
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:bg-gray-800
+                hover:shadow-lg
+                active:scale-95
+              "
             >
               Analyze Resume
               <ChevronRight size={18} />
@@ -349,8 +660,12 @@ function ResumeAnalysisResult() {
     );
   }
 
+  /* ========================================================
+     SCORES
+     ======================================================== */
 
-  const atsScore = Number(analysis.atsScore) || 0;
+  const atsScore =
+    Number(analysis.atsScore) || 0;
 
   const overallScore =
     analysis.overallScore !== null &&
@@ -358,56 +673,134 @@ function ResumeAnalysisResult() {
       ? Number(analysis.overallScore)
       : null;
 
+  const scoreInfo =
+    getScoreInfo(atsScore);
 
-  const scoreInfo = getScoreInfo(atsScore);
-
-
+  /* ========================================================
+     PAGE
+     ======================================================== */
 
   return (
 
     <PageTransition>
 
-      <section className="min-h-screen  px-4 pb-16 pt-24 font-rubik md:px-6 md:pt-32">
+      <section
+        className="
+          min-h-screen
+          px-4
+          pb-16
+          pt-24
+          font-rubik
+          md:px-6
+          md:pt-32
+        "
+      >
 
         <div className="mx-auto max-w-7xl">
 
-          <div className="mb-8">
+          {/* ==================================================
+              HEADER
+          ================================================== */}
+
+          <div
+            className="
+              mb-8
+              animate-[fadeUp_0.6s_ease-out_both]
+            "
+          >
 
             <button
-              onClick={() => navigate("/resume-analysis")}
-              className="group inline-flex items-center gap-2 text-md font-semibold text-gray-500 transition duration-200 cursor-pointer hover:text-black"
+              onClick={() =>
+                navigate("/resume-analysis")
+              }
+              className="
+                group
+                inline-flex
+                cursor-pointer
+                items-center
+                gap-2
+                text-md
+                font-semibold
+                text-gray-500
+                transition
+                duration-200
+                hover:text-black
+              "
             >
+
               <ArrowLeft
                 size={20}
-                className="transition-transform group-hover:-translate-x-1"
+                className="
+                  transition-transform
+                  duration-300
+                  group-hover:-translate-x-1
+                "
               />
 
-              Analyze another resume 
+              Analyze another resume
+
             </button>
 
-
-            <div className="mt-7 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div
+              className="
+                mt-7
+                flex
+                flex-col
+                justify-between
+                gap-5
+                md:flex-row
+                md:items-end
+              "
+            >
 
               <div>
 
-
-
-                <h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-5xl">
+                <h1
+                  className="
+                    text-3xl
+                    font-black
+                    tracking-tight
+                    text-gray-900
+                    md:text-5xl
+                  "
+                >
                   Your Resume Report
                 </h1>
 
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500 md:text-base">
-                  A detailed breakdown of your resume, ATS compatibility,
-                  strengths, weaknesses and areas you can improve.
+                <p
+                  className="
+                    mt-3
+                    max-w-2xl
+                    text-sm
+                    leading-6
+                    text-gray-500
+                    md:text-base
+                  "
+                >
+                  A detailed breakdown of your resume,
+                  ATS compatibility, strengths,
+                  weaknesses and areas you can improve.
                 </p>
 
               </div>
 
-
-        
-
               <div
-                className={`inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${scoreInfo.bg} ${scoreInfo.border} ${scoreInfo.text}`}
+                className={`
+                  inline-flex
+                  w-fit
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  px-4
+                  py-2
+                  text-sm
+                  font-semibold
+                  ${scoreInfo.bg}
+                  ${scoreInfo.border}
+                  ${scoreInfo.text}
+                  animate-[fadeRight_0.6s_ease-out_0.2s_both]
+                `}
               >
 
                 <CheckCircle2 size={17} />
@@ -420,19 +813,37 @@ function ResumeAnalysisResult() {
 
           </div>
 
+          {/* ==================================================
+              SCORE + OVERVIEW
+          ================================================== */}
 
-          <div className="grid gap-6 lg:grid-cols-[330px_1fr]">
+          <div
+            className="
+              grid
+              gap-6
+              lg:grid-cols-[330px_1fr]
+            "
+          >
 
+            {/* SCORE CARD */}
 
-      
+            <div
+              className="
+                rounded-[2rem]
+                border
+                border-gray-100
+                bg-white
+                p-7
+                shadow-sm
+                animate-[fadeUp_0.7s_ease-out_0.15s_both]
+              "
+            >
 
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
-
-              <ScoreGauge score={atsScore} />
-
+              <ScoreGauge
+                score={atsScore}
+              />
 
               <div className="my-7 h-px bg-gray-100" />
-
 
               <div className="space-y-4">
 
@@ -442,13 +853,27 @@ function ResumeAnalysisResult() {
                   icon={Target}
                 />
 
-                <div className="rounded-2xl bg-gray-50 p-5">
+                <div
+                  className="
+                    rounded-2xl
+                    bg-gray-50
+                    p-5
+                    transition-all
+                    duration-300
+                    hover:-translate-y-0.5
+                    hover:bg-white
+                    hover:shadow-sm
+                  "
+                >
 
                   <div className="flex items-center gap-2">
 
                     <TrendingUp
                       size={18}
-                      className="text-green-500"
+                      className="
+                        text-green-500
+                        animate-[float_2.5s_ease-in-out_infinite]
+                      "
                     />
 
                     <span className="text-sm font-semibold text-gray-700">
@@ -473,18 +898,46 @@ function ResumeAnalysisResult() {
 
             </div>
 
+            {/* AI OVERVIEW */}
 
-  
+            <div
+              className="
+                rounded-[2rem]
+                border
+                border-gray-100
+                bg-white
+                p-7
+                shadow-sm
+                md:p-9
+                animate-[fadeUp_0.7s_ease-out_0.3s_both]
+              "
+            >
 
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm md:p-9">
-
-              <div className="flex items-start justify-between gap-5">
+              <div
+                className="
+                  flex
+                  items-start
+                  justify-between
+                  gap-5
+                "
+              >
 
                 <div>
 
                   <div className="flex items-center gap-3">
 
-                    <div className="rounded-xl bg-black p-2.5 text-white">
+                    <div
+                      className="
+                        rounded-xl
+                        bg-black
+                        p-2.5
+                        text-white
+                        transition-transform
+                        duration-300
+                        hover:rotate-3
+                        hover:scale-105
+                      "
+                    >
 
                       <Sparkles size={19} />
 
@@ -502,16 +955,31 @@ function ResumeAnalysisResult() {
 
                 </div>
 
-
                 <FileText
-                  className="hidden text-gray-200 sm:block"
+                  className="
+                    hidden
+                    text-gray-200
+                    transition-transform
+                    duration-500
+                    hover:rotate-6
+                    sm:block
+                  "
                   size={40}
                 />
 
               </div>
 
-
-              <div className="mt-7 rounded-2xl bg-gray-50 p-6">
+              <div
+                className="
+                  mt-7
+                  rounded-2xl
+                  bg-gray-50
+                  p-6
+                  transition-all
+                  duration-300
+                  hover:bg-gray-100/70
+                "
+              >
 
                 <p className="text-sm leading-7 text-gray-700 md:text-base">
 
@@ -521,9 +989,6 @@ function ResumeAnalysisResult() {
                 </p>
 
               </div>
-
-
-    
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
@@ -545,14 +1010,25 @@ function ResumeAnalysisResult() {
 
           </div>
 
-
+          {/* ==================================================
+              STRENGTHS + WEAKNESSES
+          ================================================== */}
 
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
 
+            {/* STRENGTHS */}
 
-
-
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
+            <div
+              className="
+                rounded-[2rem]
+                border
+                border-gray-100
+                bg-white
+                p-7
+                shadow-sm
+                animate-[fadeUp_0.7s_ease-out_0.45s_both]
+              "
+            >
 
               <SectionTitle
                 icon={CheckCircle2}
@@ -565,16 +1041,19 @@ function ResumeAnalysisResult() {
                 {Array.isArray(analysis.pros) &&
                 analysis.pros.length > 0 ? (
 
-                  analysis.pros.map((pro, index) => (
+                  analysis.pros.map(
+                    (pro, index) => (
 
-                    <AnalysisListItem
-                      key={index}
-                      type="positive"
-                    >
-                      {pro}
-                    </AnalysisListItem>
+                      <AnalysisListItem
+                        key={index}
+                        type="positive"
+                        index={index}
+                      >
+                        {pro}
+                      </AnalysisListItem>
 
-                  ))
+                    )
+                  )
 
                 ) : (
 
@@ -588,9 +1067,19 @@ function ResumeAnalysisResult() {
 
             </div>
 
+            {/* WEAKNESSES */}
 
-
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
+            <div
+              className="
+                rounded-[2rem]
+                border
+                border-gray-100
+                bg-white
+                p-7
+                shadow-sm
+                animate-[fadeUp_0.7s_ease-out_0.55s_both]
+              "
+            >
 
               <SectionTitle
                 icon={XCircle}
@@ -603,16 +1092,19 @@ function ResumeAnalysisResult() {
                 {Array.isArray(analysis.cons) &&
                 analysis.cons.length > 0 ? (
 
-                  analysis.cons.map((con, index) => (
+                  analysis.cons.map(
+                    (con, index) => (
 
-                    <AnalysisListItem
-                      key={index}
-                      type="negative"
-                    >
-                      {con}
-                    </AnalysisListItem>
+                      <AnalysisListItem
+                        key={index}
+                        type="negative"
+                        index={index}
+                      >
+                        {con}
+                      </AnalysisListItem>
 
-                  ))
+                    )
+                  )
 
                 ) : (
 
@@ -628,17 +1120,28 @@ function ResumeAnalysisResult() {
 
           </div>
 
+          {/* ==================================================
+              RECOMMENDATIONS
+          ================================================== */}
 
-  
-
-          <div className="mt-6 rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
+          <div
+            className="
+              mt-6
+              rounded-[2rem]
+              border
+              border-gray-100
+              bg-white
+              p-7
+              shadow-sm
+              animate-[fadeUp_0.7s_ease-out_0.65s_both]
+            "
+          >
 
             <SectionTitle
               icon={Lightbulb}
               title="Recommended Improvements"
               description="Actionable changes you can make to improve your resume."
             />
-
 
             <div className="grid gap-4 md:grid-cols-2">
 
@@ -650,10 +1153,43 @@ function ResumeAnalysisResult() {
 
                     <div
                       key={index}
-                      className="group flex gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-5 transition duration-200 hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
+                      className="
+                        group
+                        flex
+                        gap-4
+                        rounded-2xl
+                        border
+                        border-gray-100
+                        bg-gray-50
+                        p-5
+                        transition-all
+                        duration-300
+                        hover:-translate-y-1
+                        hover:bg-white
+                        hover:shadow-md
+                        animate-[fadeUp_0.5s_ease-out_both]
+                      "
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                      }}
                     >
 
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600">
+                      <div
+                        className="
+                          flex
+                          h-9
+                          w-9
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-xl
+                          bg-yellow-100
+                          text-yellow-600
+                          transition-transform
+                          duration-300
+                          group-hover:scale-110
+                        "
+                      >
 
                         <span className="text-sm font-black">
                           {index + 1}
@@ -686,17 +1222,28 @@ function ResumeAnalysisResult() {
 
           </div>
 
+          {/* ==================================================
+              SKILLS
+          ================================================== */}
 
-
-
-          <div className="mt-6 rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
+          <div
+            className="
+              mt-6
+              rounded-[2rem]
+              border
+              border-gray-100
+              bg-white
+              p-7
+              shadow-sm
+              animate-[fadeUp_0.7s_ease-out_0.75s_both]
+            "
+          >
 
             <SectionTitle
               icon={Target}
               title="Skills to Consider Adding"
               description="Skills that could strengthen your resume based on the analysis."
             />
-
 
             <div className="flex flex-wrap gap-3">
 
@@ -708,10 +1255,43 @@ function ResumeAnalysisResult() {
 
                     <div
                       key={index}
-                      className="flex items-center gap-2 rounded-full border border-purple-100 bg-purple-50 px-4 py-2.5 text-sm font-semibold text-purple-700"
+                      className="
+                        group
+                        flex
+                        items-center
+                        gap-2
+                        rounded-full
+                        border
+                        border-purple-100
+                        bg-purple-50
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-purple-700
+                        transition-all
+                        duration-300
+                        hover:-translate-y-1
+                        hover:bg-purple-100
+                        hover:shadow-sm
+                        animate-[scaleIn_0.4s_ease-out_both]
+                      "
+                      style={{
+                        animationDelay: `${index * 80}ms`,
+                      }}
                     >
 
-                      <span className="h-1.5 w-1.5 rounded-full bg-purple-500" />
+                      <span
+                        className="
+                          h-1.5
+                          w-1.5
+                          rounded-full
+                          bg-purple-500
+                          transition-transform
+                          duration-300
+                          group-hover:scale-125
+                        "
+                      />
 
                       {skill}
 
@@ -732,12 +1312,28 @@ function ResumeAnalysisResult() {
 
           </div>
 
+          {/* ==================================================
+              SECTION BREAKDOWN
+          ================================================== */}
 
           {analysis.sectionScores &&
             typeof analysis.sectionScores === "object" &&
-            !Array.isArray(analysis.sectionScores) && (
+            !Array.isArray(
+              analysis.sectionScores
+            ) && (
 
-              <div className="mt-6 rounded-[2rem] border border-gray-100 bg-white p-7 shadow-sm">
+              <div
+                className="
+                  mt-6
+                  rounded-[2rem]
+                  border
+                  border-gray-100
+                  bg-white
+                  p-7
+                  shadow-sm
+                  animate-[fadeUp_0.7s_ease-out_0.85s_both]
+                "
+              >
 
                 <SectionTitle
                   icon={FileText}
@@ -745,24 +1341,27 @@ function ResumeAnalysisResult() {
                   description="How each section of your resume performed."
                 />
 
-
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
                   {Object.entries(
                     analysis.sectionScores
-                  ).map(([section, score]) => (
+                  ).map(
+                    ([section, score]) => (
 
-                    <MiniScore
-                      key={section}
-                      title={
-                        section.charAt(0).toUpperCase() +
-                        section.slice(1)
-                      }
-                      score={Number(score)}
-                      icon={FileText}
-                    />
+                      <MiniScore
+                        key={section}
+                        title={
+                          section
+                            .charAt(0)
+                            .toUpperCase() +
+                          section.slice(1)
+                        }
+                        score={Number(score)}
+                        icon={FileText}
+                      />
 
-                  ))}
+                    )
+                  )}
 
                 </div>
 
@@ -770,16 +1369,90 @@ function ResumeAnalysisResult() {
 
             )}
 
-
-  
-
         </div>
 
       </section>
 
-    </PageTransition>
+      {/* ========================================================
+          CUSTOM ANIMATIONS
+      ======================================================== */}
 
+      <style>{`
+
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeRight {
+          from {
+            opacity: 0;
+            transform: translateX(18px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.92);
+          }
+
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+
+          50% {
+            transform: translateY(-3px);
+          }
+        }
+
+        @keyframes pulseSoft {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+
+          50% {
+            transform: scale(1.05);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
+
+      `}</style>
+
+    </PageTransition>
   );
 }
 
 export default ResumeAnalysisResult;
+
