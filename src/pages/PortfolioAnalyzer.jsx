@@ -2,13 +2,14 @@ import React from "react";
 import { portfolioSuggestions } from "../data/porfolioSuggestions";
 import PageTransition from "../components/layouts/PageTransition";
 import { Sparkles, Globe, ArrowRight, CheckCircle2 } from "lucide-react";
+import AnalyzeButton from "../components/ui/AnalyzeButton.jsx";
 
 function PortfolioAnalyzer() {
   return (
     <PageTransition>
       <section className="min-h-screen pt-23 md:pt-30 pb-10 font-rubik px-4 md:px-6">
         <div className="mx-auto max-w-7xl rounded-[40px] border border-white/40 bg-white/60 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-6 md:p-10 lg:p-12">
-          {/* Header */}
+      
           <div className="mx-auto max-w-3xl text-center">
             
 
@@ -22,8 +23,7 @@ function PortfolioAnalyzer() {
             </p>
           </div>
 
-          {/* URL Input */}
-          <div className="mx-auto mt-12 flex max-w-4xl flex-col gap-4 md:flex-row">
+          <div className="mx-auto mt-12 flex max-w-4xl flex-col justify-center items-center gap-4 md:flex-row">
             <div className="relative flex-1">
               <Globe
                 size={20}
@@ -34,7 +34,7 @@ function PortfolioAnalyzer() {
                 type="url"
                 placeholder="https://yourportfolio.com"
                 className="
-                  h-16
+                  h-13
                   w-full
                   rounded-2xl
                   border
@@ -43,46 +43,30 @@ function PortfolioAnalyzer() {
                   pl-14
                   pr-5
                   text-gray-700
-                  shadow-lg
+                  inset-shadow-sm
+                  inset-shadow-gray-200
+                
                   outline-none
                   transition
                   duration-300
-                  focus:border-cyan-400
-                  focus:ring-4
-                  focus:ring-cyan-100
+                
+                  focus:ring-2
+                  focus:ring-gray-200
                 "
               />
             </div>
 
-            <button
-              className="
-                flex
-                h-16
-                items-center
-                justify-center
-                gap-2
-                rounded-2xl
-                bg-blue-600
-                px-8
-                font-semibold
-                text-white
-                shadow-lg
-                cursor-pointer
-                transition-all
-                duration-300
-                hover:shadow-2xl
-                active:scale-95
-              "
-            >
-              Analyze
-              <ArrowRight size={18} />
-            </button>
+            <div className="flex justify-center">
+              <AnalyzeButton
+                onClick={null}
+              />
+            </div>
           </div>
 
-          {/* Suggestions */}
+      
           <div className="mt-16">
             <div className="mb-8 flex items-center gap-3">
-              <Sparkles className="text-cyan-600" />
+           
               <h2 className="text-2xl font-bold text-gray-800">
                 AI Improvement Suggestions
               </h2>
@@ -102,9 +86,10 @@ function PortfolioAnalyzer() {
                     shadow-md
                     transition-all
                     duration-300
-                    hover:-translate-y-2
+                    
+                    hover:-translate-y-1
                     hover:border-cyan-200
-                    hover:shadow-2xl
+                    hover:shadow-xl
                   "
                 >
                   <div className="mb-5 flex items-center justify-between">
