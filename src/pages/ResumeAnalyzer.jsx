@@ -11,6 +11,7 @@ import { resumeSuggestions } from "../data/resumesuggestions";
 
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { Sparkles } from "lucide-react";
+import AnalyzeButton from '../components/ui/AnalyzeButton.jsx'
 
 import { toast } from "react-toastify";
 
@@ -100,19 +101,7 @@ function ResumeAnalyzer() {
 
             <div className="mt-8 flex justify-center">
 
-              <button
-                onClick={handleAnalysis}
-                disabled={loading || !file}
-                className={`rounded-xl px-10 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 ${
-                  !file || loading
-                    ? "cursor-not-allowed bg-gray-400"
-                    : "cursor-pointer bg-black/90 hover:bg-black active:scale-95"
-                }`}
-              >
-                {loading
-                  ? "Analyzing..."
-                  : "Analyze Resume"}
-              </button>
+              <AnalyzeButton file={file} onClick={handleAnalysis} loading={loading}/>
 
             </div>
 

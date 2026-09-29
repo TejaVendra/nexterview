@@ -118,7 +118,7 @@ function PortfolioAnalyzer() {
 
                 <div className="flex justify-center">
                   <AnalyzeButton
-                    onClick={handleAnalysis} loading={loading}
+                    onClick={handleAnalysis} loading={loading} file={true}
                   />
                 </div>
               </div>

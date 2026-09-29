@@ -2,11 +2,11 @@
 import React from "react";
 import { ArrowUpRight, ScanSearch } from "lucide-react";
 
-function AnalyzeButton({ onClick, loading = false}) {
+function AnalyzeButton({ onClick, loading = false , file=null}) {
   return (
     <button
       onClick={onClick}
-      disabled={loading}
+      disabled={loading || !file}
       className="
         group
         relative
