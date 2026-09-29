@@ -2,11 +2,11 @@
 import React from "react";
 import { ArrowUpRight, ScanSearch } from "lucide-react";
 
-function AnalyzeButton({ onClick, loading = false , file=null}) {
+function AnalyzeButton({ onClick, loading = false , file=null }) {
   return (
     <button
       onClick={onClick}
-      disabled={loading || !file}
+      disabled={loading || !file }
       className="
         group
         relative
@@ -35,10 +35,6 @@ function AnalyzeButton({ onClick, loading = false , file=null}) {
         disabled:opacity-60
       "
     >
-
-      {/* -----------------------------------------------
-          HOVER SCAN
-      ------------------------------------------------ */}
 
       <span
         className="

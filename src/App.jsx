@@ -44,6 +44,7 @@ import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
 import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
 import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResult.jsx";
+import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
 
 
 function App() {
@@ -67,8 +68,9 @@ function App() {
 
         const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
         const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
+            const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
 
-        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage;
+        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage;
 
 
 
@@ -158,6 +160,7 @@ function App() {
             </Route>
 
               <Route path="/resume-matches" element={<JDMatcher />} />
+              <Route path="/resume-matches/result" element={<JDMatcherResult/>}/>
             </Route>
           </Route>
 

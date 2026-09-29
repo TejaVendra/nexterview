@@ -20,10 +20,11 @@ function DashboardLayout() {
         );
      const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
      const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
+     const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
 
        const isInterviewPage = location.pathname.startsWith("/interview/")
 
-        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage || isPortfolioResultPage; 
+        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage || isPortfolioResultPage || isResumeMatchResultPage; 
 
     return (
         <div className="min-h-screen">

@@ -3,10 +3,61 @@ import ResumeUploader from "../components/ui/ResumeUpload";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
 import PageTransition from "../components/layouts/PageTransition";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { postResumeMatch } from "../api/resumeMatchAPI";
+import { useNavigate} from 'react-router-dom'
+import AnalyzeButton from "../components/ui/AnalyzeButton";
+import JDMatcherLoader from "../components/loaders/JDMatcherLoader";
 
 function JDMatcher() {
+
+  const [file,setFile] = useState(null);
+  const [loading,setLoading] = useState(false);
+  const [description,setDescription] = useState("");
+  const nav = useNavigate();
+
+  const handleSumbit = async() =>{
+
+    if(!file){
+      toast.error("Please select the PDF");
+      return;
+    }
+    if(!description){
+      toast.error("Please paste the job description");
+      return;
+    }
+
+
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("resume-2",file);
+      formData.append("description", description);
+
+      const response = await postResumeMatch(formData);
+
+      window.location.href ='/resume-matches/result'
+
+      
+    }catch(error){
+        console.error("Error in jd matcher ",error);
+        toast.error(error.response?.data?.message ||
+          "Failed to analyze resume")
+    }finally{
+      setLoading(false);
+    }
+
+
+    
+
+  }
   return (
-    <PageTransition>
+    <>
+    {loading&& <JDMatcherLoader/>}
+     <PageTransition>
       <section className="pt-25 md:pt-30 px-4 pb-10 font-rubik min-h-screen">
       <div className="max-w-7xl mx-auto bg-white/70 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 p-6 md:p-10">
 
@@ -32,7 +83,7 @@ function JDMatcher() {
               <IoDocumentTextOutline  size={22}/> Upload Resume
             </h3>
 
-            <ResumeUploader />
+            <ResumeUploader onFileSelect={(selectedFile) => setFile(selectedFile)} />
           </div>
 
           {/* Job Description */}
@@ -42,9 +93,10 @@ function JDMatcher() {
             </h3>
 
             <textarea
+            onChange={(e) => setDescription(e.target.value)}
               rows={16}
               placeholder="Paste the complete job description here..."
-              className="w-full rounded-xl border border-gray-300 p-4 resize-none outline-none focus:scale-[1.01] transition focus:shadow-lg"
+              className="w-full rounded-xl border border-gray-300 p-4 resize-none outline-none transition focus:shadow-lg"
             />
           </div>
 
@@ -52,14 +104,14 @@ function JDMatcher() {
 
         {/* Analyze Button */}
         <div className="flex justify-center mt-10">
-          <button className="px-10 py-4 rounded-xl bg-black/90 cursor-pointer text-white font-semibold shadow-lg hover:bg-black active:scale-95 transition-all duration-300">
-            Analyze Resume
-          </button>
+          <AnalyzeButton file={file} loading={loading} onClick={handleSumbit} />
         </div>
 
       </div>
     </section>
     </PageTransition>
+    </>
+   
   );
 }
 

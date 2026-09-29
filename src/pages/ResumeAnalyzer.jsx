@@ -28,7 +28,7 @@ function ResumeAnalyzer() {
       toast.error("Please select a PDF");
       return;
     }
-
+ 
     try {
       setLoading(true);
 
