@@ -1,95 +1,163 @@
 import React from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Star, Zap, Feather, Layers } from "lucide-react";
 import PageTransition from "../components/layouts/PageTransition";
 
 const templates = [
   {
     id: 1,
-    name: "Modern",
+    name: "The Classic",
     image: "/templates/modern.png",
-    tag: "Popular",
+    tag: "Reader's Choice",
+    icon: Star,
+  
+    dot: "bg-amber-500",
+    note: "Recruiters keep coming back to this one.",
   },
   {
     id: 2,
-    name: "Professional",
+    name: "Boardroom",
     image: "/templates/professional.png",
-    tag: "ATS Friendly",
+    tag: "ATS Safe",
+    icon: Layers,
+  
+    dot: "bg-teal-500",
+    note: "Quietly confident. Built for screeners.",
   },
   {
     id: 3,
-    name: "Minimal",
+    name: "Bare",
     image: "/templates/minimal.png",
-    tag: "Simple",
+    tag: "No Fuss",
+    icon: Feather,
+   
+    dot: "bg-stone-500",
+    note: "Just you, your words, and white space.",
   },
   {
     id: 4,
-    name: "Creative",
+    name: "Studio",
     image: "/templates/creative.png",
-    tag: "Designer",
+    tag: "For Makers",
+    icon: Zap,
+   
+    dot: "bg-fuchsia-500",
+    note: "For portfolios that want to be remembered.",
   },
 ];
 
 function ResumeMaker() {
   return (
     <PageTransition>
-      <section className="min-h-screen pt-22 md:pt-25 pb-16 font-rubik">
-        <div className="mx-auto max-w-7xl px-6">
-          {/* Header */}
-          <div className="mb-12">
-          
+      <section className="min-h-screen pt-24 md:pt-28 pb-20 font-rubik bg-transparent">
+        <div className="mx-auto max-w-6xl px-6">
+          {/* Header — editorial, left aligned, with a small mark */}
+          <div className="mb-14 max-w-2xl">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-neutral-400/70" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+                Templates · 04
+              </span>
+            </div>
 
-            <h1 className="mt-5 text-4xl font-bold tracking-tight md:text-5xl">
-              Choose Your Resume Template
+            <h1 className="mt-6 text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-neutral-900 md:text-6xl">
+              Pick a page that
+              <span className="relative ml-2 inline-block">
+                <span className="relative z-10 italic font-serif text-rose-500">
+                  sounds
+                </span>
+                <span className="absolute -bottom-1 left-0 h-2 w-full rounded-full bg-rose-200/70 -z-0" />
+              </span>
+              <br />
+              like you.
             </h1>
 
-            <p className="mt-3 max-w-2xl text-gray-600">
-              Select a professionally designed template and customize it in
-              minutes. All templates are clean, modern, and ATS-friendly.
+            <p className="mt-5 text-[15px] leading-relaxed text-neutral-600">
+              Four layouts, hand-tuned. No clutter, no gimmicks — just clean
+              typography that survives the six-second scan.
             </p>
           </div>
 
-          {/* Templates */}
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {templates.map((template) => (
-              <div
-                key={template.id}
-                className="group overflow-hidden rounded-[32px] border border-white/60 bg-white/40 backdrop-blur-xl shadow-lg shadow-slate-200/40 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl"
-              >
-                {/* Preview */}
-                <div className="relative overflow-hidden p-5">
-                  <div className="absolute right-5 top-5 z-20 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold backdrop-blur-md">
-                    {template.tag}
+          {/* Templates — offset grid, some cards taller */}
+          <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+            {templates.map((template, i) => {
+              const Icon = template.icon;
+              const isWide = i === 0;
+              return (
+                <article
+                  key={template.id}
+                  className={`group relative ${isWide ? "xl:col-span-2" : ""}`}
+                >
+                  {/* soft accent glow behind card */}
+                 
+
+                  <div className="relative overflow-hidden rounded-[28px] border border-neutral-200/70 bg-white/55 backdrop-blur-md transition-all duration-500 group-hover:border-neutral-300 group-hover:bg-white/75">
+                    {/* Preview */}
+                    <div className="relative p-4">
+                      {/* tag chip */}
+                      <div className="absolute left-6 top-6 z-20 flex items-center gap-2 rounded-full bg-white/85 px-3 py-1.5 text-[11px] font-medium text-neutral-700 shadow-sm ring-1 ring-neutral-200/80 backdrop-blur">
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${template.dot}`}
+                        />
+                        {template.tag}
+                      </div>
+
+                      {/* index number — human touch */}
+                      <span className="absolute right-6 top-6 z-20 font-serif text-2xl italic text-neutral-300">
+                        0{i + 1}
+                      </span>
+
+                      <div className="overflow-hidden rounded-[20px] bg-neutral-100 ring-1 ring-neutral-200/60">
+                        <img
+                          src={template.image}
+                          alt={template.name}
+                          className="aspect-[3/4] w-full object-cover transition duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        />
+                      </div>
+
+                      {/* hover reveal note */}
+                      <div className="pointer-events-none absolute inset-x-4 bottom-4 translate-y-2 rounded-2xl bg-neutral-900/85 px-4 py-3 text-[12px] text-white opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                        {template.note}
+                      </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="flex items-end justify-between px-6 pb-6 pt-1">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <Icon
+                            size={14}
+                            className="text-neutral-400"
+                            strokeWidth={2}
+                          />
+                          <h2 className="text-[17px] font-semibold tracking-tight text-neutral-900">
+                            {template.name}
+                          </h2>
+                        </div>
+                        <p className="mt-1 text-[12.5px] text-neutral-500">
+                          Editable in minutes · PDF export
+                        </p>
+                      </div>
+
+                      <button className="group/btn flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 bg-white/70 text-neutral-800 transition-all duration-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white">
+                        <ArrowUpRight
+                          size={18}
+                          className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
+                        />
+                      </button>
+                    </div>
                   </div>
-
-                  <div className="overflow-hidden rounded-2xl bg-gray-100 shadow-xl">
-                    <img
-                      src={template.image}
-                      alt={template.name}
-                      className="aspect-[3/4] w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-                  </div>
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between px-6 pb-6">
-                  <div>
-                    <h2 className="text-xl font-semibold">
-                      {template.name}
-                    </h2>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Professional resume layout
-                    </p>
-                  </div>
-
-                  <button className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white transition-all duration-300 hover:scale-110 hover:bg-violet-600">
-                    <ArrowRight size={20} />
-                  </button>
-                </div>
-              </div>
-            ))}
+                </article>
+              );
+            })}
           </div>
+
+          {/* footer note — like a real designer left it */}
+          <p className="mt-12 text-center text-[12.5px] text-neutral-400">
+            More layouts drop every month ·{" "}
+            <span className="underline decoration-dotted underline-offset-4">
+              request one
+            </span>
+          </p>
         </div>
       </section>
     </PageTransition>
