@@ -6,40 +6,70 @@ import {
   Sparkles,
   Wand2,
 } from "lucide-react";
+import { getBetterContext } from "../../../api/resumeMakerAPI";
 
-export default function AIImproveButton({ text, onResult }) {
+export default function AIImproveButton({ text, onResult , type }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [suggestion, setSuggestion] = useState("");
 
-  const generateSuggestion = (value) => {
-    const clean = value.trim();
 
-    if (!clean) return "";
 
-    const capitalized =
-      clean.charAt(0).toUpperCase() + clean.slice(1);
+const generateSuggestion = async (value, type) => {
+  if (typeof value !== "string") {
+    return "";
+  }
 
-    return `${capitalized} — strengthened with clearer action, impact and professional wording.`;
-  };
+  const clean = value.trim();
 
-  const improve = async () => {
-    if (!text?.trim() || loading) return;
+  if (!clean) {
+    return "";
+  }
 
-    setLoading(true);
-    setOpen(false);
+  try {
+    const generatedText = await getBetterContext(
+      clean,
+      type
+    );
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 700));
+    return generatedText || "";
+  } catch (error) {
+    console.error(
+      "Failed to generate suggestion:",
+      error
+    );
 
-      const result = generateSuggestion(text);
+    return "";
+  }
+};
 
-      setSuggestion(result);
-      setOpen(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
+const improve = async () => {
+  // Make sure text is actually a string
+  if (typeof text !== "string" || !text.trim() || loading) {
+    return;
+  }
+
+  setLoading(true);
+  setOpen(false);
+
+  try {
+    await new Promise((resolve) =>
+      setTimeout(resolve, 700)
+    );
+
+    const result = await generateSuggestion(text,type);
+
+    setSuggestion(result);
+    setOpen(true);
+  } catch (error) {
+    console.error("Improve failed:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const accept = () => {
     if (!suggestion) return;

@@ -43,6 +43,7 @@ export default function SummarySection({
 
         <AIImproveButton
           text={resume?.summary}
+            type="summary"
           onResult={(value) =>
             updateResume({
               summary: value,

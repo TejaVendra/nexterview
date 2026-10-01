@@ -173,6 +173,7 @@ export default function ProjectsSection({
 
                 <AIImproveButton
                   text={item.description}
+                   type="project"
                   onResult={(value) =>
                     patch(i, {
                       description: value,

@@ -198,6 +198,7 @@ export default function ExperienceSection({
 
                 <AIImproveButton
                   text={item.description}
+                  type="experience"
                   onResult={(value) =>
                     patch(i, {
                       description: value,

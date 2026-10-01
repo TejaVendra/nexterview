@@ -12,3 +12,17 @@ export const saveResumeMaker = async (resume) => {
     resume
   );
 };
+
+
+export const getBetterContext = async (text, type) => {
+  const response = await axiosInstance.post(
+    "/resume-maker/context",
+    {
+      text,
+      type,
+    }
+  );
+
+  return response.data.generatedText;
+};
+
