@@ -45,7 +45,8 @@ import Interview from "./pages/Interview.jsx";
 import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
 import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResult.jsx";
 import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
-import ResumeEditor from "./components/sections/ResumeEditor.jsx";
+import ResumeEditor from "./components/sections/ResumeBuilders/ResumeEditor.jsx";
+import ResumeMakerGuide from "./pages/ResumeMakerGuide.jsx";
 
 
 function App() {
@@ -69,9 +70,10 @@ function App() {
 
         const isResumeResultPage = location.pathname.startsWith("/resume-analysis/result");
         const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
-            const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
+        const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
+        const isResumeEditorPage = location.pathname.startsWith("/resume-editor");
 
-        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage;
+        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage || isResumeEditorPage;
 
 
 
@@ -92,7 +94,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)]">
-      <Navbar />
+      {!isResumeEditorPage && <Navbar />}
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
@@ -145,12 +147,12 @@ function App() {
               <Route path="/resume-analysis" element={<ResumeAnalyzer />} />
               <Route path="/resume-analysis/result" element={<ResumeAnalysisResult/>}/>
 
-              <Route path="/resume-maker" element={<ResumeMaker />} />
+              <Route path="/resume-maker" element={<ResumeMakerGuide />} />
 
               <Route path="/portfolio" element={<PortfolioAnalyzer />} />
               <Route path="/portfolio/result" element={<PortfolioAnalysisResult/>}/>
               <Route path="/profile" element={<Profile/>}/>
-              <Route path="/resume-editor" element={<ResumeEditor/>}/>
+              <Route path="/resume-editor" element={<ResumeMaker/>}/>
       
             <Route element={<MockInterviewLayout />}>
                 <Route path="/mock-interview" element={<MockInterview />} />
