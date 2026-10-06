@@ -6,6 +6,7 @@ const mockInterview = createSlice({
          selectedRole:"",
          selectedOptions:{},
          isContinue1:false,
+         isListening:false,
     },
     reducers:{
         setSelectedRole(state,action){
@@ -21,11 +22,14 @@ const mockInterview = createSlice({
         
             state.isContinue1 = !state.isContinue1;
         },
+        setIsListening(state){
+            state.isListening = !state.isListening;
+        }
       
     }
 
 });
 
-export const {setSelectedRole,setSelectedOptions,setIsContinue1 } = mockInterview.actions;
+export const {setSelectedRole,setSelectedOptions,setIsContinue1 ,setIsListening} = mockInterview.actions;
 
 export default mockInterview.reducer;

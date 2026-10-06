@@ -47,6 +47,7 @@ import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResu
 import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
 import ResumeEditor from "./components/sections/ResumeBuilders/ResumeEditor.jsx";
 import ResumeMakerGuide from "./pages/ResumeMakerGuide.jsx";
+import MockInterviewResult from "./components/sections/MockInterviewResult.jsx";
 
 
 function App() {
@@ -153,11 +154,14 @@ function App() {
               <Route path="/portfolio/result" element={<PortfolioAnalysisResult/>}/>
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/resume-editor" element={<ResumeMaker/>}/>
+
+              <Route path="/mock-interview/:id/result" element={<MockInterviewResult/>}/>
       
             <Route element={<MockInterviewLayout />}>
                 <Route path="/mock-interview" element={<MockInterview />} />
                 <Route path="/mock-interview/prepare/:id" element={<MockInterview3/>}/>
                 <Route path="/interview/:id" element={<Interview/>}/>
+
 
              
             

@@ -38,3 +38,23 @@ export const pauseMockInterview = async (interviewId) => {
 
         return response.data;
     };
+
+
+export const getInterviews = async() =>{
+    const response = await axiosInstance.get('/interview/user/mockinterviews');
+
+    return response.data;
+}
+
+export const getInterviewResult = async (id) => {
+
+
+  return await axiosInstance.get(
+    `/interview/mock-interview/${id}/result`
+  );;
+};
+
+
+
+
+
