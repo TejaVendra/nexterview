@@ -16,9 +16,9 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: FaInstagram, href: 'https://instagram.com', label: 'Instagram' },
-    { icon: FaLinkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: FaXTwitter, href: 'https://twitter.com', label: 'X (Twitter)' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/____t___e___j___a____/', label: 'Instagram' },
+    { icon: FaLinkedin, href: 'https://www.linkedin.com/in/teja-vendra-62bab7319/', label: 'LinkedIn' },
+    { icon: FaXTwitter, href: 'https://x.com/T_E_J_A_01', label: 'X (Twitter)' },
   ];
 
   return (

@@ -100,7 +100,7 @@ const Hero = () => {
 
         <motion.div initial={{opacity:0 , y:50}} animate={{opacity:1,y:0}} transition={{duration:1}} className="flex justify-center pt-10">
            <div className="bg-gray-500 h-[150px] w-60 sm:h-[200px] sm:w-80 lg:h-70 lg:w-120 rounded-2xl">
-            <video className="" src="efhweufgwerf" autoPlay loop ></video>
+            <video className="" src="https://res.cloudinary.com/qcaia8en/video/upload/v1791478546/interview_preview.mp4" autoPlay loop ></video>
            </div>
         </motion.div>
 

@@ -703,15 +703,13 @@ function MockInterview3() {
 
 
                         <div className="mt-5 overflow-hidden rounded-xl bg-black">
-
-                            <video
-                                className="aspect-video w-full"
-                                preload="metadata"
-                            >
-                                Your browser does not support
-                                the video element.
-                            </video>
-
+                            <img
+                                src="https://res.cloudinary.com/qcaia8en/image/upload/v1791478853/Screenshot_2026-09-25_175858.png"
+                                alt="Screenshot preview"
+                                loading="lazy"
+                                decoding="async"
+                                className="aspect-video w-full object-cover"
+                            />
                         </div>
 
                         <div className="mt-7">

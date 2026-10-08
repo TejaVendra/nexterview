@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import ResumeEditor from "../components/sections/ResumeBuilders/ResumeEditor.jsx";
 import ResumePreview from "../components/sections/ResumeBuilders/ResumePreview.jsx";
 import TemplateSelector from "../components/sections/ResumeBuilders/TemplateSelector.jsx";
-
+import {toast} from 'react-toastify'
 import axiosInstance from "../axios/axiosInstance.js";
 
 /* =========================================================
@@ -315,6 +315,8 @@ export default function ResumeMaker() {
   useEffect(() => {
     let mounted = true;
 
+     toast.info("We recommend using this section on a larger screen for the best experience.")
+
     const loadResume = async () => {
       try {
         setLoading(true);
@@ -541,6 +543,7 @@ export default function ResumeMaker() {
      ========================================================= */
 
   useEffect(() => {
+    
     return () => {
       if (saveTimerRef.current) {
         clearTimeout(
