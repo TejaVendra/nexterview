@@ -17,7 +17,7 @@ function MockInterview2() {
   
   
   const { selectedRole, selectedOptions} = useSelector((state) => state.mockInterview);
-  console.log(selectedOptions)
+
 
   const isComplete = options.every(
   option => selectedOptions[option.title]

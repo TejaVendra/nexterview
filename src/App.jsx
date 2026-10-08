@@ -3,51 +3,51 @@ import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
-import Navbar from "./components/sections/Navbar";
-import Footer from "./components/sections/Footer";
+import Navbar from "./components/sections/Navbar.jsx";
+import Footer from "./components/sections/Footer.jsx";
 
-import { Signin } from "./components/access/Signin";
-import { Signup } from "./components/access/Signup";
+import { Signin } from "./components/access/Signin.jsx";
+import { Signup } from "./components/access/Signup.jsx";
 
-import PrivateRoute from "./routes/PrivateRoutes";
-import PublicRoute from "./routes/PublicRoutes";
-
-
-import DashboardLayout from "./components/layouts/DashboardLayout";
-import MockInterviewLayout from "./components/layouts/MockInterviewLayout";
+import PrivateRoute from "./routes/PrivateRoutes.jsx";
+import PublicRoute from "./routes/PublicRoutes.jsx";
 
 
-import MockInterview from "./pages/MockInterview";
-import ResumeAnalyzer from "./pages/ResumeAnalyzer";
-import PortfolioAnalyzer from "./pages/PortfolioAnalyzer";
-import JDMatcher from "./pages/JDMatcher";
-import ResumeMaker from "./pages/ResumeMaker";
+import DashboardLayout from "./components/layouts/DashboardLayout.jsx";
+import MockInterviewLayout from "./components/layouts/MockInterviewLayout.jsx";
+
+
+import MockInterview from "./pages/MockInterview.jsx";
+import ResumeAnalyzer from "./pages/ResumeAnalyzer.jsx";
+import PortfolioAnalyzer from "./pages/PortfolioAnalyzer.jsx";
+import JDMatcher from "./pages/JDMatcher.jsx";
+import ResumeMaker from "./pages/ResumeMaker.jsx";
 
 
 
-import VerificationPage from "./components/sections/VerificationPage";
+import VerificationPage from "./components/sections/VerificationPage.jsx";
 import { useSelector } from "react-redux";
-import Profile from "./pages/Profile";
-import GlobalLoader from "./components/loaders/GlobalLoader";
-import VerificationRoute from "./routes/VerificationRoute";
+import Profile from "./pages/Profile.jsx";
+import GlobalLoader from "./components/loaders/GlobalLoader.jsx";
+import VerificationRoute from "./routes/VerificationRoute.jsx";
 
 import { useDispatch } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
-import { checkAuth } from "./redux/thunks/authThunk";
+import { checkAuth } from "./redux/thunks/authThunk.js";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
 import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
 import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResult.jsx";
 import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
-import ResumeEditor from "./components/sections/ResumeBuilders/ResumeEditor.jsx";
 import ResumeMakerGuide from "./pages/ResumeMakerGuide.jsx";
 import MockInterviewResult from "./components/sections/MockInterviewResult.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 
 function App() {
@@ -109,6 +109,11 @@ function App() {
               </PublicRoute>
             }
           />
+          <Route
+           path="*"
+           element={
+             <NotFound/>
+           }/>
           <Route
           path='/loader'
           element={<GlobalLoader/>}/>

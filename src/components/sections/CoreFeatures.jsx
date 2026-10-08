@@ -1,6 +1,6 @@
 import React from 'react'
 import {motion} from 'motion/react'
-import { features } from '../../data/corefeatures'
+import { features } from '../../data/corefeatures.js'
 import useEmblaCarousel from "embla-carousel-react";
 import FeatureCarousel from '../ui/FeatureCarousel.jsx';
 const CoreFeatures = () => {

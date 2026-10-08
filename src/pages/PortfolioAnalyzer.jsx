@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { portfolioSuggestions } from "../data/porfolioSuggestions";
-import PageTransition from "../components/layouts/PageTransition";
+import { portfolioSuggestions } from "../data/porfolioSuggestions.js";
+import PageTransition from "../components/layouts/PageTransition.jsx";
 import { Sparkles, Globe, ArrowRight, CheckCircle2 } from "lucide-react";
 import AnalyzeButton from "../components/ui/AnalyzeButton.jsx";
 import { toast } from "react-toastify";

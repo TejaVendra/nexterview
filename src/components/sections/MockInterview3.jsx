@@ -24,7 +24,6 @@ function MockInterview3() {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    console.log(id)
 
 
 

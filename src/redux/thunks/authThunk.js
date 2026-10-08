@@ -4,7 +4,6 @@ import { provider } from "../../database/firebase.js";
 import axiosInstance from "../../axios/axiosInstance.js";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createUserWithEmailAndPassword  , signInWithEmailAndPassword} from "firebase/auth";
-import { useQueryClient } from "@tanstack/react-query";
 
 export const googleSignUp = createAsyncThunk(
   "auth/googleSignUp",

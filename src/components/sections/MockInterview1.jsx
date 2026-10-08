@@ -7,7 +7,7 @@ import { setSelectedRole , setIsContinue1 } from "../../redux/slices/mockIntervi
 function MockInterview1() {
     const dispatch = useDispatch();
     const { selectedRole } = useSelector((state) => state.mockInterview)
-    console.log(selectedRole);
+
       
   return ( 
      <div>
@@ -18,9 +18,7 @@ function MockInterview1() {
                   Select a Role
                 </h3>
     
-                <span className="text-sm text-red-500">
-                  * Required
-                </span>
+              
               </div>
     
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

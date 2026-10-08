@@ -1,13 +1,13 @@
 import React from 'react'
 import PersonalInformation from '../components/sections/PersonalInformation'
-import Settings from '../components/sections/Settings'
+import Settings from '../components/sections/Settings.jsx'
 import { useState } from 'react'
 import {AnimatePresence , motion} from 'framer-motion';
 import { CiSettings } from "react-icons/ci";
 import { FaUser } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
-import ProfilePic from '../components/ui/ProfilePic';
-import { useProfile } from '../querystack/queries/profileQuery';
+import ProfilePic from '../components/ui/ProfilePic.jsx';
+import { useProfile } from '../querystack/queries/profileQuery.js';
 
 function Profile() {
 

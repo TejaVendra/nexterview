@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpen } from "../../redux/slices/navBar";
+import { setOpen } from "../../redux/slices/navBar.js";
 import { LogOut } from "lucide-react";
-import { signOut } from "firebase/auth";
-import { auth } from "../../database/firebase.js";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../querystack/queries/profileQuery.js";
 import { useLogout } from "../../querystack/queries/profileQuery.js";

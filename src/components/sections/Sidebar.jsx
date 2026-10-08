@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 import { useSelector } from "react-redux";
-import { setSidebarOpen } from "../../redux/slices/sideBar";
+import { setSidebarOpen } from "../../redux/slices/sideBar.js";
 import { useDispatch } from "react-redux";
 import { useLogout } from "../../querystack/queries/profileQuery.js";
 import  GlobalLoader from '../loaders/GlobalLoader.jsx'

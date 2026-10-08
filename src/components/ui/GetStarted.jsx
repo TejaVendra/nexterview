@@ -1,10 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function GetStarted() {
+  const nav = useNavigate();
   return (
-    <div>
-         <Link href='/signup'
+    <div onClick={() => nav('/signup')}>
+         <Link 
                      className=' font-semibold text-white bg-blue-700 rounded-full py-2 px-3 sm:py-3 sm:px-5 mr-3 sm:mr-5 shadow-inner cursor-pointer hover:bg-blue-800 transition duration-500'>
                     Get Started
             </Link> 

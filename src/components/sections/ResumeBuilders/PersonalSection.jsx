@@ -1,5 +1,5 @@
 import React from "react";
-import SectionShell from "./SectionShell";
+import SectionShell from "./SectionShell.jsx";
 
 export default function PersonalSection({
   resume,

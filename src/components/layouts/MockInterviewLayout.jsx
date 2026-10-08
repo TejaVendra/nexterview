@@ -1,7 +1,6 @@
 import React from 'react'
-import Sidebar from '../sections/Sidebar.jsx'
 import { Outlet } from 'react-router-dom'
-import BottomBar from '../ui/BottomBar.jsx'
+
 
 function MockInterviewLayout() {
   return (

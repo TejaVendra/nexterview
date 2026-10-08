@@ -9,14 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   googleSignUp,
   emailAndPasswordSignUp,
-} from "../../redux/thunks/authThunk";
+} from "../../redux/thunks/authThunk.js";
 
 
 export const Signup = () => {
 
-  // ==================================================
-  // STATE
-  // ==================================================
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,10 +43,6 @@ export const Signup = () => {
   });
 
 
-  // ==================================================
-  // HOOKS
-  // ==================================================
-
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,9 +53,6 @@ export const Signup = () => {
   } = useSelector((state) => state.auth);
 
 
-  // ==================================================
-  // CONSTANTS
-  // ==================================================
 
   const MIN_USERNAME_LENGTH = 3;
   const MAX_USERNAME_LENGTH = 20;
@@ -76,9 +66,6 @@ export const Signup = () => {
     /[!@#$%^&*(),.?":{}|<>[\]\\/'`~;+=_-]/;
 
 
-  // ==================================================
-  // PASSWORD STRENGTH VALIDATION
-  // ==================================================
 
   const validatePasswordStrength = (value) => {
 
@@ -118,9 +105,6 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
-  // EMAIL VALIDATION
-  // ==================================================
 
   const validateEmail = (value) => {
 
@@ -137,10 +121,6 @@ export const Signup = () => {
     return "";
   };
 
-
-  // ==================================================
-  // USERNAME VALIDATION
-  // ==================================================
 
   const validateUsername = (value) => {
 
@@ -166,9 +146,6 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
-  // CONFIRM PASSWORD VALIDATION
-  // ==================================================
 
   const validateConfirmPassword = (
     passwordValue,
@@ -187,9 +164,6 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
-  // REDIRECT AUTHENTICATED USER
-  // ==================================================
 
   useEffect(() => {
 
@@ -200,9 +174,6 @@ export const Signup = () => {
   }, [user, nav]);
 
 
-  // ==================================================
-  // HANDLE REDUX AUTH ERROR
-  // ==================================================
 
   useEffect(() => {
 
@@ -217,9 +188,6 @@ export const Signup = () => {
   }, [error]);
 
 
-  // ==================================================
-  // HANDLE EMAIL VERIFICATION STATE
-  // ==================================================
 
   useEffect(() => {
 
@@ -237,9 +205,6 @@ export const Signup = () => {
   }, [user, authLoading, isSubmitting]);
 
 
-  // ==================================================
-  // FIREBASE ERROR HANDLER
-  // ==================================================
 
   const getCleanErrorMessage = (error) => {
 
@@ -251,9 +216,9 @@ export const Signup = () => {
     let errorMessage = "";
 
 
-    // --------------------------------------------------
+  
     // Firebase / Redux error can have different shapes
-    // --------------------------------------------------
+ 
 
     if (typeof error === "string") {
 
@@ -273,18 +238,17 @@ export const Signup = () => {
     }
 
 
-    // --------------------------------------------------
+   
     // Normalize error code
-    // --------------------------------------------------
+
 
     errorCode = errorCode
       .replace("auth/", "")
       .trim();
 
 
-    // --------------------------------------------------
+    
     // Firebase error messages
-    // --------------------------------------------------
 
     const errorMap = {
 
@@ -342,18 +306,16 @@ export const Signup = () => {
     };
 
 
-    // --------------------------------------------------
+   
     // Match error code
-    // --------------------------------------------------
 
     if (errorCode && errorMap[errorCode]) {
       return errorMap[errorCode];
     }
 
 
-    // --------------------------------------------------
     // Sometimes Firebase code is inside message
-    // --------------------------------------------------
+    
 
     for (const [code, message] of Object.entries(errorMap)) {
 
@@ -367,9 +329,7 @@ export const Signup = () => {
     }
 
 
-    // --------------------------------------------------
     // Unknown error
-    // --------------------------------------------------
 
     if (errorMessage) {
 
@@ -385,9 +345,7 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // USERNAME CHANGE
-  // ==================================================
 
   const handleUsername = (e) => {
 
@@ -418,9 +376,7 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // EMAIL CHANGE
-  // ==================================================
 
   const handleEmail = (e) => {
 
@@ -449,9 +405,7 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // PASSWORD CHANGE
-  // ==================================================
 
   const handlePassword = (e) => {
 
@@ -495,9 +449,7 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
     // Revalidate confirm password
-    // -----------------------------------------------
 
     if (confirmPassword) {
 
@@ -514,9 +466,7 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // CONFIRM PASSWORD CHANGE
-  // ==================================================
 
   const handleConPassword = (e) => {
 
@@ -543,9 +493,7 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
     // Password hasn't been entered yet
-    // -----------------------------------------------
 
     if (!password) {
 
@@ -559,9 +507,7 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
     // Compare passwords
-    // -----------------------------------------------
 
     if (value !== password) {
 
@@ -581,9 +527,8 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // GOOGLE SIGN UP
-  // ==================================================
+
 
   const handleGoogleSubmit = async () => {
 
@@ -601,9 +546,7 @@ export const Signup = () => {
       setVerificationError("");
 
 
-      // -----------------------------------------------
       // Dispatch Google signup
-      // -----------------------------------------------
 
       await dispatch(
         googleSignUp()
@@ -638,27 +581,20 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
   // EMAIL/PASSWORD SIGN UP
-  // ==================================================
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-
-    // -----------------------------------------------
     // Prevent multiple submissions
-    // -----------------------------------------------
 
     if (isSubmitting || authLoading) {
       return;
     }
 
 
-    // -----------------------------------------------
     // Mark all fields as touched
-    // -----------------------------------------------
 
     setTouchedFields({
       username: true,
@@ -672,9 +608,7 @@ export const Signup = () => {
     setVerificationError("");
 
 
-    // -----------------------------------------------
     // Validate username
-    // -----------------------------------------------
 
     const usernameValidation =
       validateUsername(username);
@@ -682,9 +616,8 @@ export const Signup = () => {
     setUsernameError(usernameValidation);
 
 
-    // -----------------------------------------------
     // Validate email
-    // -----------------------------------------------
+
 
     const emailValidation =
       validateEmail(email);
@@ -692,9 +625,9 @@ export const Signup = () => {
     setEmailError(emailValidation);
 
 
-    // -----------------------------------------------
+
     // Validate password
-    // -----------------------------------------------
+
 
     const passwordValidation =
       validatePasswordStrength(password);
@@ -718,9 +651,8 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
     // Validate confirm password
-    // -----------------------------------------------
+
 
     const confirmValidation =
       validateConfirmPassword(
@@ -755,9 +687,8 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
     // Final validation
-    // -----------------------------------------------
+
 
     const isValid =
       !usernameValidation &&
@@ -773,9 +704,9 @@ export const Signup = () => {
     }
 
 
-    // -----------------------------------------------
+
     // Normalize values
-    // -----------------------------------------------
+
 
     const normalizedUsername =
       username.trim();
@@ -792,9 +723,8 @@ export const Signup = () => {
       setVerificationError("");
 
 
-      // -----------------------------------------------
       // Signup
-      // -----------------------------------------------
+  
 
       await dispatch(
         emailAndPasswordSignUp({
@@ -804,19 +734,6 @@ export const Signup = () => {
         })
       ).unwrap();
 
-
-      /*
-       * Do not manually set isSubmitting(false)
-       * here.
-       *
-       * finally{} handles it.
-       *
-       * If signup creates a Firebase user,
-       * Redux should update `user`.
-       *
-       * The verification useEffect will then
-       * display the verification message.
-       */
 
     } catch (error) {
 
@@ -839,17 +756,9 @@ export const Signup = () => {
   };
 
 
-  // ==================================================
-  // LOADING STATE
-  // ==================================================
-
   const submitting =
     isSubmitting || authLoading;
 
-
-  // ==================================================
-  // PASSWORD REQUIREMENT STATUS
-  // ==================================================
 
   const passwordRequirements = [
     {
@@ -875,10 +784,6 @@ export const Signup = () => {
     },
   ];
 
-
-  // ==================================================
-  // JSX
-  // ==================================================
 
   return (
 

@@ -1,15 +1,15 @@
 import React from 'react'
 import logo from '../../assets/logo.png'
-import {motion} from 'motion/react'
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import GetStarted from '../ui/GetStarted';
-import ProfileCard from '../ui/ProfileCard';
+import GetStarted from '../ui/GetStarted.jsx';
+import ProfileCard from '../ui/ProfileCard.jsx';
 
 
 const Navbar = () => {
 
-  const { user , authLoader } = useSelector((state) => state.auth)
+  const { user , authLoader } = useSelector((state) => state.auth);
+
   return (
 
     <nav className='w-[95%] mx-auto fixed top-3  left-0 right-0 z-50'>

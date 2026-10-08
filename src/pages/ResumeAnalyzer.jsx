@@ -1,22 +1,21 @@
 
 import React, { useState } from "react";
 
-import ResumeUpload from "../components/ui/ResumeUpload";
-import ResumeAnalysisLoader from "../components/loaders/ResumeAnalysisLoader";
+import ResumeUpload from "../components/ui/ResumeUpload.jsx";
+import ResumeAnalysisLoader from "../components/loaders/ResumeAnalysisLoader.jsx";
 
 
-import PageTransition from "../components/layouts/PageTransition";
+import PageTransition from "../components/layouts/PageTransition.jsx";
 
-import { resumeSuggestions } from "../data/resumesuggestions";
+import { resumeSuggestions } from "../data/resumesuggestions.js";
 
 import { FaAngleDoubleRight } from "react-icons/fa";
-import { Sparkles } from "lucide-react";
 import AnalyzeButton from '../components/ui/AnalyzeButton.jsx'
 
 import { toast } from "react-toastify";
 
 
-import { postResumeAnalysis } from "../api/resumeAPI";
+import { postResumeAnalysis } from "../api/resumeAPI.js";
 
 
 function ResumeAnalyzer() {

@@ -1,7 +1,7 @@
 import { toast } from "react-toastify"
 import axiosInstance from "../axios/axiosInstance.js";
 import axios from "axios";
-import { auth } from "../database/firebase.js";
+
 
 export const uploadProfile = async (image) =>{
       try {
@@ -13,7 +13,7 @@ export const uploadProfile = async (image) =>{
 
         const { data } = await axiosInstance.get('/auth/user/get-signature');
 
-        console.log(data);
+   
 
         const formData  = new FormData();
 
@@ -28,7 +28,6 @@ export const uploadProfile = async (image) =>{
             formData
         );
 
-        console.log(response);
 
         const imageUrl = response.data.secure_url;
         const public_id = response.data.public_id;
@@ -42,7 +41,7 @@ export const uploadProfile = async (image) =>{
         
       } catch (error) {
 
-        console.error(error);
+    
         toast.error("Image upload failed");
         
       }

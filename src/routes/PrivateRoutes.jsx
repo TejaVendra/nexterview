@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import GlobalLoader from "../components/loaders/GlobalLoader";
+import GlobalLoader from "../components/loaders/GlobalLoader.jsx";
 
 function PrivateRoute() {
     const { user, authLoading } = useSelector(

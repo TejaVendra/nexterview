@@ -11,18 +11,15 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 
-import { auth, provider } from "../../database/firebase";
+import { auth, provider } from "../../database/firebase.js";
 import {
   emailAndPasswordSignIn,
   googleSignUp,
-} from "../../redux/thunks/authThunk";
+} from "../../redux/thunks/authThunk.js";
 
 
 export const Signin = () => {
 
-  // --------------------------------------------------
-  // State
-  // --------------------------------------------------
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,9 +41,6 @@ export const Signin = () => {
   });
 
 
-  // --------------------------------------------------
-  // Hooks
-  // --------------------------------------------------
 
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -58,18 +52,10 @@ export const Signin = () => {
   } = useSelector((state) => state.auth);
 
 
-  // --------------------------------------------------
-  // Constants
-  // --------------------------------------------------
-
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const MIN_PASSWORD_LENGTH = 8;
 
-
-  // --------------------------------------------------
-  // Redirect authenticated user
-  // --------------------------------------------------
 
   useEffect(() => {
     if (user) {
@@ -77,10 +63,6 @@ export const Signin = () => {
     }
   }, [user, nav]);
 
-
-  // --------------------------------------------------
-  // Handle Redux errors
-  // --------------------------------------------------
 
   useEffect(() => {
 
@@ -95,10 +77,6 @@ export const Signin = () => {
   }, [error]);
 
 
-  // --------------------------------------------------
-  // Firebase error handler
-  // --------------------------------------------------
-
   const getCleanErrorMessage = (error) => {
 
     if (!error) {
@@ -108,12 +86,6 @@ export const Signin = () => {
     let errorCode = "";
     let errorMessage = "";
 
-    // -----------------------------------------------
-    // Error can be:
-    // 1. Firebase error object
-    // 2. Redux error object
-    // 3. String
-    // -----------------------------------------------
 
     if (typeof error === "string") {
 
@@ -132,19 +104,12 @@ export const Signin = () => {
         "";
     }
 
-
-    // -----------------------------------------------
-    // Normalize Firebase code
-    // -----------------------------------------------
-
     errorCode = errorCode
       .replace("auth/", "")
       .trim();
 
-
-    // -----------------------------------------------
     // Firebase error mapping
-    // -----------------------------------------------
+
 
     const errorMap = {
 
@@ -201,9 +166,9 @@ export const Signin = () => {
     }
 
 
-    // -----------------------------------------------
+    
     // Sometimes the Firebase error is inside message
-    // -----------------------------------------------
+
 
     for (const [code, message] of Object.entries(errorMap)) {
 
@@ -215,10 +180,8 @@ export const Signin = () => {
       }
     }
 
-
-    // -----------------------------------------------
     // Unknown error
-    // -----------------------------------------------
+
 
     if (errorMessage) {
 
@@ -234,9 +197,8 @@ export const Signin = () => {
   };
 
 
-  // --------------------------------------------------
   // Validate email
-  // --------------------------------------------------
+
 
   const validateEmail = (value) => {
 
@@ -254,9 +216,8 @@ export const Signin = () => {
   };
 
 
-  // --------------------------------------------------
   // Validate password
-  // --------------------------------------------------
+
 
   const validatePassword = (value) => {
 
@@ -271,10 +232,7 @@ export const Signin = () => {
     return "";
   };
 
-
-  // --------------------------------------------------
   // Email change
-  // --------------------------------------------------
 
   const handleEmail = (e) => {
 
@@ -293,9 +251,7 @@ export const Signin = () => {
     setResetPasswordSent(false);
 
 
-    // -----------------------------------------------
     // Don't show "required" while typing
-    // -----------------------------------------------
 
     if (!value.trim()) {
       setEmailError("");
@@ -309,9 +265,7 @@ export const Signin = () => {
   };
 
 
-  // --------------------------------------------------
   // Password change
-  // --------------------------------------------------
 
   const handlePassword = (e) => {
 
@@ -341,9 +295,7 @@ export const Signin = () => {
   };
 
 
-  // --------------------------------------------------
   // Submit email/password login
-  // --------------------------------------------------
 
   const handleSubmit = async (e) => {
 
@@ -363,9 +315,9 @@ export const Signin = () => {
     });
 
 
-    // -----------------------------------------------
+
     // Validate
-    // -----------------------------------------------
+
 
     const emailValidation = validateEmail(email);
     const passwordValidation = validatePassword(password);
@@ -382,9 +334,8 @@ export const Signin = () => {
     }
 
 
-    // -----------------------------------------------
     // Normalize email
-    // -----------------------------------------------
+
 
     const normalizedEmail = email.trim().toLowerCase();
 
@@ -423,10 +374,7 @@ export const Signin = () => {
     }
   };
 
-
-  // --------------------------------------------------
   // Forgot password
-  // --------------------------------------------------
 
   const handleForgotPassword = async () => {
 
@@ -436,9 +384,7 @@ export const Signin = () => {
     }
 
 
-    // -----------------------------------------------
     // Validate email
-    // -----------------------------------------------
 
     const emailValidation = validateEmail(email);
 
@@ -499,10 +445,8 @@ export const Signin = () => {
     }
   };
 
-
-  // --------------------------------------------------
   // Google sign in
-  // --------------------------------------------------
+
 
   const handleGoogleSubmit = async () => {
 
@@ -548,18 +492,14 @@ export const Signin = () => {
     }
   };
 
-
-  // --------------------------------------------------
   // UI loading state
-  // --------------------------------------------------
-
-  const submitting =
-    isSubmitting || loading;
 
 
-  // --------------------------------------------------
+  const submitting = isSubmitting || loading;
+
+
   // JSX
-  // --------------------------------------------------
+
 
   return (
 

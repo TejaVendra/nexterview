@@ -16,8 +16,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 import PageTransition from "../layouts/PageTransition.jsx";
-import axiosInstance from "../../axios/axiosInstance";
+import axiosInstance from "../../axios/axiosInstance.js";
 import AnalysisLoader from "../loaders/AnalysisLoader.jsx";
+import AnalysisNotFound from "../ui/AnalysisNotFound.jsx";
 
 
 const INK = "#1a1816";
@@ -408,49 +409,7 @@ function ResumeAnalysisResult() {
 
   if (!analysis) {
     return (
-      <PageTransition>
-        <div
-          className="flex min-h-screen items-center justify-center px-4"
-          style={{ background: PAPER }}
-        >
-          <div
-            className="w-full max-w-md rounded-2xl border p-10 text-center"
-            style={{ borderColor: RULE, background: "#fffdf8" }}
-          >
-            <div
-              className="mx-auto flex h-14 w-14 items-center justify-center rounded-full"
-              style={{ background: "#f7edd8" }}
-            >
-              <AlertTriangle size={24} style={{ color: OCHRE }} />
-            </div>
-            <h2
-              className="mt-5 text-2xl"
-              style={{
-                color: INK,
-                fontFamily: '"Fraunces", Georgia, serif',
-                fontWeight: 700,
-              }}
-            >
-              No analysis on file
-            </h2>
-            <p
-              className="mt-2 text-sm leading-6"
-              style={{ color: MUTED }}
-            >
-              You haven't analyzed a resume yet. Upload one and we'll
-              give you a full breakdown.
-            </p>
-            <button
-              onClick={() => navigate("/resume-analyzer")}
-              className="mt-7 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
-              style={{ background: INK, color: PAPER }}
-            >
-              Analyze Resume
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-      </PageTransition>
+        <AnalysisNotFound/>
     );
   }
 

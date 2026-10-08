@@ -8,7 +8,7 @@ function AnalysisNotFound() {
 
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#fafaf7] px-6 py-16">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white/50 px-6 py-16">
   
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
@@ -161,7 +161,7 @@ function AnalysisNotFound() {
         
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <button
-            onClick={() => nav(-1)}
+            onClick={() => nav('/dashboard')}
               type="button"
               className="group inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-neutral-800 hover:shadow-md active:scale-[0.98]"
             >

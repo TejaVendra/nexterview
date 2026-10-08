@@ -6,7 +6,7 @@ function InterviewAlreadyFinished() {
     const { id } = useParams();
 
     return (
-        <section className="flex min-h-screen items-center justify-center bg-white px-6 font-rubik">
+        <section className="flex min-h-screen items-center justify-center bg-white/50 px-6 font-rubik">
 
             <div className="w-full max-w-md text-center">
 
@@ -25,6 +25,7 @@ function InterviewAlreadyFinished() {
                 <p className="mt-2 text-sm leading-6 text-gray-500">
                     This interview has already been completed.
                     You cannot join the same interview again.
+                    you can see the analysis in the dashboard
                 </p>
 
                 <p className="mt-3 text-xs text-gray-400">

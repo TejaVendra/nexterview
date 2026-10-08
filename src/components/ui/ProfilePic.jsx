@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setShowProfilePic } from "../../redux/slices/Profile";
+import { setShowProfilePic } from "../../redux/slices/Profile.js";
 
 function ProfilePic({ profilePic }) {
 

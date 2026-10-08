@@ -6,7 +6,7 @@ import {
   Sparkles,
   Wand2,
 } from "lucide-react";
-import { getBetterContext } from "../../../api/resumeMakerAPI";
+import { getBetterContext } from "../../../api/resumeMakerAPI.js";
 
 export default function AIImproveButton({ text, onResult , type }) {
   const [open, setOpen] = useState(false);

@@ -1,5 +1,5 @@
 import { useQuery , useMutation , useQueryClient } from "@tanstack/react-query";
-import { createMockInterview } from "../helpers/mockInterviewHelper";
+import { createMockInterview } from "../helpers/mockInterviewHelper.js";
 
 
 export const useCreateMockInterview = () =>{

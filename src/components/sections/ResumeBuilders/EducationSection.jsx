@@ -5,7 +5,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 
-import SectionShell from "./SectionShell";
+import SectionShell from "./SectionShell.jsx";
 
 const createEducation = () => ({
   id: crypto.randomUUID(),

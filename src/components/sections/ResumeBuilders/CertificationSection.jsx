@@ -5,7 +5,7 @@ import {
   Award,
 } from "lucide-react";
 
-import SectionShell from "./SectionShell";
+import SectionShell from "./SectionShell.jsx";
 
 const createCertification = () => ({
   id: crypto.randomUUID(),

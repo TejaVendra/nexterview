@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import GlobalLoader from "../components/loaders/GlobalLoader";
+import GlobalLoader from "../components/loaders/GlobalLoader.jsx";
 
 const PublicRoute = ({ children }) => {
   const { user, authLoading } = useSelector(

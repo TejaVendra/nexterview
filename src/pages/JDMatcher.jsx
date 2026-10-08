@@ -1,14 +1,14 @@
 import React from "react";
-import ResumeUploader from "../components/ui/ResumeUpload";
+import ResumeUploader from "../components/ui/ResumeUpload.jsx";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
-import PageTransition from "../components/layouts/PageTransition";
+import PageTransition from "../components/layouts/PageTransition.jsx";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { postResumeMatch } from "../api/resumeMatchAPI";
+import { postResumeMatch } from "../api/resumeMatchAPI.js";
 import { useNavigate} from 'react-router-dom'
-import AnalyzeButton from "../components/ui/AnalyzeButton";
-import JDMatcherLoader from "../components/loaders/JDMatcherLoader";
+import AnalyzeButton from "../components/ui/AnalyzeButton.jsx";
+import JDMatcherLoader from "../components/loaders/JDMatcherLoader.jsx";
 
 function JDMatcher() {
 

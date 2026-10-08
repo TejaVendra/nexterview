@@ -1,11 +1,11 @@
 import { IoCameraOutline } from "react-icons/io5";
-import { useProfile } from "../../querystack/queries/profileQuery";
+import { useProfile } from "../../querystack/queries/profileQuery.js";
 import LocalLoader from "../loaders/LocalLoader.jsx";
 import { useUpdateName } from "../../querystack/queries/profileQuery.js";
 import { useState } from "react";
 
 import ProfileSkeleton from "../loaders/ProfileSkeleton.jsx";
-import { useUpdateProfile } from "../../querystack/queries/profileQuery";
+import { useUpdateProfile } from "../../querystack/queries/profileQuery.js";
 import UploadingFile from "../loaders/UploadingFile.jsx";
 import { useSelector} from 'react-redux'
 import { useDispatch } from "react-redux";

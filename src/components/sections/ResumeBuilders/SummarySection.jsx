@@ -1,6 +1,6 @@
 import React from "react";
-import SectionShell from "./SectionShell";
-import AIImproveButton from "./AIImproveButton";
+import SectionShell from "./SectionShell.jsx";
+import AIImproveButton from "./AIImproveButton.jsx";
 
 export default function SummarySection({
   resume,

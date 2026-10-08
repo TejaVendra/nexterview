@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import PageTransition from "../components/layouts/PageTransition";
-import MockInterview1 from "../components/sections/MockInterview1";
-import MockInterview2 from "../components/sections/MockInterview2";
+import PageTransition from "../components/layouts/PageTransition.jsx";
+import MockInterview1 from "../components/sections/MockInterview1.jsx";
+import MockInterview2 from "../components/sections/MockInterview2.jsx";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
 

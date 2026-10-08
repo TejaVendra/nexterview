@@ -21,9 +21,7 @@ function VerificationPage() {
   }
 
   const handleVerify = async() =>{
-      console.log('====================================');
-      console.log("clicked");
-      console.log('====================================');
+     
       dispatch(syncEmailVerification());
   }
 

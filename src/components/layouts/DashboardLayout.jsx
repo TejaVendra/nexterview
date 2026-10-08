@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Sidebar from "../sections/Sidebar";
-import BottomBar from "../ui/BottomBar";
+import Sidebar from "../sections/Sidebar.jsx";
+import BottomBar from "../ui/BottomBar.jsx";
 import { useSelector } from "react-redux";
 
 function DashboardLayout() {

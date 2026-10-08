@@ -16,7 +16,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-import PageTransition from "../components/layouts/PageTransition";
+import PageTransition from "../components/layouts/PageTransition.jsx";
 import { useNavigate } from "react-router-dom";
 
 function ResumeMakerGuide() {

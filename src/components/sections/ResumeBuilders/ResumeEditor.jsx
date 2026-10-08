@@ -11,13 +11,13 @@ import {
   Award,
 } from "lucide-react";
 
-import PersonalSection from "./PersonalSection";
-import SummarySection from "./SummarySection";
-import ExperienceSection from "./ExperienceSection";
-import EducationSection from "./EducationSection";
-import ProjectsSection from "./ProjectsSection";
-import SkillsSection from "./SkillsSection";
-import CertificationSection from "./CertificationSection";
+import PersonalSection from "./PersonalSection.jsx";
+import SummarySection from "./SummarySection.jsx";
+import ExperienceSection from "./ExperienceSection.jsx";
+import EducationSection from "./EducationSection.jsx";
+import ProjectsSection from "./ProjectsSection.jsx";
+import SkillsSection from "./SkillsSection.jsx";
+import CertificationSection from "./CertificationSection.jsx";
 
 const sections = [
   ["personal", "Personal", UserRound],

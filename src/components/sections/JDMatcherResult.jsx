@@ -18,10 +18,10 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import axiosInstance from "../../axios/axiosInstance";
+import axiosInstance from "../../axios/axiosInstance.js";
 import PageTransition from "../layouts/PageTransition.jsx";
-import JDMatcherLoader from "../loaders/JDMatcherLoader.jsx";
 import JDMatcherSkeleton from "../loaders/JDMatcherSkeleton.jsx";
+import AnalysisNotFound from "../ui/AnalysisNotFound.jsx";
 
 
 
@@ -1337,74 +1337,6 @@ function RecommendedSkills({
 
 
 
-function NoAnalysis({
-  onBack,
-}) {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center px-4"
-      style={{
-        background: PAPER,
-      }}
-    >
-      <div
-        className="w-full max-w-md rounded-2xl border p-10 text-center"
-        style={{
-          borderColor: RULE,
-          background: "#fffdf8",
-        }}
-      >
-        <div
-          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full"
-          style={{
-            background: "#f7edd8",
-          }}
-        >
-          <AlertTriangle
-            size={24}
-            style={{ color: OCHRE }}
-          />
-        </div>
-
-        <h2
-          className="mt-5 text-2xl"
-          style={{
-            color: INK,
-            fontFamily:
-              '"Fraunces", Georgia, serif',
-            fontWeight: 700,
-          }}
-        >
-          No match report yet
-        </h2>
-
-        <p
-          className="mt-2 text-sm leading-6"
-          style={{
-            color: MUTED,
-          }}
-        >
-          You haven't run a JD match analysis yet.
-          Paste a job description and upload your
-          resume to get a full comparison.
-        </p>
-
-        <button
-          onClick={onBack}
-          className="mt-7 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
-          style={{
-            background: INK,
-            color: PAPER,
-          }}
-        >
-          Run a match
-
-          <ChevronRight size={16} />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 
 
@@ -1449,11 +1381,7 @@ function JDMatcherResult() {
 
   if (!analysis) {
     return (
-      <NoAnalysis
-        onBack={() =>
-          navigate(-1)
-        }
-      />
+      <AnalysisNotFound/>
     );
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import { interviewFeatures } from '../../data/interviewFeatures'
-import InterviewFeaturesCard from '../ui/InterviewFeaturesCard'
+import { interviewFeatures } from '../../data/interviewFeatures.js'
+import InterviewFeaturesCard from '../ui/InterviewFeaturesCard.jsx'
 import { motion } from 'motion/react'
 
 const InterviewFeatures = () => {
