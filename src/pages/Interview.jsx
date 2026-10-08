@@ -163,7 +163,7 @@ function Interview() {
 
         console.log("Creating interview socket...");
 
-        const socket = io("http://localhost:3100", {
+        const socket = io(import.meta.env.VITE_BASE_URL, {
             withCredentials: true,
             transports: ["websocket", "polling"],
             reconnection: true,
