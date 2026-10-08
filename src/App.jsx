@@ -38,7 +38,7 @@ import { useDispatch } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
-import { checkAuth } from "./redux/thunks/authThunk.js";
+import { checkAuth, handleGoogleRedirect } from "./redux/thunks/authThunk.js";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
@@ -79,20 +79,32 @@ function App() {
 
 
 
-    useEffect(() => {
+ useEffect(() => {
+  const initializeAuth = async () => {
+    try {
+      const result = await dispatch(
+        handleGoogleRedirect()
+      ).unwrap();
 
-      dispatch(checkAuth());
+      if (!result) {
+        await dispatch(checkAuth());
+      }
 
-    },[dispatch]);
+    } catch (error) {
+      console.error("Auth initialization error:", error);
+
+      await dispatch(checkAuth());
+    }
+  };
+
+  initializeAuth();
+}, [dispatch]);
 
   if(authLoading){
     return <GlobalLoader/>
   } // checking wheather the user is authenticated or not
 
 
-  // de-bug purpose
-  console.log("Printed from APP.jsx file: ")
-  console.log(user)
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,#ECD4FF,#C0F8FF,#D6E5FF,#E9E9E9)]">
