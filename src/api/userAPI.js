@@ -56,5 +56,5 @@ export const logout = async() =>{
 
 export const verifyAccount = async() =>{
 
-  const response = await axios.post("/auth/user/authenticate");
+  const response = await axiosInstance.post("/auth/user/authenticate");
 }
