@@ -10,7 +10,7 @@ import InterviewNotFound from "../components/ui/InterviewNotFound.jsx";
 import InterviewAlreadyFinished from "../components/ui/InterviewAlreadyFinished.jsx";
 import InterviewUnavailable from "../components/ui/InterviewUnavailable.jsx";
 import InterviewLoading from "../components/loaders/InterviewLoading.jsx";
-import InterviewExit from "../components/ui/interviewExit.jsx";
+import InterviewExit from "../components/ui/InterviewExit.jsx";
 
 import { setIsListening } from "../redux/slices/mockInterview.js";
 import useAssemblyVoice from "../hooks/useAssemblyVoice.js";

@@ -2,7 +2,7 @@ import React from 'react';
 import { Copyright } from 'lucide-react';
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/logo.png';
 import { motion } from 'motion/react';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
