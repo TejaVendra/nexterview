@@ -48,6 +48,7 @@ import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
 import ResumeMakerGuide from "./pages/ResumeMakerGuide.jsx";
 import MockInterviewResult from "./components/sections/MockInterviewResult.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Contact from "./pages/Contact.jsx";
 
 
 function App() {
@@ -114,6 +115,9 @@ function App() {
            element={
              <NotFound/>
            }/>
+           <Route
+           path="/contact"
+           element={<Contact/>}/>
           <Route
           path='/loader'
           element={<GlobalLoader/>}/>
