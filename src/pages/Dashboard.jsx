@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-
-import PageTransition from "../components/layouts/PageTransition";
-
+import PageTransition from "../components/layouts/PageTransition.jsx";
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -17,9 +15,16 @@ import {
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { getInterviews } from "../api/interviewAPI.js";
+import { useDashboardInteviewsResult } from "../querystack/queries/dashboardQuery.js";
+
 
 import { useNavigate } from "react-router-dom";
+
+import { GoGraph } from "react-icons/go";
+
+
+import { useProfile } from "../querystack/queries/profileQuery.js";
+import { useDashboardAnalysisScores } from "../querystack/queries/dashboardQuery.js";
 
 
 function InterviewPerformanceChart({ interviews }) {
@@ -69,11 +74,9 @@ function InterviewPerformanceChart({ interviews }) {
   const paddingTop = 20;
   const paddingBottom = 48;
 
-  const graphWidth =
-    width - paddingLeft - paddingRight;
+  const graphWidth = width - paddingLeft - paddingRight;
 
-  const graphHeight =
-    height - paddingTop - paddingBottom;
+  const graphHeight = height - paddingTop - paddingBottom;
 
 
 
@@ -293,52 +296,29 @@ function InterviewPerformanceChart({ interviews }) {
 function Dashboard() {
   const navigate = useNavigate();
 
-  const [activeView, setActiveView] =
-    useState("overview");
-
-  const [interviews, setInterviews] = useState([]);
-
-  const [loadingInterviews, setLoadingInterviews] =
-    useState(true);
-
-  const [interviewError, setInterviewError] =
-    useState("");
+  const [activeView, setActiveView] = useState("overview");
 
 
-  useEffect(() => {
-    const fetchInterviews = async () => {
-      try {
-        setLoadingInterviews(true);
-        setInterviewError("");
 
-        const response = await getInterviews();
+  const {data:user} = useProfile();
+
+  const {data:scores,isLoading:isGettingScores} = useDashboardAnalysisScores();
+
+ 
+        const {data:response , isPending:loadingInterviews , error , isError } =  useDashboardInteviewsResult();
 
         console.log("Dashboard interviews:", response);
 
         const data = response?.interviews || [];
 
-        setInterviews(
-          Array.isArray(data) ? data : []
-        );
-      } catch (error) {
-        console.error(
-          "Failed to fetch interviews:",
-          error
-        );
+       
+        const interviews =  Array.isArray(data) ? data : []
+        
+ 
 
-        setInterviewError(
-          error?.response?.data?.message ||
-            "Failed to load mock interviews."
-        );
+        const interviewError = error?.response?.data?.message ||"Failed to load mock interviews.";
 
-        setInterviews([]);
-      } finally {
-        setLoadingInterviews(false);
-      }
-    };
-
-    fetchInterviews();
-  }, []);
+     
 
 
 
@@ -389,8 +369,7 @@ function Dashboard() {
 
   
 
-  const totalInterviews =
-    interviews.length;
+  const totalInterviews = interviews.length;
 
   const completedInterviews =
     interviews.filter(
@@ -429,16 +408,14 @@ function Dashboard() {
 
  
 
-  const recentInterviews =
-    sortedInterviews.slice(0, 5);
+  const recentInterviews = sortedInterviews.slice(0, 5);
 
  
 
   const handleViewResult = (id) => {
     if (!id) return;
 
-    navigate(`/mock-interview/${id}/result`
-    );
+    navigate(`/mock-interview/${id}/result`);
   };
 
   return (
@@ -450,12 +427,12 @@ function Dashboard() {
           <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
 
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-600">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">
                 Dashboard
               </p>
 
               <h1 className="text-3xl font-bold tracking-tight text-gray-800 md:text-4xl">
-                Welcome back 👋
+                Welcome back ,{user?.name || "User"}
               </h1>
 
               <p className="mt-2 max-w-xl text-sm leading-6 text-gray-500">
@@ -468,9 +445,9 @@ function Dashboard() {
             <div className="flex items-center gap-2 rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
 
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50">
-                <Sparkles
+                <GoGraph
                   size={17}
-                  className="text-orange-600"
+                  className="text-blue-600"
                 />
               </div>
 
@@ -489,7 +466,7 @@ function Dashboard() {
 
      
 
-          <div className="mb-8 flex overflow-x-auto rounded-2xl border border-gray-100 bg-gray-50 p-1">
+          <div className="mb-8 flex overflow-x-auto rounded-4xl border border-gray-100 bg-gray-100 p-2">
 
             {[
               ["overview", "Overview"],
@@ -505,16 +482,16 @@ function Dashboard() {
                   onClick={() =>
                     setActiveView(id)
                   }
-                  className={`relative flex-1 whitespace-nowrap rounded-xl px-5 py-2.5 text-xs font-semibold transition-colors ${
+                  className={`relative flex-1 whitespace-nowrap rounded-xl px-5 py-3.5 text-sm font-semibold transition-colors ${
                     active
-                      ? "text-white"
+                      ? "text-purple-400 backdrop-blur-2xl"
                       : "text-gray-500 hover:text-gray-800"
                   }`}
                 >
                   {active && (
                     <motion.span
                       layoutId="dashboard-tab"
-                      className="absolute inset-0 rounded-xl bg-gray-900"
+                      className="absolute inset-0 rounded-4xl  bg-white/90"
                       transition={{
                         type: "spring",
                         stiffness: 400,
@@ -567,16 +544,16 @@ function Dashboard() {
                   >
                     <div className="flex items-start justify-between">
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50">
                         <BriefcaseBusiness
                           size={18}
-                          className="text-orange-600"
+                          className="text-[#1E291B]"
                         />
                       </div>
 
                       <ArrowUpRight
                         size={16}
-                        className="text-gray-300"
+                        className="text-gray-500"
                       />
                     </div>
 
@@ -603,16 +580,16 @@ function Dashboard() {
                   >
                     <div className="flex items-start justify-between">
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50">
                         <BarChart3
                           size={18}
-                          className="text-orange-600"
+                          className="text-[#1E291B]"
                         />
                       </div>
 
                       <ArrowUpRight
                         size={16}
-                        className="text-gray-300"
+                        className="text-gray-500"
                       />
                     </div>
 
@@ -639,16 +616,16 @@ function Dashboard() {
                   >
                     <div className="flex items-start justify-between">
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50">
                         <Target
                           size={18}
-                          className="text-orange-600"
+                          className="text-[#1E291B]"
                         />
                       </div>
 
                       <ArrowUpRight
                         size={16}
-                        className="text-gray-300"
+                        className="text-gray-500"
                       />
                     </div>
 
@@ -675,16 +652,16 @@ function Dashboard() {
                   >
                     <div className="flex items-start justify-between">
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50">
                         <TrendingUp
                           size={18}
-                          className="text-orange-600"
+                          className="text-[#1E291B]"
                         />
                       </div>
 
                       <ArrowUpRight
                         size={16}
-                        className="text-gray-300"
+                        className="text-gray-500"
                       />
                     </div>
 
@@ -755,7 +732,7 @@ function Dashboard() {
 
                       <TrendingUp
                         size={18}
-                        className="text-orange-600"
+                        className="text-blue-600"
                       />
                     </div>
 
@@ -825,21 +802,21 @@ function Dashboard() {
                           "interviews"
                         )
                       }
-                      className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700"
+                      className="flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700"
                     >
                       View all
                       <ChevronRight size={14} />
                     </button>
                   </div>
 
-                  {interviewError && (
+                  {isError && (
                     <div className="rounded-xl bg-red-50 p-4 text-xs text-red-600">
                       {interviewError}
                     </div>
                   )}
 
                   {!loadingInterviews &&
-                    !interviewError &&
+                    !isError &&
                     recentInterviews.length ===
                       0 && (
                       <div className="rounded-xl border border-dashed border-gray-200 py-12 text-center">
@@ -940,7 +917,7 @@ function Dashboard() {
                                   interview.id
                                 )
                               }
-                              className="rounded-xl bg-gray-900 px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-orange-600"
+                              className="rounded-xl bg-gray-800 px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-black"
                             >
                               View result
                             </button>
@@ -1027,10 +1004,10 @@ function Dashboard() {
 
                           <div className="flex items-center justify-between">
 
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50">
                               <BriefcaseBusiness
                                 size={18}
-                                className="text-orange-600"
+                                className="text-[#1E291B]"
                               />
                             </div>
 
@@ -1075,7 +1052,7 @@ function Dashboard() {
                                   interview.id
                                 )
                               }
-                              className="rounded-xl bg-gray-900 px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-orange-600"
+                              className="rounded-xl bg-gray-800 px-3 py-2 text-[10px] font-semibold text-white transition hover:bg-black"
                             >
                               View result
                             </button>
@@ -1093,142 +1070,142 @@ function Dashboard() {
 
 
             {activeView === "analyses" && (
-  <motion.div
-    key="analyses"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
-    transition={{ duration: 0.35 }}
-  >
-    <div className="mb-6">
-      <h2 className="text-2xl font-bold text-gray-800">
-        Your Analyses
-      </h2>
+              <motion.div
+                key="analyses"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35 }}
+              >
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    Your Analyses
+                  </h2>
 
-      <p className="mt-2 text-sm text-gray-500">
-        Quick overview of your career analysis results.
-      </p>
-    </div>
+                  <p className="mt-2 text-sm text-gray-500">
+                    Quick overview of your career analysis results.
+                  </p>
+                </div>
 
-    <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-3">
 
-  {/* Resume */}
-  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-    <div className="flex items-center justify-between">
-      <FileText size={18} className="text-orange-600" />
+              {/* Resume */}
+              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <FileText size={18} className="text-[#1E291B]" />
 
-      <span className="text-2xl font-bold text-gray-800">
-        82
-      </span>
-    </div>
+                  <span className="text-2xl font-bold text-gray-800">
+                    { isGettingScores ? "-" : scores?.resumeAnalysisScore || 0}
+                  </span>
+                </div>
 
-    <h3 className="mt-5 text-sm font-bold text-gray-800">
-      Resume Analysis
-    </h3>
+                <h3 className="mt-5 text-sm font-bold text-gray-800">
+                  Resume Analysis
+                </h3>
 
-    <p className="mt-1 text-xs text-gray-500">
-      ATS Score
-    </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  ATS Score
+                </p>
 
-    <div className="mt-4 h-1.5 rounded-full bg-gray-100">
-      <div
-        className="h-full rounded-full bg-orange-500"
-        style={{ width: "82%" }}
-      />
-    </div>
+                <div className="mt-4 h-1.5 rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-orange-500"
+                    style={{ width: scores?.resumeAnalysisScore || 0}}
+                  />
+                </div>
 
-    <p className="mt-3 text-[11px] text-gray-400">
-      Good resume quality
-    </p>
+                <p className="mt-3 text-[11px] text-gray-400">
+                  Good resume quality
+                </p>
 
-    <button
-      onClick={() => navigate("/resume-analysis/result")}
-      className="mt-5 flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700"
-    >
-      View full result
-      <ChevronRight size={13} />
-    </button>
-  </div>
+                <button
+                  onClick={() => navigate("/resume-analysis/result")}
+                  className="mt-5 flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-700 hover:translate-x-1 duration-200"
+                >
+                  View full result
+                  <ChevronRight size={13} />
+                </button>
+              </div>
 
-  {/* Job Description */}
-  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-    <div className="flex items-center justify-between">
-      <Target size={18} className="text-orange-600" />
+              {/* Job Description */}
+              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <Target size={18} className="text-[#1E291B]" />
 
-      <span className="text-2xl font-bold text-gray-800">
-        76%
-      </span>
-    </div>
+                  <span className="text-2xl font-bold text-gray-800">
+                    {isGettingScores ? "-" : scores?.jobMatchScore || 0}
+                  </span>
+                </div>
 
-    <h3 className="mt-5 text-sm font-bold text-gray-800">
-      Job Match
-    </h3>
+                <h3 className="mt-5 text-sm font-bold text-gray-800">
+                  Job Match
+                </h3>
 
-    <p className="mt-1 text-xs text-gray-500">
-      Profile match score
-    </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  Profile match score
+                </p>
 
-    <div className="mt-4 h-1.5 rounded-full bg-gray-100">
-      <div
-        className="h-full rounded-full bg-orange-500"
-        style={{ width: "76%" }}
-      />
-    </div>
+                <div className="mt-4 h-1.5 rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-orange-500"
+                    style={{ width: scores?.jobMatchScore || 0 }}
+                  />
+                </div>
 
-    <p className="mt-3 text-[11px] text-gray-400">
-      Strong skill alignment
-    </p>
+                <p className="mt-3 text-[11px] text-gray-400">
+                  Strong skill alignment
+                </p>
 
-    <button
-      onClick={() => navigate("/jd-analysis/result")}
-      className="mt-5 flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700"
-    >
-      View full result
-      <ChevronRight size={13} />
-    </button>
-  </div>
+                <button
+                  onClick={() => navigate("/resume-matches/result")}
+                  className="mt-5 flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-700 hover:translate-x-1 duration-200"
+                >
+                  View full result
+                  <ChevronRight size={13} />
+                </button>
+              </div>
 
-  {/* Portfolio */}
-  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-    <div className="flex items-center justify-between">
-      <FolderKanban size={18} className="text-orange-600" />
+              {/* Portfolio */}
+              <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <FolderKanban size={18} className="text-[#1E291B]" />
 
-      <span className="text-2xl font-bold text-gray-800">
-        88
-      </span>
-    </div>
+                  <span className="text-2xl font-bold text-gray-800">
+                    {isGettingScores ? "-" : scores?.portfolioAnalysisScore || 0}
+                  </span>
+                </div>
 
-    <h3 className="mt-5 text-sm font-bold text-gray-800">
-      Portfolio Analysis
-    </h3>
+                <h3 className="mt-5 text-sm font-bold text-gray-800">
+                  Portfolio Analysis
+                </h3>
 
-    <p className="mt-1 text-xs text-gray-500">
-      Portfolio score
-    </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  Portfolio score
+                </p>
 
-    <div className="mt-4 h-1.5 rounded-full bg-gray-100">
-      <div
-        className="h-full rounded-full bg-orange-500"
-        style={{ width: "88%" }}
-      />
-    </div>
+                <div className="mt-4 h-1.5 rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-orange-500"
+                    style={{ width: scores?.portfolioAnalysisScore || 0 }}
+                  />
+                </div>
 
-    <p className="mt-3 text-[11px] text-gray-400">
-      Strong project presentation
-    </p>
+                <p className="mt-3 text-[11px] text-gray-400">
+                  Strong project presentation
+                </p>
 
-    <button
-      onClick={() => navigate("/portfolio-analysis/result")}
-      className="mt-5 flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700"
-    >
-      View full result
-      <ChevronRight size={13} />
-    </button>
-  </div>
+                <button
+                  onClick={() => navigate("/portfolio/result")}
+                  className="mt-5 flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-700 hover:translate-x-1 duration-200"
+                >
+                  View full result
+                  <ChevronRight size={13} />
+                </button>
+              </div>
 
-</div>
-  </motion.div>
-)}
+            </div>
+              </motion.div>
+            )}
 
   
 

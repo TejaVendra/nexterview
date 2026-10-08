@@ -1,9 +1,9 @@
-import axiosInstance from "../axios/axiosInstance";
+import axiosInstance from "../axios/axiosInstance.js";
 
 export const getMockInterview = async (interviewId) => {
 
     const response = await axiosInstance.get(
-        `http://localhost:3100/interview/${interviewId}`,
+        `/interview/${interviewId}`,
         {
             withCredentials: true,
         }
@@ -14,7 +14,7 @@ export const getMockInterview = async (interviewId) => {
 
 export const startMockInterview = async (interviewId) => {
     const response = await axiosInstance.post(
-        `http://localhost:3100/interview/${interviewId}/start`,
+        `/interview/${interviewId}/start`,
         {},
         {
             withCredentials: true,
@@ -29,7 +29,7 @@ export const pauseMockInterview = async (interviewId) => {
 
         const response =
             await axiosInstance.post(
-                `http://localhost:3100/interview/${interviewId}/pause`,
+                `/interview/${interviewId}/pause`,
                 {},
                 {
                     withCredentials: true,
@@ -40,11 +40,7 @@ export const pauseMockInterview = async (interviewId) => {
     };
 
 
-export const getInterviews = async() =>{
-    const response = await axiosInstance.get('/interview/user/mockinterviews');
 
-    return response.data;
-}
 
 export const getInterviewResult = async (id) => {
 

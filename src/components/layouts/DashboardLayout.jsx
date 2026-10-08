@@ -22,17 +22,17 @@ function DashboardLayout() {
      const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
      const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
      const isResumeEditorPage = location.pathname.startsWith("/resume-editor");
+     const isInterviewResultPage = location.pathname.startsWith("/mock-interview/") && location.pathname.endsWith("/result");
+     const isInterviewPage = location.pathname.startsWith("/interview/")
 
-       const isInterviewPage = location.pathname.startsWith("/interview/")
-
-        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage || isPortfolioResultPage || isResumeMatchResultPage || isResumeEditorPage; 
+        const hideSidebar =  isInterviewCheckPage || isInterviewPage || isResumeResultPage || isPortfolioResultPage || isResumeMatchResultPage || isResumeEditorPage ||isInterviewResultPage; 
 
     return (
         <div className="min-h-screen">
 
            {!hideSidebar && <Sidebar />}
 
-            <BottomBar />
+           { !hideSidebar && <BottomBar />}
 
 
             <main

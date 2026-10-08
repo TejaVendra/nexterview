@@ -7,7 +7,7 @@ import { startMockInterview } from "../../api/interviewAPI.js";
 // SOCKET.IO
 
 
-const socket = io("http://localhost:3100", {
+const socket = io(import.meta.env.VITE_BASE_URL, {
     withCredentials: true,
     autoConnect: false,
 });

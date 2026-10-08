@@ -73,8 +73,8 @@ function App() {
         const isPortfolioResultPage = location.pathname.startsWith("/portfolio/result");
         const isResumeMatchResultPage = location.pathname.startsWith("/resume-matches/result");
         const isResumeEditorPage = location.pathname.startsWith("/resume-editor");
-
-        const hidePage = isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage || isResumeEditorPage;
+        const isInterviewResultPage = location.pathname.startsWith("/mock-interview/") && location.pathname.endsWith("/result");
+        const hidePage = isInterviewResultPage || isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage || isResumeEditorPage;
 
 
 
