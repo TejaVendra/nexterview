@@ -42,7 +42,7 @@ import { checkAuth, handleGoogleRedirect } from "./redux/thunks/authThunk.js";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
-import ResumeAnalysisResult from "./components/sections/resumeAnalysisResult.jsx";
+import ResumeAnalysisResult from "./components/sections/ResumeAnalysisResult.jsx";
 import PortfolioAnalysisResult from "./components/sections/PortfolioAnalysisResult.jsx";
 import JDMatcherResult from "./components/sections/JDMatcherResult.jsx";
 import ResumeMakerGuide from "./pages/ResumeMakerGuide.jsx";
