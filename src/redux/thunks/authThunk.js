@@ -84,22 +84,27 @@ export const handleGoogleRedirect = createAsyncThunk(
 
   async (_, thunkAPI) => {
     try {
+      console.log("Checking Google redirect result...");
 
       const result = await getRedirectResult(auth);
 
-      // No redirect login happened
       if (!result) {
+        console.log("No Google redirect result found");
         return null;
       }
 
+      console.log("Google redirect successful:", result.user.email);
+
       const idToken = await result.user.getIdToken();
+
+      console.log("Firebase ID token obtained");
 
       const response = await axiosInstance.post(
         "/auth/authenticate",
-        {
-          idToken,
-        }
+        { idToken }
       );
+
+      console.log("Backend authentication successful");
 
       localStorage.setItem(
         "access_token",
@@ -107,25 +112,17 @@ export const handleGoogleRedirect = createAsyncThunk(
       );
 
       return response.data;
-
     } catch (error) {
-
-      console.error(
-        "Google redirect authentication error:",
-        error
-      );
-
-      localStorage.removeItem("access_token");
+      console.error("Mobile redirect error:", error);
 
       return thunkAPI.rejectWithValue(
         error.response?.data?.message ||
         error.message ||
-        "Google authentication failed."
+        "Google authentication failed"
       );
     }
   }
 );
-
 
 // --------------------------------------------------
 // Email + Password Sign Up
