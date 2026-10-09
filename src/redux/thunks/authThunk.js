@@ -33,14 +33,14 @@ export const googleSignUp = createAsyncThunk(
 
       // Mobile → Redirect
       if (isMobileDevice()) {
-       await authReady;
-        await signInWithRedirect(auth, provider);
+          await authReady;
 
-        // IMPORTANT:
-        // The function will redirect away from the application.
-        // There is no response to return here.
-        return null;
-      }
+          sessionStorage.setItem("googleRedirectPending", "true");
+
+          await signInWithRedirect(auth, provider);
+
+          return null;
+        }
 
       // Desktop → Popup
       const result = await signInWithPopup(auth, provider);
@@ -81,30 +81,38 @@ export const googleSignUp = createAsyncThunk(
 
 export const handleGoogleRedirect = createAsyncThunk(
   "auth/handleGoogleRedirect",
-
   async (_, thunkAPI) => {
     try {
-      console.log("Checking Google redirect result...");
+      await authReady;
+
+      const redirectPending =
+        sessionStorage.getItem("googleRedirectPending") === "true";
+
+      console.log("Redirect pending:", redirectPending);
 
       const result = await getRedirectResult(auth);
 
       if (!result) {
-        console.log("No Google redirect result found");
+        console.log("No redirect result found");
+
+        if (redirectPending) {
+          sessionStorage.removeItem("googleRedirectPending");
+          console.error(
+            "A redirect was expected, but Firebase returned no result."
+          );
+        }
+
         return null;
       }
 
-      console.log("Google redirect successful:", result.user.email);
+      sessionStorage.removeItem("googleRedirectPending");
 
       const idToken = await result.user.getIdToken();
-
-      console.log("Firebase ID token obtained");
 
       const response = await axiosInstance.post(
         "/auth/authenticate",
         { idToken }
       );
-
-      console.log("Backend authentication successful");
 
       localStorage.setItem(
         "access_token",
@@ -113,7 +121,9 @@ export const handleGoogleRedirect = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.error("Mobile redirect error:", error);
+      console.error("Redirect authentication error:", error);
+
+      sessionStorage.removeItem("googleRedirectPending");
 
       return thunkAPI.rejectWithValue(
         error.response?.data?.message ||
