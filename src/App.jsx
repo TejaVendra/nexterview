@@ -78,26 +78,43 @@ function App() {
         const hidePage = isInterviewResultPage || isInterviewPage || isInterviewCheckPage || isResumeResultPage || isPortfolioResultPage ||isResumeMatchResultPage || isResumeEditorPage;
 
 
+useEffect(() => {
+  let mounted = true;
 
- useEffect(() => {
   const initializeAuth = async () => {
     try {
-      const result = await dispatch(
-        handleGoogleRedirect()
-      ).unwrap();
+      const result = await dispatch(handleGoogleRedirect());
 
-      if (!result) {
+      if (!mounted) return;
+
+      if (handleGoogleRedirect.fulfilled.match(result)) {
+        // Redirect result was processed successfully.
+        if (result.payload) {
+          return;
+        }
+
+        // No pending Google redirect; check an existing session.
         await dispatch(checkAuth());
+        return;
       }
 
-    } catch (error) {
-      console.error("Auth initialization error:", error);
+      // Redirect processing failed.
+      console.error(
+        "Google redirect processing failed:",
+        result.payload
+      );
 
       await dispatch(checkAuth());
+    } catch (error) {
+      console.error("Authentication initialization failed:", error);
     }
   };
 
   initializeAuth();
+
+  return () => {
+    mounted = false;
+  };
 }, [dispatch]);
 
   if(authLoading){

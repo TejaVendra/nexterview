@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { auth, provider } from "../../database/firebase.js";
+import { auth, provider , authReady, } from "../../database/firebase.js";
 import axiosInstance from "../../axios/axiosInstance.js";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -33,7 +33,7 @@ export const googleSignUp = createAsyncThunk(
 
       // Mobile → Redirect
       if (isMobileDevice()) {
-
+       await authReady;
         await signInWithRedirect(auth, provider);
 
         // IMPORTANT:
