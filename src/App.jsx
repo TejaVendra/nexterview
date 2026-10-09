@@ -38,7 +38,7 @@ import { useDispatch } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
-import { checkAuth, handleGoogleRedirect } from "./redux/thunks/authThunk.js";
+import { checkAuth } from "./redux/thunks/authThunk.js";
 
 import MockInterview3 from "./components/sections/MockInterview3.jsx";
 import Interview from "./pages/Interview.jsx";
@@ -79,42 +79,7 @@ function App() {
 
 
 useEffect(() => {
-  let mounted = true;
-
-  const initializeAuth = async () => {
-    try {
-      const result = await dispatch(handleGoogleRedirect());
-
-      if (!mounted) return;
-
-      if (handleGoogleRedirect.fulfilled.match(result)) {
-        // Redirect result was processed successfully.
-        if (result.payload) {
-          return;
-        }
-
-        // No pending Google redirect; check an existing session.
-        await dispatch(checkAuth());
-        return;
-      }
-
-      // Redirect processing failed.
-      console.error(
-        "Google redirect processing failed:",
-        result.payload
-      );
-
-      await dispatch(checkAuth());
-    } catch (error) {
-      console.error("Authentication initialization failed:", error);
-    }
-  };
-
-  initializeAuth();
-
-  return () => {
-    mounted = false;
-  };
+  dispatch(checkAuth());
 }, [dispatch]);
 
   if(authLoading){

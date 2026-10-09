@@ -1,13 +1,11 @@
 import {
   sendEmailVerification,
   signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { auth, provider , authReady, } from "../../database/firebase.js";
+import { auth, provider } from "../../database/firebase.js";
 import axiosInstance from "../../axios/axiosInstance.js";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -26,113 +24,44 @@ const isMobileDevice = () => {
 // --------------------------------------------------
 
 export const googleSignUp = createAsyncThunk(
-  "auth/googleSignUp",
+          "auth/googleSignUp",
+          async (_, thunkAPI) => {
+          try {
+          // Use Google popup on both desktop and mobile
+          const result = await signInWithPopup(auth, provider);
 
-  async (_, thunkAPI) => {
-    try {
+            const idToken = await result.user.getIdToken();
 
-      // Mobile → Redirect
-      if (isMobileDevice()) {
-          await authReady;
+            const response = await axiosInstance.post(
+              "/auth/authenticate",
+              { idToken }
+            );
 
-          sessionStorage.setItem("googleRedirectPending", "true");
+            localStorage.setItem(
+              "access_token",
+              response.data.accessToken
+            );
 
-          await signInWithRedirect(auth, provider);
+            return response.data;
+          } catch (error) {
+            console.error("Google authentication error:", error);
 
-          return null;
-        }
+            return thunkAPI.rejectWithValue(
+              error.response?.data?.message ||
+                error.message ||
+                "Google authentication failed."
+            );
+          }
 
-      // Desktop → Popup
-      const result = await signInWithPopup(auth, provider);
-
-      const idToken = await result.user.getIdToken();
-
-      const response = await axiosInstance.post(
-        "/auth/authenticate",
-        {
-          idToken,
-        }
-      );
-
-      localStorage.setItem(
-        "access_token",
-        response.data.accessToken
-      );
-
-      return response.data;
-
-    } catch (error) {
-
-      console.error("Google authentication error:", error);
-
-      localStorage.removeItem("access_token");
-
-      return thunkAPI.rejectWithValue(
-        error.message || "Google authentication failed."
-      );
-    }
-  }
-);
+          }
+          );
 
 
 // --------------------------------------------------
 // Handle Google Redirect Result
 // --------------------------------------------------
 
-export const handleGoogleRedirect = createAsyncThunk(
-  "auth/handleGoogleRedirect",
-  async (_, thunkAPI) => {
-    try {
-      await authReady;
 
-      const redirectPending =
-        sessionStorage.getItem("googleRedirectPending") === "true";
-
-      console.log("Redirect pending:", redirectPending);
-
-      const result = await getRedirectResult(auth);
-
-      if (!result) {
-        console.log("No redirect result found");
-
-        if (redirectPending) {
-          sessionStorage.removeItem("googleRedirectPending");
-          console.error(
-            "A redirect was expected, but Firebase returned no result."
-          );
-        }
-
-        return null;
-      }
-
-      sessionStorage.removeItem("googleRedirectPending");
-
-      const idToken = await result.user.getIdToken();
-
-      const response = await axiosInstance.post(
-        "/auth/authenticate",
-        { idToken }
-      );
-
-      localStorage.setItem(
-        "access_token",
-        response.data.accessToken
-      );
-
-      return response.data;
-    } catch (error) {
-      console.error("Redirect authentication error:", error);
-
-      sessionStorage.removeItem("googleRedirectPending");
-
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message ||
-        error.message ||
-        "Google authentication failed"
-      );
-    }
-  }
-);
 
 // --------------------------------------------------
 // Email + Password Sign Up
